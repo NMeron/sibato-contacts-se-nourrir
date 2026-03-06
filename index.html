@@ -1,0 +1,1947 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Si bato pa rivé — Contacts Conférence #02</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #1C2B28; }
+    button { font-family: inherit; cursor: pointer; }
+    input, select, textarea { font-family: inherit; }
+    textarea { resize: vertical; }
+    a { text-decoration: none; }
+
+    .view { display: none; min-height: 100vh; }
+    .view.active { display: block; }
+
+    /* ── HOME ── */
+    #home { background: #1C2B28; min-height:100vh; padding-bottom:0; }
+    .hero {
+      background: linear-gradient(135deg, #1C2B28 0%, #0F3D2E 55%, #1A6B5A 100%);
+      padding: 56px 24px 28px; text-align: center; position: relative; overflow: hidden;
+    }
+    .hero-circle1 { position:absolute;top:-70px;right:-70px;width:220px;height:220px;border-radius:50%;background:rgba(212,168,67,0.07); }
+    .hero-circle2 { position:absolute;bottom:-50px;left:-50px;width:180px;height:180px;border-radius:50%;background:rgba(42,138,116,0.1); }
+    .hero-tag { font-size:22px;letter-spacing:2px;color:#D4A843;font-weight:700;text-transform:uppercase;margin-bottom:18px; }
+    .hero h1 { font-size:42px;font-weight:900;line-height:1.1; }
+    .hero h1.white { color:#fff;margin-bottom:4px; }
+    .hero h1.gold  { color:#D4A843;margin-bottom:28px; }
+    .hero p { color:#A8C5BC;font-size:15px;max-width:600px;margin:0 auto 36px;line-height:1.65; }
+    .hero-btns { display:flex;gap:12px;justify-content:center;flex-wrap:wrap; }
+
+    .stats { display:flex;justify-content:center;gap:12px;padding:32px 20px;flex-wrap:wrap; }
+    .stat-box { background:rgba(255,255,255,0.06);border-radius:12px;padding:18px 26px;text-align:center;border:1px solid rgba(255,255,255,0.08);min-width:90px; }
+    .stat-val { font-size:30px;font-weight:900; }
+    .stat-lbl { font-size:12px;color:#A8C5BC;margin-top:3px; }
+
+    .manifeste { max-width:600px;margin:0 auto 0;padding:0 22px 56px;text-align:center; }
+    .manifeste-box { background:rgba(255,255,255,0.04);border-radius:14px;padding:26px;border:1px solid rgba(26,107,90,0.25); }
+    .manifeste-quote { color:#D4A843;font-size:32px;margin-bottom:10px; }
+    .manifeste-text  { color:#C8DDD9;font-size:18px;line-height:1.75;font-style:italic; }
+    .manifeste-sub   { color:#7FA89E;font-size:15px;margin-top:6px; }
+    .manifeste-credit{ margin-top:12px;font-size:12px;color:#6B7B78; }
+
+    /* ── COMMUN PAGES ── */
+    #form-view  { background: #FDF8F0; }
+    #base-view  { background: #F5F7F6; }
+    #fiche-view { background: #F5F7F6; }
+
+    .page-header { background:#1A6B5A;padding:18px 22px;display:flex;align-items:center;gap:14px; }
+    .back-btn { background:transparent;border:none;color:#fff;font-size:22px;line-height:1;padding:0; }
+    .header-tag   { color:#F0C866;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase; }
+    .header-title { color:#fff;font-size:18px;font-weight:800; }
+
+    /* ── FORMULAIRE ── */
+    .form-body { max-width:640px;margin:0 auto;padding:28px 20px 48px; }
+
+    .section-title { display:flex;align-items:center;gap:12px;margin:28px 0 16px; }
+    .section-num { width:28px;height:28px;border-radius:50%;background:#1A6B5A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0; }
+    .section-label { font-size:16px;font-weight:800;color:#1C2B28; }
+
+    .field { margin-bottom:14px; }
+    .field label { font-size:13px;font-weight:600;color:#1A6B5A;margin-bottom:4px;display:block; }
+    .field .hint  { font-size:12px;color:#6B7B78;margin-bottom:6px; }
+    .field input, .field select, .field textarea {
+      width:100%;padding:10px 14px;border-radius:8px;font-size:14px;
+      border:2px solid #E8F0EE;background:#fff;outline:none;color:#1C2B28;
+    }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color:#1A6B5A; }
+    .field.error input, .field.error select, .field.error textarea { border-color:#C0392B; }
+    .field-error { color:#C0392B;font-size:12px;margin-top:4px; }
+    .grid2 { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+    .grid3 { display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px; }
+
+    /* Autre structure */
+    #autre-structure-fields { display:none;margin-top:10px;background:#E8F0EE;border-radius:10px;padding:14px; }
+    #autre-structure-fields .field { margin-bottom:10px; }
+    #autre-structure-fields .field:last-child { margin-bottom:0; }
+
+    /* Rôles */
+    .roles-wrap { display:flex;flex-direction:column;gap:7px; }
+    .role-btn {
+      background:#E8F0EE;color:#1C2B28;border:2px solid transparent;border-radius:10px;
+      padding:11px 16px;font-size:14px;font-weight:500;transition:all 0.14s;
+      text-align:left;width:100%;cursor:pointer;font-family:inherit;
+    }
+    .role-btn:hover { background:#D4EDE6; }
+    .role-btn.on { color:#fff;font-weight:700;border-color:transparent; }
+
+    /* Filières dynamiques */
+    .filieres-section { margin-bottom:10px; }
+    .filieres-section-title {
+      font-size:14px;font-weight:800;color:#1A6B5A;
+      margin-bottom:10px;padding:8px 14px;
+      background:#E8F0EE;border-radius:8px;
+      border-left:4px solid #1A6B5A;
+    }
+    .fil-btn-star {
+      background:#fff;color:#1A6B5A;border:2px dashed #1A6B5A;border-radius:10px;
+      padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;
+      font-family:inherit;width:100%;text-align:left;margin-bottom:6px;
+      transition:all 0.14s;display:flex;align-items:center;gap:8px;
+    }
+    .fil-btn-star::after { content:"← cliquer pour sélectionner"; font-size:11px; font-weight:400; color:#7FA89E; margin-left:auto; }
+    .fil-btn-star.on { background:#E6F4F0;border-style:solid;border-color:#1A6B5A; }
+    .fil-btn-star.on::after { content:"✓ sélectionné"; color:#1A6B5A; font-weight:600; }
+    .filieres-wrap { display:flex;flex-wrap:wrap;gap:8px;padding:10px 0 4px; }
+    .fil-btn {
+      background:#E8F0EE;color:#1C2B28;border:none;border-radius:20px;
+      padding:6px 14px;font-size:13px;font-weight:400;transition:all 0.12s;
+    }
+    .fil-btn.on { background:#1A6B5A;color:#fff;font-weight:700; }
+    .filieres-empty { font-size:13px;color:#6B7B78;padding:12px;font-style:italic; }
+
+    /* Communes */
+    .commune-base-field { margin-bottom:10px; }
+    .communes-activite-wrap { margin-top:10px; }
+    .communes-tags { display:flex;flex-wrap:wrap;gap:8px;margin-top:8px; }
+    .commune-tag {
+      background:#1A6B5A22;color:#1A6B5A;border:1px solid #1A6B5A44;
+      border-radius:20px;padding:4px 10px 4px 14px;font-size:13px;font-weight:600;
+      display:flex;align-items:center;gap:6px;
+    }
+    .commune-tag button { background:none;border:none;color:#1A6B5A;font-size:15px;line-height:1;padding:0;cursor:pointer; }
+    .commune-add { display:flex;gap:8px;margin-top:8px;align-items:center; }
+    .commune-add select { flex:1;padding:8px 12px;border-radius:8px;border:2px solid #E8F0EE;font-size:13px;color:#1C2B28;background:#fff;outline:none; }
+    .commune-add button { padding:8px 14px;border-radius:8px;background:#1A6B5A;color:#fff;border:none;font-size:13px;font-weight:700;white-space:nowrap; }
+
+    /* PI */
+    .pi-btns { display:flex;gap:10px; }
+    .pi-btn { flex:1;padding:10px 0;border-radius:8px;font-weight:700;font-size:14px;border:2px solid #E8F0EE;background:#fff;color:#6B7B78;transition:all 0.12s; }
+    .pi-btn.oui.on     { border-color:#27AE60;background:rgba(39,174,96,0.13);color:#27AE60; }
+    .pi-btn.non.on     { border-color:#C0392B;background:rgba(192,57,43,0.13);color:#C0392B; }
+    .pi-btn.encours.on { border-color:#E67E22;background:rgba(230,126,34,0.13);color:#E67E22; }
+    .pi-sub-btn {
+      background:#fff;border:2px solid #E8F0EE;border-radius:8px;
+      padding:9px 14px;font-size:13px;font-weight:500;color:#1C2B28;
+      text-align:left;cursor:pointer;font-family:inherit;transition:all 0.12s;
+    }
+    .pi-sub-btn.on { border-color:#1A6B5A;background:rgba(26,107,90,0.08);color:#1A6B5A;font-weight:700; }
+
+    .form-actions { margin-top:10px;padding-top:22px;border-top:2px solid #E8F0EE;display:flex;gap:12px;flex-wrap:wrap; }
+    .global-error { color:#C0392B;font-size:13px;margin-top:10px; }
+
+    .confirm { max-width:520px;margin:64px auto;padding:24px;text-align:center; }
+    .confirm .emoji { font-size:60px;margin-bottom:16px; }
+    .confirm h2 { color:#1A6B5A;font-weight:900;margin-bottom:10px; }
+    .confirm p  { color:#6B7B78;margin-bottom:32px;line-height:1.6; }
+    .confirm-btns { display:flex;gap:12px;justify-content:center;flex-wrap:wrap; }
+
+    /* ── BASE ── */
+    .base-header { background:#1A6B5A;padding:18px 18px 14px; }
+    .base-top { display:flex;align-items:center;gap:12px;margin-bottom:14px; }
+    .base-filters { display:flex;gap:8px;flex-wrap:wrap; }
+    .filter-input  { background:rgba(255,255,255,0.13);border:none;border-radius:8px;padding:8px 12px;color:#fff;font-size:13px;outline:none;flex:1 1 150px; }
+    .filter-input::placeholder { color:rgba(255,255,255,0.55); }
+    .filter-select { background:rgba(255,255,255,0.13);border:none;border-radius:8px;padding:8px 10px;color:#fff;font-size:12px;outline:none;flex:1 1 120px; }
+    .filter-select option { color:#1C2B28; }
+
+    .cards-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:14px; }
+    .contact-card { background:#fff;border-radius:12px;padding:16px;cursor:pointer;border:1px solid #E8F0EE;box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:box-shadow 0.15s; }
+    .contact-card:hover { box-shadow:0 5px 20px rgba(0,0,0,0.1); }
+    .card-top { display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px; }
+    .card-name { font-weight:800;font-size:15px;color:#1C2B28; }
+    .card-sub  { font-size:11px;color:#6B7B78;margin-top:2px; }
+    .card-roles { display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px; }
+    .card-filieres { font-size:12px;color:#1A6B5A;margin-bottom:6px; }
+    .card-motif { font-size:12px;color:#6B7B78;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden; }
+    .empty-state { text-align:center;padding:52px 24px;color:#6B7B78; }
+    .empty-emoji { font-size:48px;margin-bottom:12px; }
+
+    /* ── FICHE ── */
+    .fiche-body { max-width:600px;margin:22px auto;padding:0 14px 40px; }
+    .fiche-card { background:#fff;border-radius:14px;padding:20px;box-shadow:0 2px 12px rgba(0,0,0,0.06);margin-bottom:14px; }
+    .fiche-top { display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px; }
+    .fiche-name { font-size:24px;font-weight:900;color:#1C2B28;margin-bottom:4px; }
+    .fiche-meta { font-size:13px;color:#6B7B78;line-height:1.8; }
+    .fiche-badges { display:flex;flex-direction:column;gap:8px;align-items:flex-end; }
+    .fiche-contacts { margin-top:16px;display:flex;gap:16px;flex-wrap:wrap; }
+    .fiche-contacts a { color:#1A6B5A;font-weight:700;font-size:14px; }
+    .fiche-section-title { font-size:11px;font-weight:700;color:#1A6B5A;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px; }
+    .fiche-tags { display:flex;flex-wrap:wrap;gap:8px; }
+    .fiche-tag { background:rgba(26,107,90,0.08);color:#1A6B5A;border:1px solid rgba(26,107,90,0.18);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600; }
+    .fiche-text { color:#1C2B28;line-height:1.75;font-size:15px; }
+    .fiche-gold { background:rgba(212,168,67,0.09);border-radius:14px;padding:18px;margin-bottom:14px;border:1px solid rgba(212,168,67,0.25); }
+    .fiche-gold-title { font-size:11px;font-weight:700;color:#D4A843;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px; }
+    .fiche-gold-text  { color:#1C2B28;line-height:1.65;font-size:14px; }
+    .fiche-date { font-size:12px;color:#6B7B78;text-align:center;margin-top:6px; }
+
+    /* ── BADGES ── */
+    .badge { display:inline-block;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:600;white-space:nowrap; }
+
+    /* ── BOUTONS ── */
+    .btn-primary   { background:#1A6B5A;color:#fff;border:none;border-radius:8px;padding:12px 24px;font-weight:700;font-size:15px; }
+    .btn-secondary { background:transparent;color:#1A6B5A;border:2px solid #1A6B5A;border-radius:8px;padding:10px 22px;font-weight:700;font-size:14px; }
+    .btn-gold      { background:#D4A843;color:#1C2B28;border:none;border-radius:8px;padding:8px 16px;font-weight:700;font-size:13px; }
+
+    @media(max-width:500px){
+      .hero h1 { font-size:32px; }
+      .grid2 { grid-template-columns:1fr; }
+      .grid3 { grid-template-columns:1fr; }
+      /* ── Resserrement mobile ── */
+      .hero { padding: 28px 18px 18px; }
+      .hero-tag { font-size:11px; letter-spacing:1.5px; margin-bottom:10px; }
+      .hero h1.gold { margin-bottom:14px; }
+      .hero-cycle-desc { font-size:13px; margin:0 auto 8px; }
+      .hero-context { margin:0 auto 12px; }
+      .hero-conf-tag { font-size:14px; padding:7px 18px; margin-bottom:10px; }
+      .hero-conf-desc { font-size:12px; line-height:1.5; margin-bottom:6px; }
+      .hero-conf-invite { font-size:12px; padding:10px 12px; }
+      .hero-btns { margin-top:14px; }
+    }
+
+    .hero-cycle-desc {
+      color:#A8C5BC;font-size:15px;line-height:1.2;
+      max-width:580px;margin:0 auto 10px;
+    }
+    /* ── HERO ENRICHI ── */
+    .hero-context { max-width:620px;margin:0 auto 24px;padding:0 4px; }
+    .hero-conf-tag {
+      display:inline-block;background:rgba(212,168,67,0.15);border:2px solid rgba(212,168,67,0.5);
+      color:#D4A843;border-radius:20px;padding:10px 24px;font-size:18px;font-weight:800;
+      letter-spacing:1px;margin-bottom:18px;
+    }
+    .hero-conf-desc { color:#C8DDD9;font-size:14px;line-height:1.7;margin-bottom:10px; }
+    .hero-conf-invite {
+      background:rgba(26,107,90,0.2);border-left:3px solid #1A6B5A;
+      border-radius:0 8px 8px 0;padding:12px 16px;
+      color:#A8C5BC;font-size:13px;line-height:1.65;
+    }
+    .hero-conf-invite strong { color:#fff; }
+
+    /* ── BOUTON PARTENAIRES FLOTTANT ── */
+    .partner-float-btn {
+      position:fixed;top:14px;right:14px;z-index:900;
+      background:rgba(28,43,40,0.85);border:1.5px solid #D4A843;
+      color:#D4A843;border-radius:24px;padding:9px 18px;
+      font-size:13px;font-weight:700;letter-spacing:0.3px;
+      cursor:pointer;font-family:inherit;backdrop-filter:blur(10px);
+      transition:all 0.18s;white-space:nowrap;
+    }
+    .partner-float-btn:hover { background:rgba(212,168,67,0.18); }
+
+    /* Badge connecté */
+    .partner-badge-btn {
+      position:fixed;top:14px;right:14px;z-index:900;
+      background:rgba(26,107,90,0.9);border:1.5px solid #2ECC71;
+      color:#fff;border-radius:24px;padding:9px 16px;
+      font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;
+      backdrop-filter:blur(10px);display:none;align-items:center;gap:8px;
+    }
+    .partner-badge-btn .live-dot {
+      width:7px;height:7px;border-radius:50%;background:#2ECC71;
+      animation:pulse 2s infinite;flex-shrink:0;
+    }
+    @keyframes pulse {
+      0%,100%{opacity:1;} 50%{opacity:0.4;}
+    }
+
+    /* ── MODAL OVERLAY ── */
+    .modal-overlay {
+      display:none;position:fixed;inset:0;z-index:1000;
+      background:rgba(0,0,0,0.7);backdrop-filter:blur(6px);
+      align-items:center;justify-content:center;padding:16px;
+    }
+    .modal-overlay.open { display:flex; }
+    .modal-box {
+      background:linear-gradient(160deg,#1C2B28,#0F1F1C);
+      border-radius:20px;padding:28px 24px;max-width:420px;width:100%;
+      border:1px solid rgba(212,168,67,0.2);
+      box-shadow:0 32px 80px rgba(0,0,0,0.6);
+      animation:slideUp 0.24s cubic-bezier(.34,1.56,.64,1);
+      max-height:90vh;overflow-y:auto;
+    }
+    @keyframes slideUp {
+      from{transform:translateY(24px);opacity:0;}
+      to{transform:translateY(0);opacity:1;}
+    }
+    .modal-close-row { display:flex;justify-content:flex-end;margin-bottom:4px; }
+    .modal-close-x {
+      background:none;border:none;color:#6B8B85;font-size:20px;
+      cursor:pointer;line-height:1;padding:4px;transition:color 0.15s;
+    }
+    .modal-close-x:hover { color:#fff; }
+    .modal-eyebrow { font-size:10px;font-weight:700;color:#D4A843;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px; }
+    .modal-title { color:#fff;font-size:17px;font-weight:800;margin-bottom:20px;line-height:1.3; }
+
+    /* Structures */
+    .struct-list { display:flex;flex-direction:column;gap:6px; }
+    .struct-item {
+      background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
+      border-radius:10px;padding:12px 16px;cursor:pointer;
+      color:#fff;font-weight:600;font-size:13px;
+      display:flex;align-items:center;justify-content:space-between;
+      transition:all 0.14s;
+    }
+    .struct-item:hover { background:rgba(26,107,90,0.35);border-color:#1A6B5A; }
+    .struct-arrow { color:#D4A843;font-size:14px; }
+
+    /* Mot de passe */
+    .pwd-input {
+      width:100%;padding:13px 16px;border-radius:10px;
+      border:2px solid rgba(255,255,255,0.12);background:rgba(255,255,255,0.06);
+      color:#fff;font-size:16px;font-family:inherit;outline:none;
+      margin-bottom:6px;letter-spacing:3px;transition:border-color 0.15s;
+    }
+    .pwd-input:focus { border-color:#D4A843; }
+    .pwd-input::placeholder { letter-spacing:0;color:rgba(255,255,255,0.3);font-size:13px; }
+    .pwd-error { color:#E74C3C;font-size:12px;min-height:16px;margin-bottom:10px; }
+    .modal-link-small {
+      background:none;border:none;color:#7FA89E;font-size:12px;
+      cursor:pointer;font-family:inherit;text-decoration:underline;
+      padding:0;margin-top:4px;display:inline-block;
+    }
+    .modal-link-small:hover { color:#D4A843; }
+
+    /* Membres */
+    .members-scroll { max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:6px; }
+    .member-item {
+      background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);
+      border-radius:10px;padding:11px 14px;cursor:pointer;
+      display:flex;align-items:center;gap:12px;transition:all 0.14s;
+    }
+    .member-item:hover { background:rgba(26,107,90,0.35);border-color:#1A6B5A; }
+    .member-avatar {
+      width:34px;height:34px;border-radius:50%;background:#1A6B5A;
+      display:flex;align-items:center;justify-content:center;
+      color:#fff;font-weight:900;font-size:12px;flex-shrink:0;
+    }
+    .member-name { color:#fff;font-weight:700;font-size:13px; }
+    .member-fn { color:#7FA89E;font-size:11px;margin-top:1px; }
+    .members-loading { text-align:center;color:#7FA89E;padding:20px;font-size:13px; }
+
+    /* Formulaire demande d'accès */
+    .req-field { margin-bottom:12px; }
+    .req-field label { font-size:11px;font-weight:700;color:#7FA89E;text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:5px; }
+    .req-input {
+      width:100%;padding:10px 14px;border-radius:8px;
+      border:1.5px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.06);
+      color:#fff;font-size:14px;font-family:inherit;outline:none;transition:border-color 0.15s;
+    }
+    .req-input:focus { border-color:#1A6B5A; }
+    .req-input::placeholder { color:rgba(255,255,255,0.25); }
+
+    /* Confirmation demande */
+    .access-confirm { text-align:center;padding:8px 0 4px; }
+    .access-confirm .big-icon { font-size:44px;margin-bottom:12px; }
+    .access-confirm h3 { color:#D4A843;font-weight:800;font-size:17px;margin-bottom:8px; }
+    .access-confirm p { color:#A8C5BC;font-size:13px;line-height:1.65;margin-bottom:20px; }
+
+    /* Boutons modal */
+    .mbtn-primary {
+      width:100%;padding:13px;border-radius:10px;background:#1A6B5A;
+      color:#fff;border:none;font-weight:700;font-size:14px;
+      font-family:inherit;cursor:pointer;margin-bottom:8px;transition:background 0.15s;
+    }
+    .mbtn-primary:hover { background:#15543d; }
+    .mbtn-primary:disabled { opacity:0.6;cursor:default; }
+    .mbtn-ghost {
+      width:100%;padding:11px;border-radius:10px;background:transparent;
+      color:#A8C5BC;border:1.5px solid rgba(255,255,255,0.12);
+      font-weight:600;font-size:13px;font-family:inherit;cursor:pointer;
+      transition:all 0.15s;
+    }
+    .mbtn-ghost:hover { border-color:#A8C5BC;color:#fff; }
+    .mbtn-sep { height:1px;background:rgba(255,255,255,0.08);margin:14px 0; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════ BOUTON FLOTTANT PARTENAIRES ══════════ -->
+<button class="partner-float-btn" id="partner-float-btn" onclick="openPartnerModal()">
+  🔑 Accès partenaires
+</button>
+<button class="partner-badge-btn" id="partner-badge-btn" onclick="logoutPartner()">
+  <span class="live-dot"></span>
+  <span id="partner-badge-label">Connecté·e</span>
+  <span style="opacity:0.5;font-weight:400;font-size:11px">· Déconnexion</span>
+</button>
+
+<!-- ══════════ MODAL PARTENAIRES ══════════ -->
+<div class="modal-overlay" id="partner-modal" onclick="onModalOverlayClick(event)">
+  <div class="modal-box" id="modal-box">
+    <div class="modal-close-row">
+      <button class="modal-close-x" onclick="closePartnerModal()">✕</button>
+    </div>
+
+    <!-- ÉTAPE 1 : Choisir sa structure -->
+    <div id="pstep-1">
+      <div class="modal-eyebrow">Espace collaboratif</div>
+      <div class="modal-title">Vous êtes membre de quelle organisation partenaire ?</div>
+      <div class="struct-list" id="struct-list"></div>
+      <div class="mbtn-sep"></div>
+      <button class="mbtn-ghost" onclick="closePartnerModal()">Retour vue publique</button>
+    </div>
+
+    <!-- ÉTAPE 2 : Mot de passe -->
+    <div id="pstep-2" style="display:none">
+      <div class="modal-eyebrow">Accès partenaire</div>
+      <div class="modal-title" id="step2-title">Votre organisation</div>
+      <p style="color:#7FA89E;font-size:13px;margin-bottom:14px;line-height:1.6;">Saisissez le mot de passe transmis par CAP2030.</p>
+      <input class="pwd-input" type="password" id="pwd-input"
+        placeholder="Mot de passe partenaire…"
+        onkeydown="if(event.key==='Enter')checkPassword()" />
+      <div class="pwd-error" id="pwd-error"></div>
+      <button class="mbtn-primary" onclick="checkPassword()">Accéder →</button>
+      <div style="text-align:center;margin-bottom:8px;">
+        <button class="modal-link-small" onclick="showPStep('req', true)">Je n'ai pas le mot de passe</button>
+      </div>
+      <button class="mbtn-ghost" onclick="showPStep(1)">← Retour</button>
+    </div>
+
+    <!-- ÉTAPE 3 : Choisir son nom -->
+    <div id="pstep-3" style="display:none">
+      <div class="modal-eyebrow">Bienvenue</div>
+      <div class="modal-title">Sélectionnez votre nom pour continuer</div>
+      <div id="members-container">
+        <div class="members-loading">⏳ Chargement…</div>
+      </div>
+      <div class="mbtn-sep"></div>
+      <p style="color:#7FA89E;font-size:12px;text-align:center;margin-bottom:8px;">Votre nom n'apparaît pas ?</p>
+      <button class="mbtn-ghost" style="margin-bottom:8px;" onclick="showPStep('req', false)">Demander un accès</button>
+      <button class="mbtn-ghost" onclick="showPStep(2)">← Retour</button>
+    </div>
+
+    <!-- ÉTAPE "req" : Formulaire demande d'accès -->
+    <div id="pstep-req" style="display:none">
+      <div class="modal-eyebrow">Demande d'accès</div>
+      <div class="modal-title">Rejoindre l'espace partenaires</div>
+      <div class="req-field">
+        <label>Prénom *</label>
+        <input class="req-input" type="text" id="req-prenom" placeholder="Marie" />
+      </div>
+      <div class="req-field">
+        <label>Nom *</label>
+        <input class="req-input" type="text" id="req-nom" placeholder="THÉODORE" />
+      </div>
+      <div class="req-field">
+        <label>Organisation *</label>
+        <input class="req-input" type="text" id="req-structure" placeholder="CANGT, CAP Excellence…" />
+      </div>
+      <div class="req-field">
+        <label>Rôle / Fonction</label>
+        <input class="req-input" type="text" id="req-role" placeholder="Chargé·e de mission PAT…" />
+      </div>
+      <div class="req-field">
+        <label>Email</label>
+        <input class="req-input" type="email" id="req-email" placeholder="contact@organisation.fr" />
+      </div>
+      <div class="pwd-error" id="req-error"></div>
+      <button class="mbtn-primary" id="req-submit-btn" onclick="submitAccessRequest()">Envoyer la demande →</button>
+      <button class="mbtn-ghost" id="req-back-btn" onclick="showPStep(2)">← Retour</button>
+    </div>
+
+    <!-- ÉTAPE confirm : Demande envoyée -->
+    <div id="pstep-confirm" style="display:none">
+      <div class="access-confirm">
+        <div class="big-icon">✅</div>
+        <h3>Demande envoyée !</h3>
+        <p>Votre demande a bien été transmise. <strong>Nous vous répondrons sous 48h</strong> avec le mot de passe d'accès.</p>
+        <button class="mbtn-ghost" onclick="closePartnerModal()">Continuer en vue publique</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="home" class="view active">
+  <div class="hero">
+    <div class="hero-circle1"></div>
+    <div class="hero-circle2"></div>
+    <div class="hero-tag">Cycle de conférences publiques · Guadeloupe</div>
+    <h1 class="white">Si bato pa rivé,</h1>
+    <h1 class="gold">ka nou ka fè ?</h1>
+
+    <p class="hero-cycle-desc">La Guadeloupe est un territoire d'abondance qui dépend de l'extérieur pour se nourrir, s'éclairer, se soigner.<br>Ce cycle choisit de construire, Ensemble, les robustesses, prospérités et la santé de demain.</p>
+
+    <div class="hero-context">
+      <div class="hero-conf-tag">Conférence #02 · Se nourrir</div>
+      <p class="hero-conf-desc">
+        Agriculteurs·trices, pêcheurs·euses, transformateurs·trices, acteurs·trices des circuits courts : qui nourrit vraiment la Guadeloupe quand les bateaux s'éloignent ?<br>Cette conférence leur donne la parole.
+      </p>
+      <div class="hero-conf-invite">
+        <strong>Vous connaissez quelqu'un qui devrait être là ?</strong><br>
+        Proposez les contacts de celles et ceux qui font vivre notre alimentation locale — producteurs inspirants, initiatives remarquables, voix essentielles.<br>Chaque contact compte.
+      </div>
+    </div>
+
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="goTo('form-view');resetForm()">+ Proposer un contact</button>
+      <button id="btn-consulter-base" style="display:none;background:transparent;color:#D4A843;border:2px solid #D4A843;border-radius:8px;padding:10px 22px;font-weight:700;font-size:14px;" onclick="goTo('base-view');loadAndRenderBase()">Consulter la base (<span id="home-count">0</span>)</button>
+    </div>
+  </div>
+  <div class="stats" id="home-stats" style="display:none">
+    <div class="stat-box"><div class="stat-val" id="stat-total"   style="color:#D4A843">0</div><div class="stat-lbl">Contacts</div></div>
+    <div class="stat-box"><div class="stat-val" id="stat-structs" style="color:#2A8A74">0</div><div class="stat-lbl">Structures</div></div>
+    <div class="stat-box"><div class="stat-val" id="stat-communes"style="color:#A8C5BC">0</div><div class="stat-lbl">Communes</div></div>
+    <div class="stat-box"><div class="stat-val" id="stat-pi"      style="color:#27AE60">0</div><div class="stat-lbl">Pré-informés</div></div>
+  </div>
+  <div class="manifeste">
+    <div class="manifeste-box">
+      <div class="manifeste-quote">❝</div>
+      <div class="manifeste-text">Ansanm, nou ka bâti an Gwadloup ki doubout.</div>
+      <div class="manifeste-sub">Ensemble, nous bâtissons une Guadeloupe qui se tient debout.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ FORMULAIRE ══════════ -->
+<div id="form-view" class="view">
+  <div class="page-header">
+    <button class="back-btn" onclick="goTo('home');updateStats()">←</button>
+    <div>
+      <div class="header-tag">Conférence #02</div>
+      <div class="header-title">Proposer un contact</div>
+    </div>
+  </div>
+
+  <div id="form-confirm" style="display:none">
+    <div class="confirm">
+      <div class="emoji">🌿</div>
+      <h2>Contact enregistré !</h2>
+      <p>Merci pour votre contribution au cycle <em>Si bato pa rivé</em>.</p>
+      <!-- Fiche récap du contact soumis -->
+      <div id="confirm-recap" style="
+        background:rgba(26,107,90,0.12);border:1px solid rgba(26,107,90,0.3);
+        border-radius:12px;padding:16px;margin:16px 0;text-align:left;
+      "></div>
+      <div class="confirm-btns">
+        <button class="btn-primary" onclick="resetForm()">+ Proposer un autre contact</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="form-fields" class="form-body">
+
+    <!-- SECTION 1 : Qui propose -->
+    <div class="section-title"><div class="section-num">1</div><div class="section-label">Qui propose ce contact ?</div></div>
+
+    <!-- VUE PARTENAIRE CONNECTÉ·E : lecture seule -->
+    <div id="proposant-partner-view" style="display:none;background:rgba(26,107,90,0.08);border:1.5px solid rgba(26,107,90,0.25);border-radius:12px;padding:14px 16px;margin-bottom:12px;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <div style="width:36px;height:36px;border-radius:50%;background:#1A6B5A;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:13px;flex-shrink:0;" id="partner-avatar-form">?</div>
+        <div>
+          <div style="color:#fff;font-weight:700;font-size:14px;" id="partner-name-form">—</div>
+          <div style="color:#7FA89E;font-size:12px;" id="partner-struct-form">—</div>
+        </div>
+      </div>
+      <!-- Champs cachés pour la soumission -->
+      <input type="hidden" id="f-structure" />
+      <input type="hidden" id="f-autre-prenom" />
+      <input type="hidden" id="f-autre-nom" />
+    </div>
+
+    <!-- VUE PUBLIQUE : saisie libre -->
+    <div id="proposant-public-view">
+      <div class="field" id="field-structure">
+        <label>Structure partenaire référente *</label>
+        <select id="f-structure-select" onchange="onStructureChange()">
+          <option value="">— Sélectionner —</option>
+        </select>
+        <div class="field-error" id="err-structure"></div>
+      </div>
+
+      <div id="proposant-fields" style="display:none">
+        <div style="font-size:12px;color:#6B7B78;margin-bottom:8px;margin-top:4px;">
+          Votre nom (optionnel) :
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Votre prénom</label>
+            <input type="text" id="f-prenom-prop" placeholder="Jean" />
+          </div>
+          <div class="field">
+            <label>Votre nom</label>
+            <input type="text" id="f-nom-prop" placeholder="DUPONT" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Champ structure libre si "Autre" -->
+      <div id="autre-structure-fields" style="display:none">
+        <div class="field" style="margin-top:4px;">
+          <label>Nom de votre structure / organisation</label>
+          <input type="text" id="f-autre-structure-nom" placeholder="Ex : Association Ti Moun Gwadloup" />
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2 : Identité -->
+    <div class="section-title"><div class="section-num">2</div><div class="section-label">Identité du contact proposé</div></div>
+    <div class="grid2">
+      <div class="field" id="field-prenom">
+        <label>Prénom *</label>
+        <input type="text" id="f-prenom" placeholder="Marie" />
+        <div class="field-error" id="err-prenom"></div>
+      </div>
+      <div class="field" id="field-nom">
+        <label>Nom *</label>
+        <input type="text" id="f-nom" placeholder="THÉODORE" />
+        <div class="field-error" id="err-nom"></div>
+      </div>
+    </div>
+    <div class="grid2">
+      <div class="field">
+        <label>Téléphone</label>
+        <input type="tel" id="f-telephone" placeholder="0690 00 00 00" />
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="f-email" placeholder="contact@exemple.com" />
+      </div>
+    </div>
+
+    <!-- SECTION 3 : Profil -->
+    <div class="section-title"><div class="section-num">3</div><div class="section-label">Profil & expertise</div></div>
+
+    <!-- Rôle principal -->
+    <div class="field" id="field-role">
+      <label>Rôle principal * <span style="font-weight:400;color:#6B7B78">(choisir au moins un)</span></label>
+      <div class="roles-wrap" id="roles-wrap"></div>
+      <div class="field-error" id="err-role"></div>
+    </div>
+
+    <!-- Filières dynamiques -->
+    <div class="field">
+      <label style="font-size:15px;font-weight:700;color:#1C2B28;">Filières / Spécialités <span style="font-weight:500;font-size:13px;color:#6B7B78">(selon les rôles sélectionnés)</span></label>
+      <div id="filieres-container">
+        <div class="filieres-empty">← Sélectionnez d'abord un ou plusieurs rôles ci-dessus.</div>
+      </div>
+    </div>
+
+    <!-- Commune de base -->
+    <div class="field" id="field-commune-base">
+      <label>Siège / Commune de base * <span style="font-weight:400;color:#6B7B78">(commune principale)</span></label>
+      <select id="f-commune-base">
+        <option value="">— Sélectionner —</option>
+      </select>
+      <div class="field-error" id="err-commune-base"></div>
+    </div>
+
+    <!-- Communes d'activité -->
+    <div class="field">
+      <label>Communes d'activité <span style="font-weight:400;color:#6B7B78">(plusieurs possibles)</span></label>
+      <div class="hint">Zones géographiques où cette personne exerce son activité. Sélectionnez une commune puis cliquez <strong>+ Ajouter</strong> pour la valider — vous pouvez en ajouter plusieurs.</div>
+      <div class="commune-add">
+        <select id="commune-activite-select">
+          <option value="">— Ajouter une commune —</option>
+        </select>
+        <button onclick="addCommuneActivite()">+ Ajouter</button>
+      </div>
+      <div class="communes-tags" id="communes-activite-tags"></div>
+    </div>
+
+    <!-- SECTION 4 : Valeur ajoutée -->
+    <div class="section-title"><div class="section-num">4</div><div class="section-label">Valeur ajoutée & suivi</div></div>
+
+    <div class="field" id="field-motif">
+      <label>Motif de l'invitation / Valeur ajoutée *</label>
+      <div class="hint">En quoi ce profil incarne-t-il « Si bato pa rivé, ka nou ka fè ? » ?</div>
+      <textarea id="f-motif" rows="4" placeholder="Ex : Pratique l'agroforesterie résiliente sur 3 hectares, produit igname et arbre à pain sans intrants depuis 15 ans…"></textarea>
+      <div class="field-error" id="err-motif"></div>
+    </div>
+
+    <div class="field" id="field-preinforme">
+      <label>Contact déjà pré-informé de la démarche ? *</label>
+      <div class="pi-btns">
+        <button class="pi-btn oui"     id="pi-oui"     onclick="setPi('oui_expand')">✓ Informé·e</button>
+        <button class="pi-btn non"     id="pi-non"     onclick="setPi('Non')">✗ Non</button>
+        <button class="pi-btn encours" id="pi-encours" onclick="setPi('En cours')">⟳ En cours</button>
+      </div>
+      <!-- Sous-choix si "Informé·e" -->
+      <div id="pi-subchoix" style="display:none;margin-top:10px;display:none;">
+        <div style="font-size:12px;color:#1A6B5A;font-weight:600;margin-bottom:8px;">Préciser l'état :</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <button class="pi-sub-btn" id="pisub-motive"  onclick="setPiSub('Oui - Motivé·e')">😊 Contacté·e — Motivé·e</button>
+          <button class="pi-sub-btn" id="pisub-nesait"  onclick="setPiSub('Oui - Ne sait pas')">🤔 Contacté·e — Ne sait pas encore</button>
+          <button class="pi-sub-btn" id="pisub-nepeut"  onclick="setPiSub('Oui - Ne peut pas')">😕 Contacté·e — Ne peut ou ne veut pas</button>
+        </div>
+      </div>
+      <div class="field-error" id="err-preinforme"></div>
+    </div>
+
+    <div class="field">
+      <label>Remarques / Disponibilités</label>
+      <textarea id="f-remarques" rows="2" placeholder="Ex : Pas disponible le samedi matin, préfère les formats ateliers…"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn-primary" style="flex:1" onclick="submitForm()">Enregistrer ce contact →</button>
+      <button class="btn-secondary" onclick="goTo('home');updateStats()">Annuler</button>
+    </div>
+    <div class="global-error" id="global-error"></div>
+  </div>
+</div>
+
+<!-- ══════════ BASE ══════════ -->
+<div id="base-view" class="view">
+  <div class="base-header">
+    <div class="base-top">
+      <button class="back-btn" onclick="goTo('home');updateStats()">←</button>
+      <div style="flex:1">
+        <div class="header-tag">Base collaborative</div>
+        <div class="header-title" id="base-count-title">0 contact</div>
+      </div>
+      <button class="btn-gold" onclick="goTo('form-view');resetForm()">+ Ajouter</button>
+    </div>
+    <div class="base-filters">
+      <input class="filter-input" type="text" id="search-input" placeholder="🔍 Rechercher…" oninput="renderBase()" />
+      <select class="filter-select" id="filter-role"      onchange="renderBase()"><option value="">— Rôle —</option></select>
+            <select class="filter-select" id="filter-siege" onchange="renderBase()"><option value="">— Siège —</option></select>
+<select class="filter-select" id="filter-epci" onchange="renderBase()"><option value="">— EPCI —</option><option>CAP Excellence</option><option>CANGT - Nord Grande-Terre</option><option>CANBT - Nord Basse-Terre</option><option>CA Grand Sud Caraïbe</option><option>CARL - La Riviera du Levant</option><option>CC de Marie-Galante</option></select>
+      <select class="filter-select" id="filter-pi"        onchange="renderBase()">
+        <option value="">— Pré-informé ? —</option>
+        <option>Oui</option><option>Non</option><option>En cours</option>
+      </select>
+    </div>
+  </div>
+  <div id="base-loading" style="display:none;text-align:center;padding:48px;color:#fff;grid-column:1/-1;">
+    <div style="font-size:32px;margin-bottom:12px;">⏳</div>
+    <div style="font-size:14px;opacity:0.8;">Chargement de la base…</div>
+  </div>
+  <div id="cards-grid" class="cards-grid"></div>
+</div>
+
+<!-- ══════════ FICHE ══════════ -->
+<div id="fiche-view" class="view">
+  <div class="page-header">
+    <button class="back-btn" onclick="goTo('base-view');loadAndRenderBase()">←</button>
+    <div>
+      <div class="header-tag">Fiche contact</div>
+      <div class="header-title" id="fiche-header-name"></div>
+    </div>
+  </div>
+  <div class="fiche-body" id="fiche-body"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+// ← MODIFIABLE : liste des structures partenaires
+// Pour ajouter ou retirer une structure, éditez simplement cette liste.
+// ══════════════════════════════════════════════════════════════════════════════
+const STRUCTURES = [
+  "CREDDI / UA",
+  "CANGT",
+  "CAP Excellence",
+  "CAP2030",
+  "Ville de Pointe-à-Pitre",
+  "Ville de Basse-Terre",
+  "Parc National de Guadeloupe",
+  "Autre"   // ← laisser "Autre" en dernier
+];
+
+// ── Rôles avec couleurs associées ────────────────────────────────────────────
+const ROLES_CONFIG = [
+  { label:"🌱 Agriculteur·trice vivrier·ère / maraîcher·ère",      color:"#2E7D32", key:"vivrier"   },
+  { label:"🌿 Plantes médicinales / Rimèd razié",                   color:"#558B2F", key:"plantes"   },
+  { label:"🌳 Arboriculteur·trice / Agroforestier·ère",             color:"#388E3C", key:"arbo"      },
+  { label:"🐄 Éleveur·euse",                                        color:"#795548", key:"eleveur"   },
+  { label:"🐝 Apiculteur·trice",                                    color:"#F9A825", key:"apicult"   },
+  { label:"🐟 Pêcheur·euse",                                        color:"#1565C0", key:"pecheur"   },
+  { label:"🌊 Aquaculteur·trice",                                   color:"#0277BD", key:"aqua"      },
+  { label:"🏭 Transformation / Distillation",                       color:"#6A1B9A", key:"transfo"   },
+  { label:"🛒 Distribution / Vente / Épicerie",                     color:"#D4A843", key:"distrib"   },
+  { label:"🍽️ Restauration / Cuisine",                             color:"#BF360C", key:"restau"    },
+  { label:"🎓 Recherche / Formation / Accompagnement",              color:"#00838F", key:"cherch"    },
+  { label:"🤝 Acteur·trice associatif·ve / institutionnel·le",      color:"#546E7A", key:"asso"      },
+  { label:"❓ Autre",                                               color:"#455A64", key:"autre_role"},
+];
+
+// ── Filières par rôle ─────────────────────────────────────────────────────────
+const FILIERES_PAR_ROLE = {
+  vivrier:  { titre:"🌱 Agriculteur·trice vivrier·ère / maraîcher·ère",
+              star:"⭐ Polyculture vivrière — jardin créole (un peu de tout)",
+              items:["Igname / Madère / Dachine","Patate douce","Manioc","Banane plantain",
+                     "Tomate / Aubergine","Piment / Poivron","Giraumon / Christophine",
+                     "Gombo / Bringelle","Avocat","Autres légumes",
+                     "⭐ Maraîchage diversifié","Maraîchage bio certifié",
+                     "Cultures sous serre","Herbes aromatiques / condiments",
+                     "Autre (préciser dans Motif)"] },
+  plantes:  { titre:"🌿 Plantes médicinales / Rimèd razié",
+              star:"⭐ Production diversifiée (un peu de tout)",
+              items:["Plantes médicinales (rimèd razié)","Plantes aromatiques et condimentaires",
+                     "Piment / Poivron","Curcuma / Gingembre / Combava",
+                     "Plantes tinctoriales / rituelles",
+                     "Produit(s) sous label (préciser dans Motif)",
+                     "Autre (préciser dans Motif)"] },
+  arbo:     { titre:"🌳 Arboriculteur·trice / Agroforestier·ère",
+              star:"⭐ Verger créole diversifié (un peu de tout)",
+              items:["Arbre à pain","Agrumes (citron / orange / pamplemousse / carambole)",
+                     "Fruits tropicaux (banane / mangue / ananas...)","Avocat",
+                     "Melon (IGP Guadeloupe)","Corossol / Fruits tropicaux divers",
+                     "Cacaoyer / Caféier / Vanille","Cocotier / Palmiste",
+                     "Système agroforestier multi-strates",
+                     "Produit(s) sous label (préciser dans Motif)",
+                     "Autre (préciser dans Motif)"] },
+  eleveur:  { titre:"🐄 Éleveur·euse",
+              star:"⭐ Polyélevage",
+              items:["Caprin","Porcin","Bovin","Volaille","Lapin / Petit élevage",
+                     "Autre (préciser dans Motif)"] },
+  apicult:  { titre:"🐝 Apiculteur·trice",
+              star:null,
+              items:["Miel","Miels mono-floraux","Propolis / Cire",
+                     "Pollinisation / Services écosystémiques",
+                     "Autre (préciser dans Motif)"] },
+  pecheur:  { titre:"🐟 Pêcheur·euse",
+              star:"⭐ Pêche plurielle",
+              items:["Pêche côtière traditionnelle","Pêche au large (DCP)",
+                     "Pêche aux casiers (crustacés / langoustes)",
+                     "Pêche en apnée / chasse sous-marine",
+                     "Pêche en rivière / bord de mer",
+                     "Autre (préciser dans Motif)"] },
+  aqua:     { titre:"🌊 Aquaculteur·trice",
+              star:"⭐ Aquaculture complète",
+              items:["Ouassous (chevrettes)","Loup des Caraïbes","Crevettes marines",
+                     "Tilapia","Coquillages / Huîtres",
+                     "Autre (préciser dans Motif)"] },
+  transfo:  { titre:"🏭 Transformation / Distillation",
+              star:"⭐ Transformation générale",
+              items:["Agro-transformation (confitures / jus / sirops)",
+                     "Kassaverie / Farines locales",
+                     "Transformation animale (charcuterie / salaisons)",
+                     "Huiles végétales (coco / monoï...)",
+                     "Extraits / Cosmétiques naturels",
+                     "Produits fermentés (légumes / boissons)",
+                     "Épices / Condiments transformés",
+                     "Rhum / Canne à sucre",
+                     "Produit(s) sous label (préciser dans Motif)",
+                     "Autre (préciser dans Motif)"] },
+  distrib:  { titre:"🛒 Distribution / Vente / Épicerie",
+              star:"⭐ Distribution générale",
+              items:["Marché de proximité","Vente directe / Paniers / Circuits courts",
+                     "Coopérative agricole / maritime (SICA)",
+                     "Épicerie locale","Épicerie solidaire / prix équitable",
+                     "Groupement d'achat",
+                     "Produit(s) sous label (préciser dans Motif)",
+                     "Autre (préciser dans Motif)"] },
+  restau:   { titre:"🍽️ Restauration / Cuisine",
+              star:"⭐ Cuisine créole traditionnelle",
+              items:["Cuisine du terroir","Restaurant scolaire / collectif",
+                     "Traiteur événementiel",
+                     "Autre (préciser dans Motif)"] },
+  cherch:   { titre:"🎓 Recherche / Formation / Accompagnement",
+              star:"⭐ Accompagnement général",
+              items:["Recherche (CIRAD / INRAE / UA)",
+                     "Conseil / Agronomie",
+                     "Animation territoriale",
+                     "Éducation alimentaire / citoyenne",
+                     "Accompagnement à la transition agroécologique",
+                     "Autre (préciser dans Motif)"] },
+  asso:     { titre:"🤝 Acteur·trice associatif·ve / institutionnel·le",
+              star:null,
+              items:["Organisation paysanne / Syndicat agricole",
+                     "Coopérative / Collectif citoyen",
+                     "Institution publique (Région / Département / EPCI)",
+                     "ONG / Association de développement",
+                     "Projet Alimentaire Territorial (PAT)",
+                     "Autre (préciser dans Motif)"] },
+};
+
+const COMMUNES = ["Anse-Bertrand","Baie-Mahault","Baillif","Basse-Terre","Bouillante","Capesterre-Belle-Eau","Capesterre-de-Marie-Galante","Deshaies","Gourbeyre","Goyave","Grand-Bourg","La Désirade","Lamentin","Le Gosier","Le Moule","Les Abymes","Les Saintes","Morne-à-l'Eau","Petit-Bourg","Petit-Canal","Pointe-à-Pitre","Pointe-Noire","Port-Louis","Saint-Claude","Saint-François","Saint-Louis","Saint-Rose","Sainte-Anne","Terre-de-Bas","Terre-de-Haut","Trois-Rivières","Vieux-Fort","Vieux-Habitants"];
+
+// ── Correspondance Commune → EPCI ────────────────────────────────────────────
+const COMMUNE_EPCI = {
+  "Anse-Bertrand":              "CANGT - Nord Grande-Terre",
+  "Baie-Mahault":               "CAP Excellence",
+  "Baillif":                    "CA Grand Sud Caraïbe",
+  "Basse-Terre":                "CA Grand Sud Caraïbe",
+  "Bouillante":                 "CA Grand Sud Caraïbe",
+  "Capesterre-Belle-Eau":       "CA Grand Sud Caraïbe",
+  "Capesterre-de-Marie-Galante":"CC de Marie-Galante",
+  "Deshaies":                   "CANBT - Nord Basse-Terre",
+  "Gourbeyre":                  "CA Grand Sud Caraïbe",
+  "Goyave":                     "CANBT - Nord Basse-Terre",
+  "Grand-Bourg":                "CC de Marie-Galante",
+  "La Désirade":                "CARL - La Riviera du Levant",
+  "Lamentin":                   "CANBT - Nord Basse-Terre",
+  "Le Gosier":                  "CARL - La Riviera du Levant",
+  "Le Moule":                   "CANGT - Nord Grande-Terre",
+  "Les Abymes":                 "CAP Excellence",
+  "Les Saintes":                "CA Grand Sud Caraïbe",
+  "Morne-à-l'Eau":              "CANGT - Nord Grande-Terre",
+  "Petit-Bourg":                "CANBT - Nord Basse-Terre",
+  "Petit-Canal":                "CANGT - Nord Grande-Terre",
+  "Pointe-à-Pitre":             "CAP Excellence",
+  "Pointe-Noire":               "CANBT - Nord Basse-Terre",
+  "Port-Louis":                 "CANGT - Nord Grande-Terre",
+  "Saint-Claude":               "CA Grand Sud Caraïbe",
+  "Sainte-Anne":                "CARL - La Riviera du Levant",
+  "Sainte-Rose":                "CANBT - Nord Basse-Terre",
+  "Saint-François":             "CARL - La Riviera du Levant",
+  "Saint-Louis":                "CC de Marie-Galante",
+  "Terre-de-Bas":               "CA Grand Sud Caraïbe",
+  "Terre-de-Haut":              "CA Grand Sud Caraïbe",
+  "Trois-Rivières":             "CA Grand Sud Caraïbe",
+  "Vieux-Fort":                 "CA Grand Sud Caraïbe",
+  "Vieux-Habitants":            "CA Grand Sud Caraïbe",
+};
+
+function getEPCI(commune) {
+  return COMMUNE_EPCI[commune] || "";
+}
+
+
+const SK = "sibato-contacts-v2"; // cache local (lecture rapide)
+let remoteLoaded = false; // true une fois les données du Sheet chargées
+const API_URL = "https://script.google.com/macros/s/AKfycbzP6TQjxLuScsW1kHc1mTv7UA55sz3nHLJFzXEew7PFFrBKOsoNgzn8dGhYegU9Vcki/exec";
+
+// ── État du formulaire ────────────────────────────────────────────────────────
+let contacts = JSON.parse(localStorage.getItem(SK) || "[]");
+let selectedRoles    = [];
+let selectedFilieres = [];
+let selectedCommunesActivite = [];
+let selectedPi = "";
+let autreRoleText = "";
+let autreFilieresTexts = {};
+
+
+
+
+
+// ══════════════════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════════════════
+function init() {
+  // Structures
+  const selStr = document.getElementById("f-structure-select");
+  if (selStr) STRUCTURES.forEach(s => {
+    const o = document.createElement("option"); o.value = o.textContent = s;
+    selStr.appendChild(o);
+  });
+
+  // Rôles (boutons)
+  const wrap = document.getElementById("roles-wrap");
+  ROLES_CONFIG.forEach(r => {
+    const btn = document.createElement("button");
+    btn.className = "role-btn";
+    btn.textContent = r.label;
+    btn.dataset.key = r.key;
+    btn.dataset.color = r.color;
+    btn.onclick = () => toggleRole(r.key, r.color, btn);
+    wrap.appendChild(btn);
+  });
+
+  // Communes (siège + activité)
+  ["f-commune-base", "commune-activite-select"].forEach(id => {
+    const sel = document.getElementById(id);
+    COMMUNES.forEach(c => {
+      const o = document.createElement("option"); o.value = o.textContent = c;
+      sel.appendChild(o);
+    });
+  });
+
+  // Filtres base
+  const selFRole = document.getElementById("filter-role");
+  ROLES_CONFIG.forEach(r => {
+    const o = document.createElement("option"); o.value = o.textContent = r.label;
+    selFRole.appendChild(o);
+  });
+  // Filtre siège (communes)
+  const selFSiege = document.getElementById("filter-siege");
+  if (selFSiege) {
+    COMMUNES.forEach(com => {
+      const o = document.createElement("option"); o.value = o.textContent = com;
+      selFSiege.appendChild(o);
+    });
+  }
+
+  // Filtre EPCI (remplace l'ancien filtre structure)
+  const EPCI_LIST = [
+    "CAP Excellence",
+    "CANGT - Nord Grande-Terre",
+    "CANBT - Nord Basse-Terre",
+    "CA Grand Sud Caraïbe",
+    "CARL - La Riviera du Levant",
+    "CC de Marie-Galante",
+  ];
+  const selFEpci = document.getElementById("filter-epci");
+  if (selFEpci) {
+    EPCI_LIST.forEach(e => {
+      const o = document.createElement("option"); o.value = o.textContent = e;
+      selFEpci.appendChild(o);
+    });
+  }
+
+  updateStats();
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════════════════════════════
+function goTo(viewId) {
+  document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+  document.getElementById(viewId).classList.add("active");
+  window.scrollTo(0, 0);
+  // Sur base-view, le bouton flottant monte légèrement pour éviter le conflit
+  // avec la barre de filtres
+  const onBase = viewId === "base-view";
+  const floatBtn = document.getElementById("partner-float-btn");
+  const badgeBtn = document.getElementById("partner-badge-btn");
+  if (floatBtn) floatBtn.style.top = onBase ? "10px" : "14px";
+  if (badgeBtn) badgeBtn.style.top = onBase ? "10px" : "14px";
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// STATS
+// ══════════════════════════════════════════════════════════════════════════════
+function updateStats() {
+  const total    = contacts.length;
+  const structs  = new Set(contacts.map(c => c.structure)).size;
+  const communes = new Set(contacts.map(c => c.communeBase)).size;
+  const pi       = contacts.filter(c => c.preinforme === "Oui").length;
+
+  document.getElementById("stat-total").textContent    = total;
+  document.getElementById("stat-structs").textContent  = structs;
+  document.getElementById("stat-communes").textContent = communes;
+  document.getElementById("stat-pi").textContent       = pi;
+  document.getElementById("home-count").textContent    = total;
+
+  // Stats et bouton base visibles seulement pour les partenaires connecté·e·s
+  const isPartner = partnerState.loggedIn;
+  document.getElementById("home-stats").style.display       = isPartner ? "" : "none";
+  document.getElementById("btn-consulter-base").style.display = isPartner ? "" : "none";
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// FORMULAIRE
+// ══════════════════════════════════════════════════════════════════════════════
+
+// Structure sélectionnée
+function onStructureChange() {
+  const sel = document.getElementById("f-structure-select");
+  const val = sel ? sel.value : "";
+  // Sync le hidden field
+  const hidden = document.getElementById("f-structure");
+  if (hidden) hidden.value = val;
+  const pf = document.getElementById("proposant-fields");
+  if (pf) pf.style.display = val ? "block" : "none";
+  const asf = document.getElementById("autre-structure-fields");
+  if (asf) asf.style.display = val === "Autre" ? "block" : "none";
+}
+
+// Rôles
+function toggleRole(key, color, btn) {
+  if (selectedRoles.includes(key)) {
+    selectedRoles = selectedRoles.filter(k => k !== key);
+    btn.classList.remove("on");
+    btn.style.background = "";
+    btn.style.color = "";
+    // Nettoyer le texte Autre rôle si décoché
+    if (key === "autre_role") autreRoleText = "";
+  } else {
+    selectedRoles.push(key);
+    btn.classList.add("on");
+    btn.style.background = color;
+    btn.style.color = "#fff";
+  }
+  document.getElementById("err-role").textContent = "";
+  renderFilieres();
+}
+
+// Filières dynamiques
+function renderFilieres() {
+  const container = document.getElementById("filieres-container");
+  container.innerHTML = "";
+
+  // Garder uniquement les filières valides (des rôles encore sélectionnés + Autre filières)
+  const validFilieres = [];
+  selectedRoles.forEach(key => {
+    if (FILIERES_PAR_ROLE[key]) {
+      if (FILIERES_PAR_ROLE[key].star) validFilieres.push(FILIERES_PAR_ROLE[key].star);
+      FILIERES_PAR_ROLE[key].items.forEach(f => validFilieres.push(f));
+      validFilieres.push("__autre__" + key); // placeholder Autre
+    }
+  });
+  selectedFilieres = selectedFilieres.filter(f =>
+    validFilieres.includes(f) || f.startsWith("Autre : ")
+  );
+
+  if (selectedRoles.length === 0) {
+    container.innerHTML = '<div class="filieres-empty">← Sélectionnez d\'abord un ou plusieurs rôles ci-dessus.</div>';
+    return;
+  }
+
+  // Bloc rôle "Autre" : champ texte libre
+  if (selectedRoles.includes("autre_role")) {
+    const sec = document.createElement("div");
+    sec.className = "filieres-section";
+    sec.innerHTML = `<div class="filieres-section-title">❓ Autre rôle</div>
+      <input type="text" id="autre-role-input" placeholder="Précisez le rôle…"
+        value="${autreRoleText}"
+        oninput="autreRoleText = this.value"
+        style="width:100%;padding:9px 14px;border-radius:8px;border:2px solid #E8F0EE;font-size:13px;font-family:inherit;color:#1C2B28;outline:none;margin-top:4px;" />`;
+    container.appendChild(sec);
+  }
+
+  // Sections filières par rôle — tout construit AVANT insertion dans le DOM
+  selectedRoles.forEach(key => {
+    if (!FILIERES_PAR_ROLE[key]) return;
+    const cfg = FILIERES_PAR_ROLE[key];
+
+    // Conteneur de section
+    const section = document.createElement("div");
+    section.className = "filieres-section";
+
+    // Titre
+    const titre = document.createElement("div");
+    titre.className = "filieres-section-title";
+    titre.textContent = cfg.titre;
+    section.appendChild(titre);
+
+    // Wrap boutons
+    const wrap = document.createElement("div");
+    wrap.className = "filieres-wrap";
+
+    // Bouton ⭐ si présent
+    if (cfg.star) {
+      const starBtn = document.createElement("button");
+      starBtn.className = "fil-btn-star" + (selectedFilieres.includes(cfg.star) ? " on" : "");
+      starBtn.textContent = cfg.star;
+      starBtn.onclick = () => {
+        if (selectedFilieres.includes(cfg.star)) {
+          selectedFilieres = selectedFilieres.filter(x => x !== cfg.star);
+          starBtn.classList.remove("on");
+        } else { selectedFilieres.push(cfg.star); starBtn.classList.add("on"); }
+      };
+      wrap.appendChild(starBtn);
+    }
+
+    // Boutons filières standard
+    cfg.items.forEach(f => {
+      const btn = document.createElement("button");
+      btn.className = "fil-btn" + (selectedFilieres.includes(f) ? " on" : "");
+      btn.textContent = f;
+      btn.onclick = () => {
+        if (selectedFilieres.includes(f)) {
+          selectedFilieres = selectedFilieres.filter(x => x !== f);
+          btn.classList.remove("on");
+        } else {
+          selectedFilieres.push(f);
+          btn.classList.add("on");
+        }
+      };
+      wrap.appendChild(btn);
+    });
+
+    // Bouton "Autre…" pour cette section
+    const autreBtn = document.createElement("button");
+    autreBtn.className = "fil-btn" + (autreFilieresTexts[key] !== undefined ? " on" : "");
+    autreBtn.textContent = "Autre…";
+    wrap.appendChild(autreBtn);
+
+    // Champ texte "Autre filière" (créé maintenant, affiché selon état)
+    const autreRow = document.createElement("div");
+    autreRow.style.cssText = "width:100%;margin-top:8px;";
+    const autreInput = document.createElement("input");
+    autreInput.type = "text";
+    autreInput.id = "autre-fil-input-" + key;
+    autreInput.placeholder = "Précisez la filière…";
+    autreInput.value = autreFilieresTexts[key] || "";
+    autreInput.style.cssText = "width:100%;padding:8px 12px;border-radius:8px;border:2px solid #E8F0EE;font-size:13px;font-family:inherit;color:#1C2B28;outline:none;";
+    autreInput.oninput = (e) => { autreFilieresTexts[key] = e.target.value; };
+    autreRow.appendChild(autreInput);
+    autreRow.style.display = autreFilieresTexts[key] !== undefined ? "block" : "none";
+
+    // Logique du bouton Autre (maintenant que autreRow est défini)
+    autreBtn.onclick = () => {
+      if (autreFilieresTexts[key] !== undefined) {
+        delete autreFilieresTexts[key];
+        autreBtn.classList.remove("on");
+        autreRow.style.display = "none";
+        autreInput.value = "";
+      } else {
+        autreFilieresTexts[key] = "";
+        autreBtn.classList.add("on");
+        autreRow.style.display = "block";
+        autreInput.focus();
+      }
+    };
+
+    // Assembler : wrap puis champ Autre — tout dans section, puis section dans container
+    section.appendChild(wrap);
+    section.appendChild(autreRow);
+    container.appendChild(section);
+  });
+}
+
+// Pré-informé
+function setPi(val) {
+  // Réinitialiser tous les boutons sub
+  document.querySelectorAll(".pi-sub-btn").forEach(b => b.classList.remove("on"));
+  ["oui","non","encours"].forEach(id => document.getElementById("pi-"+id).classList.remove("on"));
+  document.querySelectorAll(".pi-sub-btn").forEach(b => b.classList.remove("on"));
+  const subchoixEl = document.getElementById("pi-subchoix"); if(subchoixEl) subchoixEl.style.display="none";
+  const subchoix = document.getElementById("pi-subchoix");
+
+  if (val === "oui_expand") {
+    // Afficher les sous-choix, ne pas encore valider selectedPi
+    document.getElementById("pi-oui").classList.add("on");
+    subchoix.style.display = "block";
+    selectedPi = ""; // pas encore choisi
+  } else {
+    subchoix.style.display = "none";
+    selectedPi = val;
+    const map = {"Non":"non","En cours":"encours"};
+    if (map[val]) document.getElementById("pi-"+map[val]).classList.add("on");
+  }
+  document.getElementById("err-preinforme").textContent = "";
+}
+
+function setPiSub(val) {
+  selectedPi = val;
+  document.querySelectorAll(".pi-sub-btn").forEach(b => b.classList.remove("on"));
+  const ids = {"Oui - Motivé·e":"pisub-motive","Oui - Ne sait pas":"pisub-nesait","Oui - Ne peut pas":"pisub-nepeut"};
+  if (ids[val]) document.getElementById(ids[val]).classList.add("on");
+  document.getElementById("err-preinforme").textContent = "";
+}
+
+// Communes d'activité
+function addCommuneActivite() {
+  const sel = document.getElementById("commune-activite-select");
+  const val = sel.value;
+  if (!val || selectedCommunesActivite.includes(val)) { sel.value = ""; return; }
+  selectedCommunesActivite.push(val);
+  sel.value = "";
+  renderCommunesActiviteTags();
+}
+function removeCommuneActivite(c) {
+  selectedCommunesActivite = selectedCommunesActivite.filter(x => x !== c);
+  renderCommunesActiviteTags();
+}
+function renderCommunesActiviteTags() {
+  const wrap = document.getElementById("communes-activite-tags");
+  wrap.innerHTML = selectedCommunesActivite.map(c =>
+    `<div class="commune-tag">${c}<button onclick="removeCommuneActivite('${c}')">×</button></div>`
+  ).join("");
+}
+
+// Reset
+function resetForm() {
+  const fss = document.getElementById("f-structure-select"); if(fss) fss.value = "";
+  const fsh = document.getElementById("f-structure"); if(fsh) fsh.value = "";
+  const pf = document.getElementById("proposant-fields"); if(pf) pf.style.display = "none";
+  const asf = document.getElementById("autre-structure-fields"); if(asf) asf.style.display = "none";
+  // Remettre la bonne vue proposant selon le statut
+  const ppv = document.getElementById("proposant-partner-view");
+  const puv = document.getElementById("proposant-public-view");
+  if (partnerState.loggedIn) {
+    if (ppv) ppv.style.display = "block";
+    if (puv) puv.style.display = "none";
+    // Ré-injecter les données du partenaire connecté
+    autoFillForm(partnerState.structureName||"", partnerState.memberName ? partnerState.memberName.split(" ")[0] : "", partnerState.memberName ? partnerState.memberName.split(" ").slice(1).join(" ") : "");
+  } else {
+    if (ppv) ppv.style.display = "none";
+    if (puv) puv.style.display = "block";
+  }
+  ["f-prenom-prop","f-nom-prop","f-autre-structure-nom","f-prenom","f-nom","f-telephone","f-email","f-motif","f-remarques"].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = "";
+  });
+  document.getElementById("f-commune-base").value = "";
+  document.getElementById("commune-activite-select").value = "";
+
+  selectedRoles    = [];
+  selectedFilieres = [];
+  selectedCommunesActivite = [];
+  selectedPi = "";
+  autreRoleText = "";
+  autreFilieresTexts = {};
+
+  document.querySelectorAll(".role-btn").forEach(b => {
+    b.classList.remove("on"); b.style.background=""; b.style.color="";
+  });
+  ["oui","non","encours"].forEach(id => document.getElementById("pi-"+id).classList.remove("on"));
+
+  renderFilieres();
+  renderCommunesActiviteTags();
+  clearErrors();
+
+  document.getElementById("form-confirm").style.display = "none";
+  document.getElementById("form-fields").style.display  = "block";
+}
+
+function clearErrors() {
+  ["structure","prenom","nom","role","commune-base","motif","preinforme"].forEach(f => {
+    const err = document.getElementById("err-"+f);     if (err) err.textContent = "";
+    const field = document.getElementById("field-"+f); if (field) field.classList.remove("error");
+  });
+  document.getElementById("global-error").textContent = "";
+}
+
+// Soumission
+function submitForm() {
+  clearErrors();
+  let hasErr = false;
+
+  const check = (fieldId, errId, getValue) => {
+    const val = getValue ? getValue() : document.getElementById("f-"+fieldId).value.trim();
+    if (!val) {
+      const err = document.getElementById("err-"+errId);   if (err) err.textContent = "⚠ Obligatoire";
+      const field = document.getElementById("field-"+fieldId); if (field) field.classList.add("error");
+      hasErr = true;
+    }
+    return val;
+  };
+
+  const structure    = check("structure",    "structure",    () => { const h=document.getElementById("f-structure"); const s=document.getElementById("f-structure-select"); return h&&h.value ? h.value : (s ? s.value : ""); });
+  const prenom       = check("prenom",       "prenom");
+  const nom          = check("nom",          "nom");
+  const role         = check("role",         "role",         () => selectedRoles.length ? "ok" : "");
+  const communeBase  = check("commune-base", "commune-base", () => document.getElementById("f-commune-base").value);
+  const motif        = check("motif",        "motif");
+
+  if (!selectedPi) {
+    document.getElementById("err-preinforme").textContent = "⚠ Obligatoire";
+    hasErr = true;
+  }
+
+  if (hasErr) {
+    document.getElementById("global-error").textContent = "⚠ Veuillez compléter tous les champs obligatoires (*).";
+    return;
+  }
+
+  // Identité de la personne qui propose
+  let structureLabel = structure;
+  let proposePar = null;
+  const propPrenom = partnerState.loggedIn ? (document.getElementById("f-autre-prenom")||{value:""}).value.trim() : (document.getElementById("f-prenom-prop")||{value:""}).value.trim();
+  const propNom    = partnerState.loggedIn ? (document.getElementById("f-autre-nom")||{value:""}).value.trim()    : (document.getElementById("f-nom-prop")||{value:""}).value.trim();
+  if (structure === "Autre") {
+    const as = document.getElementById("f-autre-structure-nom").value.trim();
+    if (propPrenom || propNom || as) {
+      proposePar = { prenom: propPrenom, nom: propNom, structure: as };
+      if (as) structureLabel = as;
+    }
+  } else if (propPrenom || propNom) {
+    proposePar = { prenom: propPrenom, nom: propNom, structure: structure };
+  }
+
+  // Construire les rôles avec texte libre si "Autre"
+  const rolesFinaux = selectedRoles.map(k => {
+    if (k === "autre_role") {
+      return autreRoleText ? "Autre : " + autreRoleText : "Autre";
+    }
+    return ROLES_CONFIG.find(r => r.key===k).label;
+  });
+
+  // Construire les filières avec les "Autre" texte libre
+  const filieresFinales = [...selectedFilieres];
+  Object.entries(autreFilieresTexts).forEach(([key, val]) => {
+    if (val && val.trim()) filieresFinales.push("Autre (" + FILIERES_PAR_ROLE[key].titre.replace(/^[^ ]+ /, "") + ") : " + val.trim());
+  });
+
+  const contact = {
+    id: Date.now(),
+    createdAt: new Date().toISOString(),
+    structure: structureLabel,
+    proposePar,
+    prenom:        document.getElementById("f-prenom").value.trim(),
+    nom:           document.getElementById("f-nom").value.trim(),
+    telephone:     document.getElementById("f-telephone").value.trim(),
+    email:         document.getElementById("f-email").value.trim(),
+    roles:         rolesFinaux,
+    filieres:      filieresFinales,
+    communeBase,
+    communesActivite: [...selectedCommunesActivite],
+    motif:         document.getElementById("f-motif").value.trim(),
+    preinforme:    selectedPi,
+    remarques:     document.getElementById("f-remarques").value.trim(),
+  };
+
+  // Afficher un indicateur d'envoi
+  const submitBtn = document.querySelector('.form-actions .btn-primary');
+  if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Envoi en cours…"; }
+
+  // Envoyer vers Google Sheets via Apps Script
+  fetch(API_URL, {
+    method: "POST",
+    mode: "no-cors", // nécessaire pour Apps Script
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(contact),
+  })
+  .then(() => {
+    contacts.push(contact);
+    localStorage.setItem(SK, JSON.stringify(contacts));
+    const myIds = JSON.parse(localStorage.getItem("sibato_my_contacts") || "[]");
+    myIds.push(contact.id);
+    localStorage.setItem("sibato_my_contacts", JSON.stringify(myIds));
+    showConfirmRecap(contact);
+    document.getElementById("form-fields").style.display  = "none";
+    document.getElementById("form-confirm").style.display = "block";
+    updateStats();
+    window.scrollTo(0, 0);
+  })
+  .catch((err) => {
+    contacts.push(contact);
+    localStorage.setItem(SK, JSON.stringify(contacts));
+    const myIds = JSON.parse(localStorage.getItem("sibato_my_contacts") || "[]");
+    myIds.push(contact.id);
+    localStorage.setItem("sibato_my_contacts", JSON.stringify(myIds));
+    showConfirmRecap(contact);
+    document.getElementById("form-fields").style.display  = "none";
+    document.getElementById("form-confirm").style.display = "block";
+    updateStats();
+    window.scrollTo(0, 0);
+    console.warn("Envoi Sheet échoué, sauvegarde locale uniquement :", err);
+  })
+  .finally(() => {
+    if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = "Enregistrer ce contact →"; }
+  });
+}
+
+// ── Fiche récap après soumission ─────────────────────────────────────────────
+function showConfirmRecap(c) {
+  const el = document.getElementById("confirm-recap");
+  if (!el) return;
+  const roles    = Array.isArray(c.roles)    ? c.roles.join("<br>")    : (c.roles    || "—");
+  const filieres = Array.isArray(c.filieres) ? c.filieres.join(" · ") : (c.filieres || "");
+  el.innerHTML = `
+    <div style="background:#fff;border-radius:16px;padding:28px 32px;text-align:left;max-width:560px;margin:0 auto;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+      <div style="font-size:22px;font-weight:800;color:#1C2B28;margin-bottom:4px;">${c.prenom} ${c.nom}</div>
+      <div style="font-size:13px;color:#7FA89E;margin-bottom:20px;">${c.telephone||""} ${c.email ? "· "+c.email : ""}</div>
+
+      <div style="display:grid;grid-template-columns:120px 1fr;gap:10px 16px;font-size:14px;color:#1C2B28;">
+        <div style="color:#7FA89E;font-weight:600;">📍 Commune</div>
+        <div style="font-weight:600;">${c.communeBase || "—"}</div>
+
+        ${c.structure ? `<div style="color:#7FA89E;font-weight:600;">🏛 Structure</div><div>${c.structure}</div>` : ""}
+
+        ${roles ? `<div style="color:#7FA89E;font-weight:600;">🎯 Rôles</div><div>${roles}</div>` : ""}
+
+        ${filieres ? `<div style="color:#7FA89E;font-weight:600;">🌱 Filières</div><div>${filieres}</div>` : ""}
+
+        ${c.motif ? `<div style="color:#7FA89E;font-weight:600;">💬 Motif</div><div style="font-style:italic;">"${c.motif}"</div>` : ""}
+      </div>
+    </div>`;
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// BASE
+// ══════════════════════════════════════════════════════════════════════════════
+function badge(text, color) {
+  return `<span class="badge" style="background:${color}22;color:${color};border:1px solid ${color}44">${text}</span>`;
+}
+function piBadge(v) {
+  if (v==="Oui")      return badge("✓ Oui",      "#27AE60");
+  if (v==="Non")      return badge("✗ Non",      "#C0392B");
+  if (v==="En cours") return badge("⟳ En cours", "#E67E22");
+  return "";
+}
+function rolesBadges(roles) {
+  if (!roles || !roles.length) return "";
+  return roles.map(r => {
+    const cfg = ROLES_CONFIG.find(x => x.label === r);
+    return badge(r, cfg ? cfg.color : "#455A64");
+  }).join(" ");
+}
+
+
+// ── Normalisation données Sheet → format attendu par l'app ──────────────────
+function normalizeSheetContact(c) {
+  // Mapping preinforme : valeurs Sheet → valeurs JS
+  const PI_MAP = {
+    "a contacter":                      "Non",
+    "non":                              "Non",
+    "contacté.e - motivé.e":            "Oui - Motivé·e",
+    "oui - motivé·e":                   "Oui - Motivé·e",
+    "contacté.e - ne sait pas":         "Oui - Ne sait pas",
+    "oui - ne sait pas":                "Oui - Ne sait pas",
+    "contacté.e - ne peut ou veut pas": "Oui - Ne peut pas",
+    "contacté.e - ne peut pas":         "Oui - Ne peut pas",
+    "oui - ne peut pas":                "Oui - Ne peut pas",
+    "injoignable":                      "En cours",
+    "en cours":                         "En cours",
+    "oui":                              "Oui",
+  };
+  const piRaw = (c.preinforme || "").toString().toLowerCase().trim();
+  c.preinforme = PI_MAP[piRaw] || c.preinforme || "";
+
+  // Nettoyer communeBase (dédoublonner si "Commune, Commune")
+  if (c.communeBase) {
+    const parts = c.communeBase.split(",").map(s => s.trim()).filter(Boolean);
+    c.communeBase = [...new Set(parts)][0] || "";
+  }
+
+  // S'assurer que les champs tableau existent
+  if (!Array.isArray(c.roles))            c.roles = c.roles ? [c.roles] : [];
+  if (!Array.isArray(c.filieres))         c.filieres = c.filieres ? [c.filieres] : [];
+  if (!Array.isArray(c.communesActivite)) c.communesActivite = [];
+
+  return c;
+}
+
+// Charge les contacts depuis Google Sheets via JSONP (contourne no-cors)
+function loadAndRenderBase() {
+  const grid    = document.getElementById("cards-grid");
+  const loading = document.getElementById("base-loading");
+  grid.innerHTML = "";
+  if (loading) loading.style.display = "block";
+
+  // Nettoyer tout ancien script JSONP résiduel
+  const old = document.getElementById("_sibato_jsonp");
+  if (old) old.remove();
+
+  let settled = false;
+
+  const timeout = setTimeout(() => {
+    if (settled) return;
+    settled = true;
+    if (loading) loading.style.display = "none";
+    const el = document.getElementById("_sibato_jsonp");
+    if (el) el.remove();
+    renderBase(); // affiche ce qu'on a (cache local ou vide)
+  }, 9000);
+
+  window._sibatoCb = function(data) {
+    if (settled) return;
+    settled = true;
+    clearTimeout(timeout);
+    if (loading) loading.style.display = "none";
+    if (data.status === "ok" && Array.isArray(data.contacts)) {
+      contacts = data.contacts.map(normalizeSheetContact);
+      localStorage.setItem(SK, JSON.stringify(contacts));
+      remoteLoaded = true;
+      updateStats();
+    }
+    renderBase();
+    const el = document.getElementById("_sibato_jsonp");
+    if (el) el.remove();
+    delete window._sibatoCb;
+  };
+
+  const script = document.createElement("script");
+  script.id  = "_sibato_jsonp";
+  script.src = API_URL + "?callback=_sibatoCb&t=" + Date.now(); // cache-bust
+  script.onerror = () => {
+    if (settled) return;
+    settled = true;
+    clearTimeout(timeout);
+    if (loading) loading.style.display = "none";
+    renderBase();
+  };
+  document.head.appendChild(script);
+}
+
+function renderBase() {
+  const search = (document.getElementById("search-input").value||"").toLowerCase();
+  const fRole  = document.getElementById("filter-role").value;
+  const fStr   = document.getElementById("filter-epci").value;
+  const fSiege = (document.getElementById("filter-siege")||{}).value||"";
+  const fPi    = document.getElementById("filter-pi").value;
+
+  // ── Confidentialité ──────────────────────────────────────────────────────
+  // Vue publique : uniquement les contacts soumis dans cette session
+  // Vue partenaire : tous les contacts
+  let sourceContacts = contacts;
+  if (!partnerState.loggedIn) {
+    const myIds = JSON.parse(localStorage.getItem("sibato_my_contacts") || "[]");
+    sourceContacts = contacts.filter(c => myIds.includes(c.id));
+  }
+
+  const filtered = sourceContacts.filter(c => {
+    if (fRole && !(c.roles||[]).includes(fRole)) return false;
+    if (fStr  && getEPCI(c.communeBase) !== fStr) return false;
+    if (fPi   && c.preinforme !== fPi)            return false;
+    if (search) {
+      return (c.nom + c.prenom + c.communeBase + (c.filieres||[]).join(" ") + (c.roles||[]).join(" "))
+        .toLowerCase().includes(search);
+    }
+    return true;
+  });
+
+  const n = filtered.length;
+  document.getElementById("base-count-title").textContent = n + " contact" + (n>1?"s":"");
+
+  const grid = document.getElementById("cards-grid");
+  if (!filtered.length) {
+    const emptyMsg = partnerState.loggedIn
+      ? `<p>Aucun contact ne correspond à vos filtres.</p>`
+      : `<p>Vous n'avez pas encore proposé de contact.<br>Revenez ici après avoir soumis un contact pour le retrouver.</p>
+         <p style="color:#7FA89E;font-size:12px;margin-top:8px;">Les partenaires voient l'ensemble de la base.</p>`;
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">
+      <div class="empty-emoji">🌿</div>
+      ${emptyMsg}
+      <button class="btn-primary" style="margin-top:20px" onclick="goTo('form-view');resetForm()">+ Proposer un contact</button>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(c => `
+    <div class="contact-card" onclick="openFiche(${c.id})">
+      <div class="card-top">
+        <div>
+          <div class="card-name">${c.prenom} ${c.nom}</div>
+          <div class="card-sub">📍 ${c.communeBase}${c.communesActivite && c.communesActivite.length ? ` + ${c.communesActivite.length} commune(s)` : ""}</div>
+          <div class="card-sub" style="margin-top:2px;color:#1A6B5A;font-weight:600;">${getEPCI(c.communeBase) || c.structure}</div>
+        </div>
+        ${piBadge(c.preinforme)}
+      </div>
+      <div class="card-roles">${rolesBadges(c.roles)}</div>
+      ${c.filieres && c.filieres.length ? `<div class="card-filieres">${c.filieres.slice(0,2).join(" · ")}${c.filieres.length>2?" +"+(c.filieres.length-2):""}</div>` : ""}
+      ${c.motif ? `<div class="card-motif">${c.motif}</div>` : ""}
+    </div>
+  `).join("");
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// FICHE
+// ══════════════════════════════════════════════════════════════════════════════
+function openFiche(id) {
+  const c = contacts.find(x => x.id === id);
+  if (!c) return;
+
+  document.getElementById("fiche-header-name").textContent = c.prenom + " " + c.nom;
+  const dateStr = new Date(c.createdAt).toLocaleDateString("fr-FR", {day:"numeric",month:"long",year:"numeric"});
+
+  const communesStr = [c.communeBase, ...(c.communesActivite||[])].filter(Boolean);
+
+  document.getElementById("fiche-body").innerHTML = `
+    <div class="fiche-card">
+      <div class="fiche-top">
+        <div>
+          <div class="fiche-name">${c.prenom} ${c.nom}</div>
+          <div class="fiche-meta">
+            🏠 Siège : ${c.communeBase}${getEPCI(c.communeBase) ? ` <span style="font-size:11px;font-weight:600;color:#1A6B5A;">(${getEPCI(c.communeBase)})</span>` : ""}<br>
+            ${c.communesActivite && c.communesActivite.length ? `📍 Actif·e à : ${c.communesActivite.join(", ")}<br>` : ""}
+            🏛 Proposé par : ${c.structure}${c.proposePar ? ` — ${c.proposePar.prenom||""} ${c.proposePar.nom||""}`.trim() : ""}
+          </div>
+        </div>
+        <div class="fiche-badges">
+          ${piBadge(c.preinforme)}
+        </div>
+      </div>
+      ${(c.telephone||c.email) ? `<div class="fiche-contacts">
+        ${c.telephone ? `<a href="tel:${c.telephone}">📞 ${c.telephone}</a>` : ""}
+        ${c.email     ? `<a href="mailto:${c.email}">✉ ${c.email}</a>`       : ""}
+      </div>` : ""}
+    </div>
+
+    ${c.roles && c.roles.length ? `
+    <div class="fiche-card">
+      <div class="fiche-section-title">Rôle(s) dans la chaîne</div>
+      <div class="fiche-tags">${rolesBadges(c.roles)}</div>
+    </div>` : ""}
+
+    ${c.filieres && c.filieres.length ? `
+    <div class="fiche-card">
+      <div class="fiche-section-title">Filières & spécialités</div>
+      <div class="fiche-tags">${c.filieres.map(f=>`<span class="fiche-tag">${f}</span>`).join("")}</div>
+    </div>` : ""}
+
+    <div class="fiche-card">
+      <div class="fiche-section-title">Valeur ajoutée — Si bato pa rivé…</div>
+      <div class="fiche-text">${c.motif}</div>
+    </div>
+
+    ${c.remarques ? `
+    <div class="fiche-gold">
+      <div class="fiche-gold-title">Remarques & disponibilités</div>
+      <div class="fiche-gold-text">${c.remarques}</div>
+    </div>` : ""}
+
+    <div class="fiche-date">Ajouté le ${dateStr}</div>
+  `;
+
+  goTo("fiche-view");
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SYSTÈME PARTENAIRES
+// ══════════════════════════════════════════════════════════════════════════════
+
+const PARTNER_PASSWORD = "SiBato971#";
+const SHEET_ID_CONST   = "1yfR-3MUJJa3TDzfi7NHS2L7S8XrATLSppXBA50XAYCY";
+
+const PARTNER_STRUCTURES = [
+  { id:"creddi",  name:"CREDDI / Université des Antilles" },
+  { id:"cangt",   name:"CANGT — Nord Grande-Terre" },
+  { id:"capex",   name:"CAP Excellence" },
+  { id:"carl",    name:"CARL — Riviera du Levant" },
+  { id:"canbt",   name:"CANBT — Nord Basse-Terre" },
+  { id:"cap2030", name:"CAP2030" },
+  { id:"png",     name:"Parc National de Guadeloupe" },
+  { id:"pap",     name:"Ville de Pointe-à-Pitre" },
+  { id:"bm",      name:"Ville de Baie-Mahault" },
+  { id:"dot",     name:"Dot Soley" },
+  { id:"phyto",   name:"Laboratoire Phytobokaz" },
+];
+
+let partnerState = {
+  loggedIn: false, structId: null, structName: null,
+  memberName: null, memberFn: null,
+};
+let currentStruct = null; // structure choisie à l'étape 1
+let reqFromPwdStep = false; // true si "je n'ai pas le mdp", false si "demander accès"
+
+// ── Ouverture / fermeture ─────────────────────────────────────────────────────
+function openPartnerModal() {
+  renderStructList();
+  showPStep(1);
+  document.getElementById("partner-modal").classList.add("open");
+}
+function closePartnerModal() {
+  document.getElementById("partner-modal").classList.remove("open");
+  document.getElementById("pwd-input").value = "";
+  document.getElementById("pwd-error").textContent = "";
+  document.getElementById("req-error").textContent = "";
+}
+function onModalOverlayClick(e) {
+  if (e.target === document.getElementById("partner-modal")) closePartnerModal();
+}
+
+// ── Navigation étapes ─────────────────────────────────────────────────────────
+function showPStep(step) {
+  ["1","2","3","req","confirm"].forEach(s =>
+    document.getElementById("pstep-"+s).style.display = "none"
+  );
+  document.getElementById("pstep-"+step).style.display = "block";
+  if (step === 2) setTimeout(() => document.getElementById("pwd-input").focus(), 80);
+  if (step === "req") {
+    // Pré-remplir la structure
+    if (currentStruct) document.getElementById("req-structure").value = currentStruct.name;
+    // Bouton retour : vers étape 2 si "pas de mdp", vers étape 3 sinon
+    document.getElementById("req-back-btn").onclick = () => showPStep(reqFromPwdStep ? 2 : 3);
+  }
+}
+
+// ── Étape 1 : liste structures ────────────────────────────────────────────────
+function renderStructList() {
+  document.getElementById("struct-list").innerHTML = PARTNER_STRUCTURES.map(s =>
+    `<div class="struct-item" onclick="selectStruct('${s.id}','${s.name.replace(/'/g,"\\'")}')">
+      <span>${s.name}</span><span class="struct-arrow">→</span>
+    </div>`
+  ).join("");
+}
+function selectStruct(id, name) {
+  currentStruct = { id, name };
+  document.getElementById("step2-title").textContent = name;
+  document.getElementById("pwd-input").value = "";
+  document.getElementById("pwd-error").textContent = "";
+  showPStep(2);
+}
+
+// ── Étape 2 : vérification mot de passe ──────────────────────────────────────
+function checkPassword() {
+  const val = document.getElementById("pwd-input").value;
+  if (val !== PARTNER_PASSWORD) {
+    document.getElementById("pwd-error").textContent = "⚠ Mot de passe incorrect.";
+    document.getElementById("pwd-input").value = "";
+    document.getElementById("pwd-input").focus();
+    return;
+  }
+  document.getElementById("pwd-error").textContent = "";
+  loadMembersForStruct(currentStruct);
+  showPStep(3);
+}
+
+// ── Étape 3 : chargement membres ─────────────────────────────────────────────
+function loadMembersForStruct(struct) {
+  const c = document.getElementById("members-container");
+  c.innerHTML = '<div class="members-loading">⏳ Chargement des membres…</div>';
+
+
+  // Nettoyer tout résidu d'un appel précédent
+  const old = document.getElementById("_mjsonp");
+  if (old) old.remove();
+  if (window._membersCb) delete window._membersCb;
+
+  let settled = false; // garantit qu'on ne rend qu'une seule fois
+
+  const timeoutId = setTimeout(() => {
+    if (settled) return;
+    settled = true;
+    const el = document.getElementById("_mjsonp");
+    if (el) el.remove();
+    delete window._membersCb;
+    renderMembersEmpty(struct);
+  }, 15000);
+
+  window._membersCb = function(data) {
+    if (settled) return;
+    settled = true;
+    clearTimeout(timeoutId);
+    const el = document.getElementById("_mjsonp");
+    if (el) el.remove();
+    delete window._membersCb;
+    if (data.status === "ok" && data.members && data.members.length > 0) {
+      renderMembersList(data.members, struct);
+    } else {
+      renderMembersEmpty(struct);
+    }
+  };
+
+  const s = document.createElement("script");
+  s.id  = "_mjsonp";
+  s.src = API_URL + "?callback=_membersCb&action=members&structure=" + encodeURIComponent(struct.id);
+  s.onerror = () => {
+    if (settled) return;
+    settled = true;
+    clearTimeout(timeoutId);
+    renderMembersEmpty(struct);
+  };
+  document.head.appendChild(s);
+}
+
+function renderMembersList(members, struct) {
+  document.getElementById("members-container").innerHTML = `
+    <div class="members-scroll">
+      ${members.map(m => `
+        <div class="member-item" onclick="loginAs('${esc(m.prenom)}','${esc(m.nom)}','${esc(m.fonction||"")}','${struct.id}','${esc(struct.name)}')">
+          <div class="member-avatar">${(m.prenom[0]||"?").toUpperCase()}${(m.nom[0]||"").toUpperCase()}</div>
+          <div>
+            <div class="member-name">${m.prenom} ${m.nom}</div>
+            ${m.fonction ? `<div class="member-fn">${m.fonction}</div>` : ""}
+          </div>
+        </div>`).join("")}
+      <div class="member-item" onclick="loginAs('','','','${struct.id}','${esc(struct.name)}')">
+        <div class="member-avatar" style="background:#455A64;">👤</div>
+        <div>
+          <div class="member-name">Membre de ${struct.name}</div>
+          <div class="member-fn">Continuer sans sélectionner un nom</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderMembersEmpty(struct) {
+  document.getElementById("members-container").innerHTML = `
+    <div style="text-align:center;padding:16px 0;">
+      <p style="color:#7FA89E;font-size:13px;margin-bottom:12px;line-height:1.6;">
+        Aucun membre configuré pour cette structure.
+      </p>
+      <div class="member-item" onclick="loginAs('','','','${struct.id}','${esc(struct.name)}')" style="justify-content:center;">
+        <div class="member-avatar" style="background:#455A64;">👤</div>
+        <div>
+          <div class="member-name">Continuer →</div>
+          <div class="member-fn">Accès partenaire sans sélectionner un nom</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function esc(str) { return (str||"").replace(/'/g,"\\'").replace(/"/g,"&quot;"); }
+
+// ── Connexion ─────────────────────────────────────────────────────────────────
+function loginAs(prenom, nom, fn, structId, structName) {
+  partnerState.loggedIn      = true;
+  partnerState.structId      = structId;
+  partnerState.structureName = structName;
+  partnerState.memberName    = (prenom && nom) ? prenom+" "+nom : structName;
+  partnerState.memberFn      = fn || null;
+
+  document.getElementById("partner-float-btn").style.display = "none";
+  const badge = document.getElementById("partner-badge-btn");
+  badge.style.display = "flex";
+  document.getElementById("partner-badge-label").textContent = partnerState.memberName;
+
+  autoFillForm(structName, prenom, nom);
+  closePartnerModal();
+  updateStats();
+  renderBase();
+}
+
+function autoFillForm(structName, prenom, nom) {
+  if (partnerState.loggedIn) {
+    // Vue partenaire : card lecture seule
+    const ppv = document.getElementById("proposant-partner-view");
+    const puv = document.getElementById("proposant-public-view");
+    if (ppv) ppv.style.display = "block";
+    if (puv) puv.style.display = "none";
+    // Champs cachés pour soumission
+    const fh = document.getElementById("f-structure"); if (fh) fh.value = structName;
+    const fp = document.getElementById("f-autre-prenom"); if (fp) fp.value = prenom||"";
+    const fn = document.getElementById("f-autre-nom");    if (fn) fn.value = nom||"";
+    // Affichage card
+    const displayName = (prenom && nom) ? prenom+" "+nom : structName;
+    const ne = document.getElementById("partner-name-form");   if (ne) ne.textContent = displayName;
+    const se = document.getElementById("partner-struct-form"); if (se) se.textContent = structName;
+    const ae = document.getElementById("partner-avatar-form");
+    if (ae) ae.textContent = ((prenom||structName)[0]||"?").toUpperCase()+((nom||"")[0]||"").toUpperCase();
+  } else {
+    // Vue publique : saisie libre
+    const ppv = document.getElementById("proposant-partner-view");
+    const puv = document.getElementById("proposant-public-view");
+    if (ppv) ppv.style.display = "none";
+    if (puv) puv.style.display = "block";
+    const sel = document.getElementById("f-structure-select");
+    if (sel) {
+      const match = Array.from(sel.options).find(o =>
+        o.value !== "" && o.value !== "Autre" &&
+        structName.toLowerCase().includes(o.value.toLowerCase().split(" ")[0].toLowerCase())
+      );
+      if (match) { sel.value = match.value; onStructureChange(); }
+    }
+    const fpp = document.getElementById("f-prenom-prop"); if (fpp && prenom) fpp.value = prenom;
+    const fnp = document.getElementById("f-nom-prop");    if (fnp && nom)    fnp.value = nom;
+  }
+}
+
+// ── Déconnexion ───────────────────────────────────────────────────────────────
+function logoutPartner() {
+  partnerState = { loggedIn:false, structId:null, structureName:null, memberName:null, memberFn:null };
+  document.getElementById("partner-float-btn").style.display = "";
+  document.getElementById("partner-badge-btn").style.display = "none";
+  updateStats();
+  renderBase();
+}
+
+// ── Formulaire demande d'accès ────────────────────────────────────────────────
+function submitAccessRequest() {
+  const prenom    = document.getElementById("req-prenom").value.trim();
+  const nom       = document.getElementById("req-nom").value.trim();
+  const structure = document.getElementById("req-structure").value.trim();
+  const role      = document.getElementById("req-role").value.trim();
+  const email     = document.getElementById("req-email").value.trim();
+
+  if (!prenom || !nom || !structure) {
+    document.getElementById("req-error").textContent = "⚠ Prénom, nom et organisation sont obligatoires.";
+    return;
+  }
+  document.getElementById("req-error").textContent = "";
+
+  const btn = document.getElementById("req-submit-btn");
+  btn.disabled = true; btn.textContent = "Envoi…";
+
+  fetch(API_URL, {
+    method:"POST", mode:"no-cors",
+    headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({ _action:"access_request", prenom, nom, structure, role, email }),
+  })
+  .finally(() => {
+    btn.disabled = false; btn.textContent = "Envoyer la demande →";
+    // Vider le formulaire
+    ["req-prenom","req-nom","req-role","req-email"].forEach(id =>
+      document.getElementById(id).value = ""
+    );
+    showPStep("confirm");
+  });
+}
+
+
+// ══════════════════════════════════════════════════════════════════════════════
+// DÉMARRAGE
+// ══════════════════════════════════════════════════════════════════════════════
+init();
+</script>
+</body>
+</html>
