@@ -19,15 +19,16 @@
     #home { background: #1C2B28; min-height:100vh; padding-bottom:0; }
     .hero {
       background: linear-gradient(135deg, #1C2B28 0%, #0F3D2E 55%, #1A6B5A 100%);
-      padding: 56px 24px 28px; text-align: center; position: relative; overflow: hidden;
+      padding: 36px 24px 20px; /* MODIFIÉ : était 56px 24px 28px */
+      text-align: center; position: relative; overflow: hidden;
     }
     .hero-circle1 { position:absolute;top:-70px;right:-70px;width:220px;height:220px;border-radius:50%;background:rgba(212,168,67,0.07); }
     .hero-circle2 { position:absolute;bottom:-50px;left:-50px;width:180px;height:180px;border-radius:50%;background:rgba(42,138,116,0.1); }
     .hero-tag { font-size:22px;letter-spacing:2px;color:#D4A843;font-weight:700;text-transform:uppercase;margin-bottom:18px; }
     .hero h1 { font-size:42px;font-weight:900;line-height:1.1; }
     .hero h1.white { color:#fff;margin-bottom:4px; }
-    .hero h1.gold  { color:#D4A843;margin-bottom:28px; }
-    .hero p { color:#A8C5BC;font-size:15px;max-width:600px;margin:0 auto 36px;line-height:1.65; }
+    .hero h1.gold  { color:#D4A843;margin-bottom:16px; } /* MODIFIÉ : était 28px */
+    .hero p { color:#A8C5BC;font-size:15px;max-width:720px;margin:0 auto 24px;line-height:1.65; } /* MODIFIÉ : max-width 600→720, margin-bottom 36→24 */
     .hero-btns { display:flex;gap:12px;justify-content:center;flex-wrap:wrap; }
 
     .stats { display:flex;justify-content:center;gap:12px;padding:32px 20px;flex-wrap:wrap; }
@@ -35,9 +36,9 @@
     .stat-val { font-size:30px;font-weight:900; }
     .stat-lbl { font-size:12px;color:#A8C5BC;margin-top:3px; }
 
-    .manifeste { max-width:600px;margin:0 auto 0;padding:0 22px 56px;text-align:center; }
-    .manifeste-box { background:rgba(255,255,255,0.04);border-radius:14px;padding:26px;border:1px solid rgba(26,107,90,0.25); }
-    .manifeste-quote { color:#D4A843;font-size:32px;margin-bottom:10px; }
+    .manifeste { max-width:600px;margin:0 auto 0;padding:0 22px 32px;text-align:center; } /* MODIFIÉ : padding-bottom 56→32 */
+    .manifeste-box { background:rgba(255,255,255,0.04);border-radius:14px;padding:14px 26px 26px;border:1px solid rgba(26,107,90,0.25); }
+    .manifeste-quote { color:#D4A843;font-size:32px;margin-bottom:4px; }
     .manifeste-text  { color:#C8DDD9;font-size:18px;line-height:1.75;font-style:italic; }
     .manifeste-sub   { color:#7FA89E;font-size:15px;margin-top:6px; }
     .manifeste-credit{ margin-top:12px;font-size:12px;color:#6B7B78; }
@@ -218,10 +219,10 @@
 
     .hero-cycle-desc {
       color:#A8C5BC;font-size:15px;line-height:1.2;
-      max-width:580px;margin:0 auto 10px;
+      max-width:720px;margin:0 auto 10px; /* MODIFIÉ : max-width 580→720 */
     }
     /* ── HERO ENRICHI ── */
-    .hero-context { max-width:620px;margin:0 auto 24px;padding:0 4px; }
+    .hero-context { max-width:740px;margin:0 auto 16px;padding:0 4px; } /* MODIFIÉ : max-width 620→740, margin-bottom 24→16 */
     .hero-conf-tag {
       display:inline-block;background:rgba(212,168,67,0.15);border:2px solid rgba(212,168,67,0.5);
       color:#D4A843;border-radius:20px;padding:10px 24px;font-size:18px;font-weight:800;
@@ -484,7 +485,7 @@
     <div class="hero-context">
       <div class="hero-conf-tag">Conférence #02 · Se nourrir</div>
       <p class="hero-conf-desc">
-        Agriculteurs·trices, pêcheurs·euses, transformateurs·trices, acteurs·trices des circuits courts : qui nourrit vraiment la Guadeloupe quand les bateaux s'éloignent ?<br>Cette conférence prévue en Avril 2026 leur donnera la parole.
+        Agriculteurs·trices, pêcheurs·euses, transformateurs·trices, acteurs·trices des circuits courts : qui nourrit vraiment la Guadeloupe quand les bateaux s'éloignent ?<br><strong style="color: white;">Cette conférence prévue en Avril 2026 leur donnera la parole.</strong>
       </p>
       <div class="hero-conf-invite">
         <strong>Vous connaissez quelqu'un qui devrait être là ?</strong><br>
@@ -994,9 +995,6 @@ let autreRoleText = "";
 let autreFilieresTexts = {};
 
 
-
-
-
 // ══════════════════════════════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1071,19 +1069,12 @@ function goTo(viewId) {
   document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
   document.getElementById(viewId).classList.add("active");
   window.scrollTo(0, 0);
-  // Sur base-view, le bouton flottant monte légèrement pour éviter le conflit
-  // avec la barre de filtres
   const onBase = viewId === "base-view";
   const floatBtn = document.getElementById("partner-float-btn");
   const badgeBtn = document.getElementById("partner-badge-btn");
   if (floatBtn) floatBtn.style.top = onBase ? "10px" : "14px";
   if (badgeBtn) badgeBtn.style.top = onBase ? "10px" : "14px";
 }
-
-// ══════════════════════════════════════════════════════════════════════════════
-// STATS
-// ══════════════════════════════════════════════════════════════════════════════
-
 
 // ── DESKTOP PROPOSANT (non connecté) ─────────────────────────────────────────
 let desktopProposantType = null; // 'partner' | 'citizen'
@@ -1098,7 +1089,6 @@ function setDesktopProposantType(type) {
     btnP.style.background = "rgba(212,168,67,0.15)"; btnP.style.borderColor = "#D4A843"; btnP.style.color = "#D4A843";
     btnC.style.background = "transparent"; btnC.style.borderColor = "rgba(168,197,188,0.4)"; btnC.style.color = "#6B7B78";
     fpf.style.display = ""; fcf.style.display = "none";
-    // Ouvrir directement le modal d'accès partenaires
     setTimeout(() => openPartnerModal(), 150);
   } else {
     btnC.style.background = "rgba(42,138,116,0.1)"; btnC.style.borderColor = "#2A8A74"; btnC.style.color = "#2A8A74";
@@ -1111,7 +1101,6 @@ function setDesktopProposantType(type) {
 let mobileProposantType = null; // 'partner' | 'citizen'
 
 function initMobileProposantView() {
-  // Peupler le select mobile avec PARTNER_STRUCTURES
   const sel = document.getElementById("mob-structure-select");
   if (sel && sel.options.length <= 1) {
     PARTNER_STRUCTURES.forEach(s => {
@@ -1147,7 +1136,6 @@ function onMobileStructureChange() {
 }
 
 function getMobileProposantData() {
-  // Retourne { structure, prenom, nom } selon le type choisi
   if (mobileProposantType === "partner") {
     const struct = (document.getElementById("mob-structure-select")||{value:""}).value.trim();
     const prenom = (document.getElementById("mob-prenom")||{value:""}).value.trim();
@@ -1178,23 +1166,19 @@ function updateStats() {
   document.getElementById("stat-pi").textContent       = pi;
   document.getElementById("home-count").textContent    = total;
 
-  // Stats et bouton base visibles seulement pour les partenaires connecté·e·s
   const isPartner = partnerState.loggedIn;
   const mobile = isMobile();
   document.getElementById("home-stats").style.display        = (isPartner && !mobile) ? "" : "none";
   document.getElementById("btn-consulter-base").style.display = (isPartner && !mobile) ? "" : "none";
-
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
 // FORMULAIRE
 // ══════════════════════════════════════════════════════════════════════════════
 
-// Structure sélectionnée
 function onStructureChange() {
   const sel = document.getElementById("f-structure-select");
   const val = sel ? sel.value : "";
-  // Sync le hidden field
   const hidden = document.getElementById("f-structure");
   if (hidden) hidden.value = val;
   const pf = document.getElementById("proposant-fields");
@@ -1210,7 +1194,6 @@ function toggleRole(key, color, btn) {
     btn.classList.remove("on");
     btn.style.background = "";
     btn.style.color = "";
-    // Nettoyer le texte Autre rôle si décoché
     if (key === "autre_role") autreRoleText = "";
   } else {
     selectedRoles.push(key);
@@ -1227,13 +1210,12 @@ function renderFilieres() {
   const container = document.getElementById("filieres-container");
   container.innerHTML = "";
 
-  // Garder uniquement les filières valides (des rôles encore sélectionnés + Autre filières)
   const validFilieres = [];
   selectedRoles.forEach(key => {
     if (FILIERES_PAR_ROLE[key]) {
       if (FILIERES_PAR_ROLE[key].star) validFilieres.push(FILIERES_PAR_ROLE[key].star);
       FILIERES_PAR_ROLE[key].items.forEach(f => validFilieres.push(f));
-      validFilieres.push("__autre__" + key); // placeholder Autre
+      validFilieres.push("__autre__" + key);
     }
   });
   selectedFilieres = selectedFilieres.filter(f =>
@@ -1245,7 +1227,6 @@ function renderFilieres() {
     return;
   }
 
-  // Bloc rôle "Autre" : champ texte libre
   if (selectedRoles.includes("autre_role")) {
     const sec = document.createElement("div");
     sec.className = "filieres-section";
@@ -1257,26 +1238,21 @@ function renderFilieres() {
     container.appendChild(sec);
   }
 
-  // Sections filières par rôle — tout construit AVANT insertion dans le DOM
   selectedRoles.forEach(key => {
     if (!FILIERES_PAR_ROLE[key]) return;
     const cfg = FILIERES_PAR_ROLE[key];
 
-    // Conteneur de section
     const section = document.createElement("div");
     section.className = "filieres-section";
 
-    // Titre
     const titre = document.createElement("div");
     titre.className = "filieres-section-title";
     titre.textContent = cfg.titre;
     section.appendChild(titre);
 
-    // Wrap boutons
     const wrap = document.createElement("div");
     wrap.className = "filieres-wrap";
 
-    // Bouton ⭐ si présent
     if (cfg.star) {
       const starBtn = document.createElement("button");
       starBtn.className = "fil-btn-star" + (selectedFilieres.includes(cfg.star) ? " on" : "");
@@ -1290,7 +1266,6 @@ function renderFilieres() {
       wrap.appendChild(starBtn);
     }
 
-    // Boutons filières standard
     cfg.items.forEach(f => {
       const btn = document.createElement("button");
       btn.className = "fil-btn" + (selectedFilieres.includes(f) ? " on" : "");
@@ -1307,13 +1282,11 @@ function renderFilieres() {
       wrap.appendChild(btn);
     });
 
-    // Bouton "Autre…" pour cette section
     const autreBtn = document.createElement("button");
     autreBtn.className = "fil-btn" + (autreFilieresTexts[key] !== undefined ? " on" : "");
     autreBtn.textContent = "Autre…";
     wrap.appendChild(autreBtn);
 
-    // Champ texte "Autre filière" (créé maintenant, affiché selon état)
     const autreRow = document.createElement("div");
     autreRow.style.cssText = "width:100%;margin-top:8px;";
     const autreInput = document.createElement("input");
@@ -1326,7 +1299,6 @@ function renderFilieres() {
     autreRow.appendChild(autreInput);
     autreRow.style.display = autreFilieresTexts[key] !== undefined ? "block" : "none";
 
-    // Logique du bouton Autre (maintenant que autreRow est défini)
     autreBtn.onclick = () => {
       if (autreFilieresTexts[key] !== undefined) {
         delete autreFilieresTexts[key];
@@ -1341,7 +1313,6 @@ function renderFilieres() {
       }
     };
 
-    // Assembler : wrap puis champ Autre — tout dans section, puis section dans container
     section.appendChild(wrap);
     section.appendChild(autreRow);
     container.appendChild(section);
@@ -1350,7 +1321,6 @@ function renderFilieres() {
 
 // Pré-informé
 function setPi(val) {
-  // Réinitialiser tous les boutons sub
   document.querySelectorAll(".pi-sub-btn").forEach(b => b.classList.remove("on"));
   ["oui","non","encours"].forEach(id => document.getElementById("pi-"+id).classList.remove("on"));
   document.querySelectorAll(".pi-sub-btn").forEach(b => b.classList.remove("on"));
@@ -1358,10 +1328,9 @@ function setPi(val) {
   const subchoix = document.getElementById("pi-subchoix");
 
   if (val === "oui_expand") {
-    // Afficher les sous-choix, ne pas encore valider selectedPi
     document.getElementById("pi-oui").classList.add("on");
     subchoix.style.display = "block";
-    selectedPi = ""; // pas encore choisi
+    selectedPi = "";
   } else {
     subchoix.style.display = "none";
     selectedPi = val;
@@ -1405,7 +1374,6 @@ function resetForm() {
   const fsh = document.getElementById("f-structure"); if(fsh) fsh.value = "";
   const pf = document.getElementById("proposant-fields"); if(pf) pf.style.display = "none";
   const asf = document.getElementById("autre-structure-fields"); if(asf) asf.style.display = "none";
-  // Remettre la bonne vue proposant selon le statut
   const ppv = document.getElementById("proposant-partner-view");
   const puv = document.getElementById("proposant-public-view");
   const pmv = document.getElementById("proposant-mobile-view");
@@ -1476,6 +1444,13 @@ function clearErrors() {
   document.getElementById("global-error").textContent = "";
 }
 
+function showError(id, msg) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = msg;
+}
+
+function scrollToTop() { window.scrollTo(0,0); }
+
 // Soumission
 function submitForm() {
   clearErrors();
@@ -1491,12 +1466,10 @@ function submitForm() {
     return val;
   };
 
-  // Récupérer les données proposant selon contexte
   let _mobData = null;
   let _deskData = null;
 
   if (!isMobile() && !partnerState.loggedIn) {
-    // Desktop non connecté
     if (!desktopProposantType) { showError("err-structure","Choisissez Partenaire ou Citoyen·ne"); scrollToTop(); return; }
     if (desktopProposantType === "citizen") {
       const prenom = (document.getElementById("f-prenom-prop")||{value:""}).value.trim();
@@ -1507,7 +1480,6 @@ function submitForm() {
       _deskData = { structure: orga || "Citoyen·ne", prenom, nom };
       const fh = document.getElementById("f-structure"); if (fh) fh.value = _deskData.structure;
     }
-    // Si "partner" : l'utilisateur doit se connecter via le modal — on bloque
     if (desktopProposantType === "partner") {
       showError("err-structure","Veuillez vous identifier via 🔑 Accès partenaires avant de soumettre.");
       return;
@@ -1516,14 +1488,12 @@ function submitForm() {
 
   if (isMobile()) {
     _mobData = getMobileProposantData();
-    // Validation mobile
     if (!mobileProposantType) { showError("mob-err-structure","Choisissez Partenaire ou Citoyen·ne"); return; }
     if (mobileProposantType === "partner" && !_mobData.structure) { showError("mob-err-structure","Sélectionnez votre organisation"); return; }
     if (mobileProposantType === "citizen") {
       if (!_mobData.prenom) { showError("mob-err-cprenom","Prénom obligatoire"); return; }
       if (!_mobData.nom)    { showError("mob-err-cnom","Nom obligatoire"); return; }
     }
-    // Injecter dans les champs cachés
     const fh = document.getElementById("f-structure"); if (fh) fh.value = _mobData.structure;
     const fp = document.getElementById("f-autre-prenom"); if (fp) fp.value = _mobData.prenom;
     const fn = document.getElementById("f-autre-nom"); if (fn) fn.value = _mobData.nom;
@@ -1545,7 +1515,6 @@ function submitForm() {
     return;
   }
 
-  // Identité de la personne qui propose
   let structureLabel = structure;
   let proposePar = null;
   const propPrenom = _mobData ? _mobData.prenom : (_deskData ? _deskData.prenom : (partnerState.loggedIn ? (document.getElementById("f-autre-prenom")||{value:""}).value.trim() : (document.getElementById("f-prenom-prop")||{value:""}).value.trim()));
@@ -1560,7 +1529,6 @@ function submitForm() {
     proposePar = { prenom: propPrenom, nom: propNom, structure: structure };
   }
 
-  // Construire les rôles avec texte libre si "Autre"
   const rolesFinaux = selectedRoles.map(k => {
     if (k === "autre_role") {
       return autreRoleText ? "Autre : " + autreRoleText : "Autre";
@@ -1568,7 +1536,6 @@ function submitForm() {
     return ROLES_CONFIG.find(r => r.key===k).label;
   });
 
-  // Construire les filières avec les "Autre" texte libre
   const filieresFinales = [...selectedFilieres];
   Object.entries(autreFilieresTexts).forEach(([key, val]) => {
     if (val && val.trim()) filieresFinales.push("Autre (" + FILIERES_PAR_ROLE[key].titre.replace(/^[^ ]+ /, "") + ") : " + val.trim());
@@ -1592,14 +1559,12 @@ function submitForm() {
     remarques:     document.getElementById("f-remarques").value.trim(),
   };
 
-  // Afficher un indicateur d'envoi
   const submitBtn = document.querySelector('.form-actions .btn-primary');
   if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "Envoi en cours…"; }
 
-  // Envoyer vers Google Sheets via Apps Script
   fetch(API_URL, {
     method: "POST",
-    mode: "no-cors", // nécessaire pour Apps Script
+    mode: "no-cors",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(contact),
   })
@@ -1643,17 +1608,12 @@ function showConfirmRecap(c) {
     <div style="background:#fff;border-radius:16px;padding:28px 32px;text-align:left;max-width:560px;margin:0 auto;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
       <div style="font-size:22px;font-weight:800;color:#1C2B28;margin-bottom:4px;">${c.prenom} ${c.nom}</div>
       <div style="font-size:13px;color:#7FA89E;margin-bottom:20px;">${c.telephone||""} ${c.email ? "· "+c.email : ""}</div>
-
       <div style="display:grid;grid-template-columns:120px 1fr;gap:10px 16px;font-size:14px;color:#1C2B28;">
         <div style="color:#7FA89E;font-weight:600;">📍 Commune</div>
         <div style="font-weight:600;">${c.communeBase || "—"}</div>
-
         ${c.structure ? `<div style="color:#7FA89E;font-weight:600;">🏛 Structure</div><div>${c.structure}</div>` : ""}
-
         ${roles ? `<div style="color:#7FA89E;font-weight:600;">🎯 Rôles</div><div>${roles}</div>` : ""}
-
         ${filieres ? `<div style="color:#7FA89E;font-weight:600;">🌱 Filières</div><div>${filieres}</div>` : ""}
-
         ${c.motif ? `<div style="color:#7FA89E;font-weight:600;">💬 Motif</div><div style="font-style:italic;">"${c.motif}"</div>` : ""}
       </div>
     </div>`;
@@ -1679,10 +1639,8 @@ function rolesBadges(roles) {
   }).join(" ");
 }
 
-
 // ── Normalisation données Sheet → format attendu par l'app ──────────────────
 function normalizeSheetContact(c) {
-  // Mapping preinforme : valeurs Sheet → valeurs JS
   const PI_MAP = {
     "a contacter":                      "Non",
     "non":                              "Non",
@@ -1700,13 +1658,11 @@ function normalizeSheetContact(c) {
   const piRaw = (c.preinforme || "").toString().toLowerCase().trim();
   c.preinforme = PI_MAP[piRaw] || c.preinforme || "";
 
-  // Nettoyer communeBase (dédoublonner si "Commune, Commune")
   if (c.communeBase) {
     const parts = c.communeBase.split(",").map(s => s.trim()).filter(Boolean);
     c.communeBase = [...new Set(parts)][0] || "";
   }
 
-  // S'assurer que les champs tableau existent
   if (!Array.isArray(c.roles))            c.roles = c.roles ? [c.roles] : [];
   if (!Array.isArray(c.filieres))         c.filieres = c.filieres ? [c.filieres] : [];
   if (!Array.isArray(c.communesActivite)) c.communesActivite = [];
@@ -1714,14 +1670,12 @@ function normalizeSheetContact(c) {
   return c;
 }
 
-// Charge les contacts depuis Google Sheets via JSONP (contourne no-cors)
 function loadAndRenderBase() {
   const grid    = document.getElementById("cards-grid");
   const loading = document.getElementById("base-loading");
   grid.innerHTML = "";
   if (loading) loading.style.display = "block";
 
-  // Nettoyer tout ancien script JSONP résiduel
   const old = document.getElementById("_sibato_jsonp");
   if (old) old.remove();
 
@@ -1730,10 +1684,9 @@ function loadAndRenderBase() {
   const timeout = setTimeout(() => {
     if (settled) return;
     settled = true;
-    if (loading) loading.style.display = "none";
     const el = document.getElementById("_sibato_jsonp");
     if (el) el.remove();
-    renderBase(); // affiche ce qu'on a (cache local ou vide)
+    renderBase();
   }, 9000);
 
   window._sibatoCb = function(data) {
@@ -1755,7 +1708,7 @@ function loadAndRenderBase() {
 
   const script = document.createElement("script");
   script.id  = "_sibato_jsonp";
-  script.src = API_URL + "?callback=_sibatoCb&t=" + Date.now(); // cache-bust
+  script.src = API_URL + "?callback=_sibatoCb&t=" + Date.now();
   script.onerror = () => {
     if (settled) return;
     settled = true;
@@ -1773,9 +1726,6 @@ function renderBase() {
   const fSiege = (document.getElementById("filter-siege")||{}).value||"";
   const fPi    = document.getElementById("filter-pi").value;
 
-  // ── Confidentialité ──────────────────────────────────────────────────────
-  // Vue publique : uniquement les contacts soumis dans cette session
-  // Vue partenaire : tous les contacts
   let sourceContacts = contacts;
   if (!partnerState.loggedIn) {
     const myIds = JSON.parse(localStorage.getItem("sibato_my_contacts") || "[]");
@@ -1836,8 +1786,6 @@ function openFiche(id) {
 
   document.getElementById("fiche-header-name").textContent = c.prenom + " " + c.nom;
   const dateStr = new Date(c.createdAt).toLocaleDateString("fr-FR", {day:"numeric",month:"long",year:"numeric"});
-
-  const communesStr = [c.communeBase, ...(c.communesActivite||[])].filter(Boolean);
 
   document.getElementById("fiche-body").innerHTML = `
     <div class="fiche-card">
@@ -1920,10 +1868,9 @@ let partnerState = {
   loggedIn: false, structId: null, structName: null,
   memberName: null, memberFn: null,
 };
-let currentStruct = null; // structure choisie à l'étape 1
-let reqFromPwdStep = false; // true si "je n'ai pas le mdp", false si "demander accès"
+let currentStruct = null;
+let reqFromPwdStep = false;
 
-// ── Ouverture / fermeture ─────────────────────────────────────────────────────
 function openPartnerModal() {
   renderStructList();
   showPStep(1);
@@ -1939,7 +1886,6 @@ function onModalOverlayClick(e) {
   if (e.target === document.getElementById("partner-modal")) closePartnerModal();
 }
 
-// ── Navigation étapes ─────────────────────────────────────────────────────────
 function showPStep(step, fromPwd) {
   ["1","2","3","req","confirm"].forEach(s =>
     document.getElementById("pstep-"+s).style.display = "none"
@@ -1956,14 +1902,11 @@ function showPStep(step, fromPwd) {
   }
   if (step === "req") {
     if (fromPwd !== undefined) reqFromPwdStep = fromPwd;
-    // Pré-remplir la structure
     if (currentStruct) document.getElementById("req-structure").value = currentStruct.name;
-    // Bouton retour : vers étape 2 si "pas de mdp", vers étape 3 sinon
     document.getElementById("req-back-btn").onclick = () => showPStep(reqFromPwdStep ? 2 : 3);
   }
 }
 
-// ── Étape 1 : liste structures ────────────────────────────────────────────────
 function renderStructList() {
   document.getElementById("struct-list").innerHTML = PARTNER_STRUCTURES.map(s =>
     `<div class="struct-item" onclick="selectStruct('${s.id}','${s.name.replace(/'/g,"\\'")}')">
@@ -1979,7 +1922,6 @@ function selectStruct(id, name) {
   showPStep(2);
 }
 
-// ── Étape 2 : vérification mot de passe ──────────────────────────────────────
 function checkPassword() {
   const val = document.getElementById("pwd-input").value;
   if (val !== PARTNER_PASSWORD) {
@@ -1993,18 +1935,15 @@ function checkPassword() {
   showPStep(3);
 }
 
-// ── Étape 3 : chargement membres ─────────────────────────────────────────────
 function loadMembersForStruct(struct) {
   const c = document.getElementById("members-container");
   c.innerHTML = '<div class="members-loading">⏳ Chargement des membres…</div>';
 
-
-  // Nettoyer tout résidu d'un appel précédent
   const old = document.getElementById("_mjsonp");
   if (old) old.remove();
   if (window._membersCb) delete window._membersCb;
 
-  let settled = false; // garantit qu'on ne rend qu'une seule fois
+  let settled = false;
 
   const timeoutId = setTimeout(() => {
     if (settled) return;
@@ -2080,7 +2019,6 @@ function renderMembersEmpty(struct) {
 
 function esc(str) { return (str||"").replace(/'/g,"\\'").replace(/"/g,"&quot;"); }
 
-// ── Connexion ─────────────────────────────────────────────────────────────────
 function loginAs(prenom, nom, fn, structId, structName) {
   partnerState.loggedIn      = true;
   partnerState.structId      = structId;
@@ -2097,7 +2035,6 @@ function loginAs(prenom, nom, fn, structId, structName) {
   closePartnerModal();
   updateStats();
   renderBase();
-  // Si on est sur le formulaire, mettre à jour la section proposant
   const formView = document.getElementById("form-view");
   if (formView && formView.style.display !== "none") {
     const ppv = document.getElementById("proposant-partner-view");
@@ -2111,23 +2048,19 @@ function loginAs(prenom, nom, fn, structId, structName) {
 
 function autoFillForm(structName, prenom, nom) {
   if (partnerState.loggedIn) {
-    // Vue partenaire : card lecture seule
     const ppv = document.getElementById("proposant-partner-view");
     const puv = document.getElementById("proposant-public-view");
     if (ppv) ppv.style.display = "block";
     if (puv) puv.style.display = "none";
-    // Champs cachés pour soumission
     const fh = document.getElementById("f-structure"); if (fh) fh.value = structName;
     const fp = document.getElementById("f-autre-prenom"); if (fp) fp.value = prenom||"";
     const fn = document.getElementById("f-autre-nom");    if (fn) fn.value = nom||"";
-    // Affichage card
     const displayName = (prenom && nom) ? prenom+" "+nom : structName;
     const ne = document.getElementById("partner-name-form");   if (ne) ne.textContent = displayName;
     const se = document.getElementById("partner-struct-form"); if (se) se.textContent = structName;
     const ae = document.getElementById("partner-avatar-form");
     if (ae) ae.textContent = ((prenom||structName)[0]||"?").toUpperCase()+((nom||"")[0]||"").toUpperCase();
   } else {
-    // Vue publique : saisie libre
     const ppv = document.getElementById("proposant-partner-view");
     const puv = document.getElementById("proposant-public-view");
     if (ppv) ppv.style.display = "none";
@@ -2145,7 +2078,6 @@ function autoFillForm(structName, prenom, nom) {
   }
 }
 
-// ── Déconnexion ───────────────────────────────────────────────────────────────
 function logoutPartner() {
   partnerState = { loggedIn:false, structId:null, structureName:null, memberName:null, memberFn:null };
   document.getElementById("partner-float-btn").style.display = "";
@@ -2154,7 +2086,6 @@ function logoutPartner() {
   renderBase();
 }
 
-// ── Formulaire demande d'accès ────────────────────────────────────────────────
 function submitAccessRequest() {
   const prenom    = document.getElementById("req-prenom").value.trim();
   const nom       = document.getElementById("req-nom").value.trim();
@@ -2179,13 +2110,10 @@ function submitAccessRequest() {
   .finally(() => {
     btn.disabled = false; btn.textContent = "Envoyer la demande →";
     if (!reqFromPwdStep) {
-      // Compte nominatif : connecter automatiquement la personne
       const structName = (currentStruct && currentStruct.name) || structure;
       const structId   = (currentStruct && currentStruct.id)   || structure.toLowerCase().replace(/\s+/g,"_");
       loginAs(prenom, nom, role, structId, structName);
-      // Pas de showPStep("confirm") — loginAs ferme déjà le modal
     } else {
-      // Demande de mot de passe : juste confirmer
       ["req-prenom","req-nom","req-role","req-email"].forEach(id =>
         document.getElementById(id).value = ""
       );
@@ -2193,7 +2121,6 @@ function submitAccessRequest() {
     }
   });
 }
-
 
 // ══════════════════════════════════════════════════════════════════════════════
 // DÉMARRAGE
