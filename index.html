@@ -1719,6 +1719,48 @@ function loadAndRenderBase() {
   document.head.appendChild(script);
 }
 
+// ── Chargement silencieux (arrière-plan, sans changer de vue) ─────────────────
+function loadContactsSilent() {
+  if (window._sibatoCb) return; // chargement déjà en cours
+  const old = document.getElementById("_sibato_jsonp");
+  if (old) old.remove();
+
+  let settled = false;
+  const timeout = setTimeout(() => {
+    settled = true;
+    const el = document.getElementById("_sibato_jsonp");
+    if (el) el.remove();
+  }, 9000);
+
+  window._sibatoCb = function(data) {
+    if (settled) return;
+    settled = true;
+    clearTimeout(timeout);
+    if (data.status === "ok" && Array.isArray(data.contacts)) {
+      contacts = data.contacts.map(normalizeSheetContact);
+      localStorage.setItem(SK, JSON.stringify(contacts));
+      remoteLoaded = true;
+      updateStats(); // met à jour les compteurs sur home
+    }
+    const el = document.getElementById("_sibato_jsonp");
+    if (el) el.remove();
+    delete window._sibatoCb;
+  };
+
+  const script = document.createElement("script");
+  script.id  = "_sibato_jsonp";
+  script.src = API_URL + "?callback=_sibatoCb&t=" + Date.now();
+  script.onerror = () => {
+    if (settled) return;
+    settled = true;
+    clearTimeout(timeout);
+    const el = document.getElementById("_sibato_jsonp");
+    if (el) el.remove();
+    delete window._sibatoCb;
+  };
+  document.head.appendChild(script);
+}
+
 function renderBase() {
   const search = (document.getElementById("search-input").value||"").toLowerCase();
   const fRole  = document.getElementById("filter-role").value;
@@ -2033,6 +2075,7 @@ function loginAs(prenom, nom, fn, structId, structName) {
 
   autoFillForm(structName, prenom, nom);
   closePartnerModal();
+  loadContactsSilent(); // charge la base en arrière-plan dès la connexion
   updateStats();
   renderBase();
   const formView = document.getElementById("form-view");
