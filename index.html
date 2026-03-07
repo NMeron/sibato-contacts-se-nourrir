@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Si bato pa rivé — Contacts Conférence #02</title>
+  <title>Si bato pa rivé, ka nou ka fè — Conférence #02 · Se nourrir | Donner la parole à ceux qui nourrissent la Guadeloupe</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #1C2B28; }
@@ -58,10 +58,10 @@
 
     .section-title { display:flex;align-items:center;gap:12px;margin:28px 0 16px; }
     .section-num { width:28px;height:28px;border-radius:50%;background:#1A6B5A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0; }
-    .section-label { font-size:16px;font-weight:800;color:#1C2B28; }
+    .section-label { font-size:18px;font-weight:800;color:#1C2B28; }
 
     .field { margin-bottom:14px; }
-    .field label { font-size:13px;font-weight:600;color:#1A6B5A;margin-bottom:4px;display:block; }
+    .field label { font-size:17px;font-weight:600;color:#1A6B5A;margin-bottom:4px;display:block; }
     .field .hint  { font-size:12px;color:#6B7B78;margin-bottom:6px; }
     .field input, .field select, .field textarea {
       width:100%;padding:10px 14px;border-radius:8px;font-size:14px;
@@ -91,10 +91,10 @@
     /* Filières dynamiques */
     .filieres-section { margin-bottom:10px; }
     .filieres-section-title {
-      font-size:14px;font-weight:800;color:#1A6B5A;
+      font-size:18px;font-weight:800;color:#1A6B5A;
       margin-bottom:10px;padding:8px 14px;
       background:#E8F0EE;border-radius:8px;
-      border-left:4px solid #1A6B5A;
+      border-left:6px solid #1A6B5A;
     }
     .fil-btn-star {
       background:#fff;color:#1A6B5A;border:2px dashed #1A6B5A;border-radius:10px;
@@ -542,7 +542,7 @@
   <div id="form-fields" class="form-body">
 
     <!-- SECTION 1 : Qui propose -->
-    <div class="section-title"><div class="section-num">1</div><div class="section-label">Qui propose ce contact ?</div></div>
+    <div class="section-title"><div class="section-num">1</div><div class="section-label">Vous êtes un·e ?</div></div>
 
     <!-- ── VUE PARTENAIRE CONNECTÉ·E (ordi) : lecture seule, pas de question ── -->
     <div id="proposant-partner-view" style="display:none;background:rgba(26,107,90,0.08);border:1.5px solid rgba(26,107,90,0.25);border-radius:12px;padding:14px 16px;margin-bottom:12px;">
@@ -667,7 +667,7 @@
     </div>
 
     <!-- SECTION 2 : Identité -->
-    <div class="section-title"><div class="section-num">2</div><div class="section-label">Identité du contact proposé</div></div>
+    <div class="section-title"><div class="section-num">2</div><div class="section-label">Qui souhaitez-vous mettre en avant ?</div></div>
     <div class="grid2">
       <div class="field" id="field-prenom">
         <label>Prénom *</label>
@@ -696,14 +696,14 @@
 
     <!-- Rôle principal -->
     <div class="field" id="field-role">
-      <label>Rôle principal * <span style="font-weight:400;color:#6B7B78">(choisir au moins un)</span></label>
+      <label>Activités du contact que vous partagez * <span style="font-weight:400;color:#6B7B78">(choisir au moins un)</span></label>
       <div class="roles-wrap" id="roles-wrap"></div>
       <div class="field-error" id="err-role"></div>
     </div>
 
     <!-- Filières dynamiques -->
     <div class="field">
-      <label style="font-size:15px;font-weight:700;color:#1C2B28;">Filières / Spécialités <span style="font-weight:500;font-size:13px;color:#6B7B78">(selon les rôles sélectionnés)</span></label>
+      <label>Filières / Spécialités <span style="font-weight:400;color:#6B7B78">(selon les rôles sélectionnés)</span></label>
       <div id="filieres-container">
         <div class="filieres-empty">← Sélectionnez d'abord un ou plusieurs rôles ci-dessus.</div>
       </div>
