@@ -197,10 +197,15 @@
 
     @media(max-width:500px){
       .hero h1 { font-size:32px; }
+      .partner-float-btn { font-size:11px;padding:7px 12px;top:8px;right:8px; }
+      .partner-badge-btn { font-size:10px;padding:6px 10px;top:8px;right:8px;max-width:160px; }
+      #partner-badge-label { overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100px; }
       .grid2 { grid-template-columns:1fr; }
       .grid3 { grid-template-columns:1fr; }
       /* ── Resserrement mobile ── */
-      .hero { padding: 28px 18px 18px; }
+      .hero { padding: 48px 18px 18px; }
+      #partner-float-btn { display:none !important; }
+      #partner-badge-btn { display:none !important; }
       .hero-tag { font-size:11px; letter-spacing:1.5px; margin-bottom:10px; }
       .hero h1.gold { margin-bottom:14px; }
       .hero-cycle-desc { font-size:13px; margin:0 auto 8px; }
@@ -538,7 +543,7 @@
     <!-- SECTION 1 : Qui propose -->
     <div class="section-title"><div class="section-num">1</div><div class="section-label">Qui propose ce contact ?</div></div>
 
-    <!-- VUE PARTENAIRE CONNECTÉ·E : lecture seule -->
+    <!-- ── VUE PARTENAIRE CONNECTÉ·E (ordi) : lecture seule, pas de question ── -->
     <div id="proposant-partner-view" style="display:none;background:rgba(26,107,90,0.08);border:1.5px solid rgba(26,107,90,0.25);border-radius:12px;padding:14px 16px;margin-bottom:12px;">
       <div style="display:flex;align-items:center;gap:10px;">
         <div style="width:36px;height:36px;border-radius:50%;background:#1A6B5A;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:13px;flex-shrink:0;" id="partner-avatar-form">?</div>
@@ -547,13 +552,72 @@
           <div style="color:#7FA89E;font-size:12px;" id="partner-struct-form">—</div>
         </div>
       </div>
-      <!-- Champs cachés pour la soumission -->
       <input type="hidden" id="f-structure" />
       <input type="hidden" id="f-autre-prenom" />
       <input type="hidden" id="f-autre-nom" />
     </div>
 
-    <!-- VUE PUBLIQUE : saisie libre -->
+    <!-- ── VUE MOBILE : choix Partenaire / Citoyen ── -->
+    <div id="proposant-mobile-view" style="display:none;">
+      <div style="display:flex;gap:10px;margin-bottom:14px;">
+        <button type="button" id="mob-btn-partner"
+          onclick="setMobileProposantType('partner')"
+          style="flex:1;padding:12px 8px;border-radius:10px;border:2px solid rgba(212,168,67,0.4);background:transparent;color:#A8C5BC;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s;">
+          🤝 Partenaire du projet
+        </button>
+        <button type="button" id="mob-btn-citizen"
+          onclick="setMobileProposantType('citizen')"
+          style="flex:1;padding:12px 8px;border-radius:10px;border:2px solid rgba(168,197,188,0.4);background:transparent;color:#A8C5BC;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s;">
+          🙋 Citoyen·ne contributeur·trice
+        </button>
+      </div>
+
+      <!-- Partenaire mobile -->
+      <div id="mob-partner-fields" style="display:none;">
+        <div class="field">
+          <label>Votre organisation *</label>
+          <select id="mob-structure-select" onchange="onMobileStructureChange()">
+            <option value="">— Sélectionner —</option>
+          </select>
+          <div class="field-error" id="mob-err-structure"></div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Votre prénom <span style="color:#7FA89E;font-weight:400;">(optionnel)</span></label>
+            <input type="text" id="mob-prenom" placeholder="Marie" />
+          </div>
+          <div class="field">
+            <label>Votre nom <span style="color:#7FA89E;font-weight:400;">(optionnel)</span></label>
+            <input type="text" id="mob-nom" placeholder="THÉODORE" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Citoyen·ne mobile -->
+      <div id="mob-citizen-fields" style="display:none;">
+        <div class="grid2">
+          <div class="field">
+            <label>Votre prénom *</label>
+            <input type="text" id="mob-citizen-prenom" placeholder="Marie" />
+            <div class="field-error" id="mob-err-cprenom"></div>
+          </div>
+          <div class="field">
+            <label>Votre nom *</label>
+            <input type="text" id="mob-citizen-nom" placeholder="THÉODORE" />
+            <div class="field-error" id="mob-err-cnom"></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Organisation <span style="color:#7FA89E;font-weight:400;">(optionnel)</span></label>
+          <input type="text" id="mob-citizen-orga" placeholder="Association, école, entreprise…" />
+        </div>
+      </div>
+      <input type="hidden" id="f-structure" />
+      <input type="hidden" id="f-autre-prenom" />
+      <input type="hidden" id="f-autre-nom" />
+    </div>
+
+    <!-- ── VUE PUBLIQUE ordi : saisie libre ── -->
     <div id="proposant-public-view">
       <div class="field" id="field-structure">
         <label>Structure partenaire référente *</label>
@@ -579,7 +643,6 @@
         </div>
       </div>
 
-      <!-- Champ structure libre si "Autre" -->
       <div id="autre-structure-fields" style="display:none">
         <div class="field" style="margin-top:4px;">
           <label>Nom de votre structure / organisation</label>
@@ -1006,6 +1069,66 @@ function goTo(viewId) {
 // ══════════════════════════════════════════════════════════════════════════════
 // STATS
 // ══════════════════════════════════════════════════════════════════════════════
+
+// ── MOBILE PROPOSANT ─────────────────────────────────────────────────────────
+let mobileProposantType = null; // 'partner' | 'citizen'
+
+function initMobileProposantView() {
+  // Peupler le select mobile avec PARTNER_STRUCTURES
+  const sel = document.getElementById("mob-structure-select");
+  if (sel && sel.options.length <= 1) {
+    PARTNER_STRUCTURES.forEach(s => {
+      const o = document.createElement("option");
+      o.value = s.name; o.textContent = s.name;
+      sel.appendChild(o);
+    });
+  }
+}
+
+function setMobileProposantType(type) {
+  mobileProposantType = type;
+  const btnP = document.getElementById("mob-btn-partner");
+  const btnC = document.getElementById("mob-btn-citizen");
+  const fpf  = document.getElementById("mob-partner-fields");
+  const fcf  = document.getElementById("mob-citizen-fields");
+  if (type === "partner") {
+    btnP.style.background = "rgba(212,168,67,0.2)"; btnP.style.borderColor = "#D4A843"; btnP.style.color = "#D4A843";
+    btnC.style.background = "transparent"; btnC.style.borderColor = "rgba(168,197,188,0.4)"; btnC.style.color = "#A8C5BC";
+    fpf.style.display = ""; fcf.style.display = "none";
+    initMobileProposantView();
+  } else {
+    btnC.style.background = "rgba(168,197,188,0.15)"; btnC.style.borderColor = "#A8C5BC"; btnC.style.color = "#A8C5BC";
+    btnP.style.background = "transparent"; btnP.style.borderColor = "rgba(212,168,67,0.4)"; btnP.style.color = "#A8C5BC";
+    fcf.style.display = ""; fpf.style.display = "none";
+  }
+}
+
+function onMobileStructureChange() {
+  const val = document.getElementById("mob-structure-select").value;
+  const h = document.getElementById("f-structure");
+  if (h) h.value = val;
+}
+
+function getMobileProposantData() {
+  // Retourne { structure, prenom, nom } selon le type choisi
+  if (mobileProposantType === "partner") {
+    const struct = (document.getElementById("mob-structure-select")||{value:""}).value.trim();
+    const prenom = (document.getElementById("mob-prenom")||{value:""}).value.trim();
+    const nom    = (document.getElementById("mob-nom")||{value:""}).value.trim();
+    return { structure: struct, prenom, nom };
+  } else if (mobileProposantType === "citizen") {
+    const prenom = (document.getElementById("mob-citizen-prenom")||{value:""}).value.trim();
+    const nom    = (document.getElementById("mob-citizen-nom")||{value:""}).value.trim();
+    const orga   = (document.getElementById("mob-citizen-orga")||{value:""}).value.trim();
+    return { structure: orga || "Citoyen·ne", prenom, nom };
+  }
+  return { structure: "", prenom: "", nom: "" };
+}
+
+function isMobile() {
+  return window.innerWidth <= 768 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
 function updateStats() {
   const total    = contacts.length;
   const structs  = new Set(contacts.map(c => c.structure)).size;
@@ -1020,8 +1143,10 @@ function updateStats() {
 
   // Stats et bouton base visibles seulement pour les partenaires connecté·e·s
   const isPartner = partnerState.loggedIn;
-  document.getElementById("home-stats").style.display       = isPartner ? "" : "none";
-  document.getElementById("btn-consulter-base").style.display = isPartner ? "" : "none";
+  const mobile = isMobile();
+  document.getElementById("home-stats").style.display        = (isPartner && !mobile) ? "" : "none";
+  document.getElementById("btn-consulter-base").style.display = (isPartner && !mobile) ? "" : "none";
+
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1246,14 +1371,30 @@ function resetForm() {
   // Remettre la bonne vue proposant selon le statut
   const ppv = document.getElementById("proposant-partner-view");
   const puv = document.getElementById("proposant-public-view");
-  if (partnerState.loggedIn) {
+  const pmv = document.getElementById("proposant-mobile-view");
+  const mobile = isMobile();
+  if (mobile) {
+    if (ppv) ppv.style.display = "none";
+    if (puv) puv.style.display = "none";
+    if (pmv) pmv.style.display = "block";
+    mobileProposantType = null;
+    ["mob-btn-partner","mob-btn-citizen"].forEach(id => {
+      const b = document.getElementById(id);
+      if (b) { b.style.background="transparent"; b.style.color="#A8C5BC";
+               b.style.borderColor = id==="mob-btn-partner" ? "rgba(212,168,67,0.4)" : "rgba(168,197,188,0.4)"; }
+    });
+    ["mob-partner-fields","mob-citizen-fields"].forEach(id => {
+      const el = document.getElementById(id); if (el) el.style.display="none";
+    });
+  } else if (partnerState.loggedIn) {
     if (ppv) ppv.style.display = "block";
     if (puv) puv.style.display = "none";
-    // Ré-injecter les données du partenaire connecté
+    if (pmv) pmv.style.display = "none";
     autoFillForm(partnerState.structureName||"", partnerState.memberName ? partnerState.memberName.split(" ")[0] : "", partnerState.memberName ? partnerState.memberName.split(" ").slice(1).join(" ") : "");
   } else {
     if (ppv) ppv.style.display = "none";
     if (puv) puv.style.display = "block";
+    if (pmv) pmv.style.display = "none";
   }
   ["f-prenom-prop","f-nom-prop","f-autre-structure-nom","f-prenom","f-nom","f-telephone","f-email","f-motif","f-remarques"].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = "";
@@ -1304,6 +1445,22 @@ function submitForm() {
     return val;
   };
 
+  // Sur mobile, récupérer les données du proposant depuis la vue mobile
+  let _mobData = null;
+  if (isMobile()) {
+    _mobData = getMobileProposantData();
+    // Validation mobile
+    if (!mobileProposantType) { showError("mob-err-structure","Choisissez Partenaire ou Citoyen·ne"); return; }
+    if (mobileProposantType === "partner" && !_mobData.structure) { showError("mob-err-structure","Sélectionnez votre organisation"); return; }
+    if (mobileProposantType === "citizen") {
+      if (!_mobData.prenom) { showError("mob-err-cprenom","Prénom obligatoire"); return; }
+      if (!_mobData.nom)    { showError("mob-err-cnom","Nom obligatoire"); return; }
+    }
+    // Injecter dans les champs cachés
+    const fh = document.getElementById("f-structure"); if (fh) fh.value = _mobData.structure;
+    const fp = document.getElementById("f-autre-prenom"); if (fp) fp.value = _mobData.prenom;
+    const fn = document.getElementById("f-autre-nom"); if (fn) fn.value = _mobData.nom;
+  }
   const structure    = check("structure",    "structure",    () => { const h=document.getElementById("f-structure"); const s=document.getElementById("f-structure-select"); return h&&h.value ? h.value : (s ? s.value : ""); });
   const prenom       = check("prenom",       "prenom");
   const nom          = check("nom",          "nom");
@@ -1324,8 +1481,8 @@ function submitForm() {
   // Identité de la personne qui propose
   let structureLabel = structure;
   let proposePar = null;
-  const propPrenom = partnerState.loggedIn ? (document.getElementById("f-autre-prenom")||{value:""}).value.trim() : (document.getElementById("f-prenom-prop")||{value:""}).value.trim();
-  const propNom    = partnerState.loggedIn ? (document.getElementById("f-autre-nom")||{value:""}).value.trim()    : (document.getElementById("f-nom-prop")||{value:""}).value.trim();
+  const propPrenom = _mobData ? _mobData.prenom : (partnerState.loggedIn ? (document.getElementById("f-autre-prenom")||{value:""}).value.trim() : (document.getElementById("f-prenom-prop")||{value:""}).value.trim());
+  const propNom    = _mobData ? _mobData.nom    : (partnerState.loggedIn ? (document.getElementById("f-autre-nom")||{value:""}).value.trim()    : (document.getElementById("f-nom-prop")||{value:""}).value.trim());
   if (structure === "Autre") {
     const as = document.getElementById("f-autre-structure-nom").value.trim();
     if (propPrenom || propNom || as) {
@@ -1673,17 +1830,23 @@ const PARTNER_PASSWORD = "SiBato971#";
 const SHEET_ID_CONST   = "1yfR-3MUJJa3TDzfi7NHS2L7S8XrATLSppXBA50XAYCY";
 
 const PARTNER_STRUCTURES = [
-  { id:"creddi",  name:"CREDDI / Université des Antilles" },
-  { id:"cangt",   name:"CANGT — Nord Grande-Terre" },
-  { id:"capex",   name:"CAP Excellence" },
-  { id:"carl",    name:"CARL — Riviera du Levant" },
-  { id:"canbt",   name:"CANBT — Nord Basse-Terre" },
-  { id:"cap2030", name:"CAP2030" },
-  { id:"png",     name:"Parc National de Guadeloupe" },
-  { id:"pap",     name:"Ville de Pointe-à-Pitre" },
-  { id:"bm",      name:"Ville de Baie-Mahault" },
-  { id:"dot",     name:"Dot Soley" },
-  { id:"phyto",   name:"Laboratoire Phytobokaz" },
+  { id:"cap2030",           name:"CAP2030" },
+  { id:"ua",                name:"Université des Antilles" },
+  { id:"cangt",             name:"CA Nord Grande-Terre" },
+  { id:"capex",             name:"CAP Excellence" },
+  { id:"pap",               name:"Ville de Pointe-à-Pitre" },
+  { id:"mornealeau",        name:"Ville de Morne-à-l\'Eau" },
+  { id:"phytobokaz",        name:"Laboratoire Phytobokaz" },
+  { id:"yvon",              name:"Yvon Josept" },
+  { id:"deal",              name:"DEAL Guadeloupe" },
+  { id:"parcnational",      name:"Parc national de Guadeloupe" },
+  { id:"inrae",             name:"INRAE Antilles-Guyane" },
+  { id:"regionguadeloupe",  name:"Région Guadeloupe" },
+  { id:"daaf",              name:"DAAF Guadeloupe" },
+  { id:"chambagri",         name:"Chambre d\'Agriculture Guadeloupe" },
+  { id:"ca-riviera-levant", name:"CA Riviera du Levant / CNFPT" },
+  { id:"apeca",             name:"APECA / Exploitation agricole" },
+  { id:"aplamedarom",       name:"APLAMEDAROM" },
 ];
 
 let partnerState = {
