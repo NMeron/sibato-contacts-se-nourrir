@@ -24,7 +24,7 @@
     }
     .hero-circle1 { position:absolute;top:-70px;right:-70px;width:220px;height:220px;border-radius:50%;background:rgba(212,168,67,0.07); }
     .hero-circle2 { position:absolute;bottom:-50px;left:-50px;width:180px;height:180px;border-radius:50%;background:rgba(42,138,116,0.1); }
-    .hero-tag { font-size:22px;letter-spacing:2px;color:#D4A843;font-weight:700;text-transform:uppercase;margin-bottom:18px; }
+    .hero-tag { font-size:26px;letter-spacing:2px;color:#D4A843;font-weight:700;text-transform:uppercase;margin-bottom:18px; }
     .hero h1 { font-size:42px;font-weight:900;line-height:1.1; }
     .hero h1.white { color:#fff;margin-bottom:4px; }
     .hero h1.gold  { color:#D4A843;margin-bottom:16px; } /* MODIFIÉ : était 28px */
@@ -232,7 +232,7 @@
     .hero-conf-invite {
       background:rgba(26,107,90,0.2);border-left:3px solid #1A6B5A;
       border-radius:0 8px 8px 0;padding:12px 16px;
-      color:#A8C5BC;font-size:13px;line-height:1.65;
+      color:#A8C5BC;font-size:15px;line-height:1.65;
     }
     .hero-conf-invite strong { color:#fff; }
 
@@ -489,7 +489,7 @@
       </p>
       <div class="hero-conf-invite">
         <strong>Vous connaissez quelqu'un qui devrait être là ?</strong><br>
-        Proposez les contacts de celles et ceux qui font vivre notre alimentation locale — producteurs inspirants, initiatives remarquables, voix essentielles.<br>Chaque contact compte.
+        Proposez les contacts de celles et ceux qui permettent, en Guadeloupe, d'avoir une alimentation locale, saine et respectueuse de l'environnement — agriculteurs·trices, pêcheurs·euses, transformateurs·trices, distributeurs·trices, chercheurs·euses, acteurs·trices associatifs·ves….<br><strong>Chaque voix et contact compte 🌱</strong>
       </div>
     </div>
 
@@ -1719,48 +1719,6 @@ function loadAndRenderBase() {
   document.head.appendChild(script);
 }
 
-// ── Chargement silencieux (arrière-plan, sans changer de vue) ─────────────────
-function loadContactsSilent() {
-  if (window._sibatoCb) return; // chargement déjà en cours
-  const old = document.getElementById("_sibato_jsonp");
-  if (old) old.remove();
-
-  let settled = false;
-  const timeout = setTimeout(() => {
-    settled = true;
-    const el = document.getElementById("_sibato_jsonp");
-    if (el) el.remove();
-  }, 9000);
-
-  window._sibatoCb = function(data) {
-    if (settled) return;
-    settled = true;
-    clearTimeout(timeout);
-    if (data.status === "ok" && Array.isArray(data.contacts)) {
-      contacts = data.contacts.map(normalizeSheetContact);
-      localStorage.setItem(SK, JSON.stringify(contacts));
-      remoteLoaded = true;
-      updateStats(); // met à jour les compteurs sur home
-    }
-    const el = document.getElementById("_sibato_jsonp");
-    if (el) el.remove();
-    delete window._sibatoCb;
-  };
-
-  const script = document.createElement("script");
-  script.id  = "_sibato_jsonp";
-  script.src = API_URL + "?callback=_sibatoCb&t=" + Date.now();
-  script.onerror = () => {
-    if (settled) return;
-    settled = true;
-    clearTimeout(timeout);
-    const el = document.getElementById("_sibato_jsonp");
-    if (el) el.remove();
-    delete window._sibatoCb;
-  };
-  document.head.appendChild(script);
-}
-
 function renderBase() {
   const search = (document.getElementById("search-input").value||"").toLowerCase();
   const fRole  = document.getElementById("filter-role").value;
@@ -2075,7 +2033,6 @@ function loginAs(prenom, nom, fn, structId, structName) {
 
   autoFillForm(structName, prenom, nom);
   closePartnerModal();
-  loadContactsSilent(); // charge la base en arrière-plan dès la connexion
   updateStats();
   renderBase();
   const formView = document.getElementById("form-view");
