@@ -449,7 +449,7 @@
         <input class="req-input" type="text" id="req-role" placeholder="Chargé·e de mission PAT…" />
       </div>
       <div class="req-field">
-        <label>Email</label>
+        <label>Email *</label>
         <input class="req-input" type="email" id="req-email" placeholder="contact@organisation.fr" />
       </div>
       <div class="pwd-error" id="req-error"></div>
@@ -462,8 +462,8 @@
       <div class="access-confirm">
         <div class="big-icon">✅</div>
         <h3>Demande envoyée !</h3>
-        <p>Votre demande a bien été transmise. <strong>Nous vous répondrons sous 48h</strong> avec le mot de passe d'accès.</p>
-        <button class="mbtn-ghost" onclick="closePartnerModal()">Continuer en vue publique</button>
+        <p id="confirm-msg">Votre demande a bien été transmise. <strong>Nous vous répondrons sous 48h</strong>.</p>
+        <button class="mbtn-ghost" id="confirm-close-btn" onclick="closePartnerModal()">Fermer</button>
       </div>
     </div>
 
@@ -617,38 +617,52 @@
       <input type="hidden" id="f-autre-nom" />
     </div>
 
-    <!-- ── VUE PUBLIQUE ordi : saisie libre ── -->
+    <!-- ── VUE PUBLIQUE ordi : 2 boutons Partenaire / Citoyen ── -->
     <div id="proposant-public-view">
-      <div class="field" id="field-structure">
-        <label>Structure partenaire référente *</label>
-        <select id="f-structure-select" onchange="onStructureChange()">
-          <option value="">— Sélectionner —</option>
-        </select>
+      <div style="display:flex;gap:10px;margin-bottom:14px;">
+        <button type="button" id="desk-btn-partner"
+          onclick="setDesktopProposantType('partner')"
+          style="flex:1;padding:12px 8px;border-radius:10px;border:2px solid rgba(212,168,67,0.4);background:transparent;color:#6B7B78;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s;">
+          🤝 Partenaire du projet
+        </button>
+        <button type="button" id="desk-btn-citizen"
+          onclick="setDesktopProposantType('citizen')"
+          style="flex:1;padding:12px 8px;border-radius:10px;border:2px solid rgba(168,197,188,0.4);background:transparent;color:#6B7B78;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.15s;">
+          🙋 Citoyen·ne contributeur·trice
+        </button>
+      </div>
+
+      <!-- Partenaire ordi : invitation à se connecter -->
+      <div id="desk-partner-fields" style="display:none;">
+        <!-- Ouvre directement le modal partenaire -->
+        <input type="hidden" id="f-structure-select" value="" />
+      </div>
+
+      <!-- Citoyen·ne ordi -->
+      <div id="desk-citizen-fields" style="display:none;">
+        <div class="grid2">
+          <div class="field">
+            <label>Votre prénom *</label>
+            <input type="text" id="f-prenom-prop" placeholder="Marie" />
+            <div class="field-error" id="err-prenom-prop"></div>
+          </div>
+          <div class="field">
+            <label>Votre nom *</label>
+            <input type="text" id="f-nom-prop" placeholder="THÉODORE" />
+            <div class="field-error" id="err-nom-prop"></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Organisation <span style="color:#7FA89E;font-weight:400;">(optionnel)</span></label>
+          <input type="text" id="f-autre-structure-nom" placeholder="Association, école, collectivité…" />
+        </div>
         <div class="field-error" id="err-structure"></div>
       </div>
 
-      <div id="proposant-fields" style="display:none">
-        <div style="font-size:12px;color:#6B7B78;margin-bottom:8px;margin-top:4px;">
-          Votre nom (optionnel) :
-        </div>
-        <div class="grid2">
-          <div class="field">
-            <label>Votre prénom</label>
-            <input type="text" id="f-prenom-prop" placeholder="Jean" />
-          </div>
-          <div class="field">
-            <label>Votre nom</label>
-            <input type="text" id="f-nom-prop" placeholder="DUPONT" />
-          </div>
-        </div>
-      </div>
-
-      <div id="autre-structure-fields" style="display:none">
-        <div class="field" style="margin-top:4px;">
-          <label>Nom de votre structure / organisation</label>
-          <input type="text" id="f-autre-structure-nom" placeholder="Ex : Association Ti Moun Gwadloup" />
-        </div>
-      </div>
+      <!-- Champs cachés pour soumission -->
+      <input type="hidden" id="f-structure" />
+      <input type="hidden" id="f-autre-prenom" style="display:none" />
+      <input type="hidden" id="f-autre-nom" style="display:none" />
     </div>
 
     <!-- SECTION 2 : Identité -->
@@ -1070,6 +1084,29 @@ function goTo(viewId) {
 // STATS
 // ══════════════════════════════════════════════════════════════════════════════
 
+
+// ── DESKTOP PROPOSANT (non connecté) ─────────────────────────────────────────
+let desktopProposantType = null; // 'partner' | 'citizen'
+
+function setDesktopProposantType(type) {
+  desktopProposantType = type;
+  const btnP = document.getElementById("desk-btn-partner");
+  const btnC = document.getElementById("desk-btn-citizen");
+  const fpf  = document.getElementById("desk-partner-fields");
+  const fcf  = document.getElementById("desk-citizen-fields");
+  if (type === "partner") {
+    btnP.style.background = "rgba(212,168,67,0.15)"; btnP.style.borderColor = "#D4A843"; btnP.style.color = "#D4A843";
+    btnC.style.background = "transparent"; btnC.style.borderColor = "rgba(168,197,188,0.4)"; btnC.style.color = "#6B7B78";
+    fpf.style.display = ""; fcf.style.display = "none";
+    // Ouvrir directement le modal d'accès partenaires
+    setTimeout(() => openPartnerModal(), 150);
+  } else {
+    btnC.style.background = "rgba(42,138,116,0.1)"; btnC.style.borderColor = "#2A8A74"; btnC.style.color = "#2A8A74";
+    btnP.style.background = "transparent"; btnP.style.borderColor = "rgba(212,168,67,0.4)"; btnP.style.color = "#6B7B78";
+    fcf.style.display = ""; fpf.style.display = "none";
+  }
+}
+
 // ── MOBILE PROPOSANT ─────────────────────────────────────────────────────────
 let mobileProposantType = null; // 'partner' | 'citizen'
 
@@ -1395,6 +1432,15 @@ function resetForm() {
     if (ppv) ppv.style.display = "none";
     if (puv) puv.style.display = "block";
     if (pmv) pmv.style.display = "none";
+    desktopProposantType = null;
+    ["desk-btn-partner","desk-btn-citizen"].forEach(id => {
+      const b = document.getElementById(id);
+      if (b) { b.style.background="transparent"; b.style.color="#6B7B78";
+               b.style.borderColor = id==="desk-btn-partner" ? "rgba(212,168,67,0.4)" : "rgba(168,197,188,0.4)"; }
+    });
+    ["desk-partner-fields","desk-citizen-fields"].forEach(id => {
+      const el = document.getElementById(id); if (el) el.style.display="none";
+    });
   }
   ["f-prenom-prop","f-nom-prop","f-autre-structure-nom","f-prenom","f-nom","f-telephone","f-email","f-motif","f-remarques"].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = "";
@@ -1445,8 +1491,29 @@ function submitForm() {
     return val;
   };
 
-  // Sur mobile, récupérer les données du proposant depuis la vue mobile
+  // Récupérer les données proposant selon contexte
   let _mobData = null;
+  let _deskData = null;
+
+  if (!isMobile() && !partnerState.loggedIn) {
+    // Desktop non connecté
+    if (!desktopProposantType) { showError("err-structure","Choisissez Partenaire ou Citoyen·ne"); scrollToTop(); return; }
+    if (desktopProposantType === "citizen") {
+      const prenom = (document.getElementById("f-prenom-prop")||{value:""}).value.trim();
+      const nom    = (document.getElementById("f-nom-prop")||{value:""}).value.trim();
+      const orga   = (document.getElementById("f-autre-structure-nom")||{value:""}).value.trim();
+      if (!prenom) { showError("err-prenom-prop","Prénom obligatoire"); return; }
+      if (!nom)    { showError("err-nom-prop","Nom obligatoire"); return; }
+      _deskData = { structure: orga || "Citoyen·ne", prenom, nom };
+      const fh = document.getElementById("f-structure"); if (fh) fh.value = _deskData.structure;
+    }
+    // Si "partner" : l'utilisateur doit se connecter via le modal — on bloque
+    if (desktopProposantType === "partner") {
+      showError("err-structure","Veuillez vous identifier via 🔑 Accès partenaires avant de soumettre.");
+      return;
+    }
+  }
+
   if (isMobile()) {
     _mobData = getMobileProposantData();
     // Validation mobile
@@ -1481,8 +1548,8 @@ function submitForm() {
   // Identité de la personne qui propose
   let structureLabel = structure;
   let proposePar = null;
-  const propPrenom = _mobData ? _mobData.prenom : (partnerState.loggedIn ? (document.getElementById("f-autre-prenom")||{value:""}).value.trim() : (document.getElementById("f-prenom-prop")||{value:""}).value.trim());
-  const propNom    = _mobData ? _mobData.nom    : (partnerState.loggedIn ? (document.getElementById("f-autre-nom")||{value:""}).value.trim()    : (document.getElementById("f-nom-prop")||{value:""}).value.trim());
+  const propPrenom = _mobData ? _mobData.prenom : (_deskData ? _deskData.prenom : (partnerState.loggedIn ? (document.getElementById("f-autre-prenom")||{value:""}).value.trim() : (document.getElementById("f-prenom-prop")||{value:""}).value.trim()));
+  const propNom    = _mobData ? _mobData.nom    : (_deskData ? _deskData.nom    : (partnerState.loggedIn ? (document.getElementById("f-autre-nom")||{value:""}).value.trim()    : (document.getElementById("f-nom-prop")||{value:""}).value.trim()));
   if (structure === "Autre") {
     const as = document.getElementById("f-autre-structure-nom").value.trim();
     if (propPrenom || propNom || as) {
@@ -1873,13 +1940,22 @@ function onModalOverlayClick(e) {
 }
 
 // ── Navigation étapes ─────────────────────────────────────────────────────────
-function showPStep(step) {
+function showPStep(step, fromPwd) {
   ["1","2","3","req","confirm"].forEach(s =>
     document.getElementById("pstep-"+s).style.display = "none"
   );
   document.getElementById("pstep-"+step).style.display = "block";
   if (step === 2) setTimeout(() => document.getElementById("pwd-input").focus(), 80);
+  if (step === "confirm") {
+    const msg = document.getElementById("confirm-msg");
+    if (msg) {
+      msg.innerHTML = reqFromPwdStep
+        ? "Votre demande a bien été transmise. <strong>Nous vous enverrons le mot de passe sous 48h.</strong>"
+        : "Votre demande de compte nominatif a bien été transmise. <strong>Nous vous répondrons sous 48h.</strong>";
+    }
+  }
   if (step === "req") {
+    if (fromPwd !== undefined) reqFromPwdStep = fromPwd;
     // Pré-remplir la structure
     if (currentStruct) document.getElementById("req-structure").value = currentStruct.name;
     // Bouton retour : vers étape 2 si "pas de mdp", vers étape 3 sinon
@@ -2021,6 +2097,16 @@ function loginAs(prenom, nom, fn, structId, structName) {
   closePartnerModal();
   updateStats();
   renderBase();
+  // Si on est sur le formulaire, mettre à jour la section proposant
+  const formView = document.getElementById("form-view");
+  if (formView && formView.style.display !== "none") {
+    const ppv = document.getElementById("proposant-partner-view");
+    const puv = document.getElementById("proposant-public-view");
+    const pmv = document.getElementById("proposant-mobile-view");
+    if (ppv) ppv.style.display = "block";
+    if (puv) puv.style.display = "none";
+    if (pmv) pmv.style.display = "none";
+  }
 }
 
 function autoFillForm(structName, prenom, nom) {
@@ -2076,8 +2162,8 @@ function submitAccessRequest() {
   const role      = document.getElementById("req-role").value.trim();
   const email     = document.getElementById("req-email").value.trim();
 
-  if (!prenom || !nom || !structure) {
-    document.getElementById("req-error").textContent = "⚠ Prénom, nom et organisation sont obligatoires.";
+  if (!prenom || !nom || !structure || !email) {
+    document.getElementById("req-error").textContent = "⚠ Prénom, nom, organisation et email sont obligatoires.";
     return;
   }
   document.getElementById("req-error").textContent = "";
@@ -2088,15 +2174,23 @@ function submitAccessRequest() {
   fetch(API_URL, {
     method:"POST", mode:"no-cors",
     headers:{"Content-Type":"application/json"},
-    body: JSON.stringify({ _action:"access_request", prenom, nom, structure, role, email }),
+    body: JSON.stringify({ _action:"access_request", prenom, nom, structure, role, email, type: reqFromPwdStep ? "Sans mot de passe" : "Compte nominatif" }),
   })
   .finally(() => {
     btn.disabled = false; btn.textContent = "Envoyer la demande →";
-    // Vider le formulaire
-    ["req-prenom","req-nom","req-role","req-email"].forEach(id =>
-      document.getElementById(id).value = ""
-    );
-    showPStep("confirm");
+    if (!reqFromPwdStep) {
+      // Compte nominatif : connecter automatiquement la personne
+      const structName = (currentStruct && currentStruct.name) || structure;
+      const structId   = (currentStruct && currentStruct.id)   || structure.toLowerCase().replace(/\s+/g,"_");
+      loginAs(prenom, nom, role, structId, structName);
+      // Pas de showPStep("confirm") — loginAs ferme déjà le modal
+    } else {
+      // Demande de mot de passe : juste confirmer
+      ["req-prenom","req-nom","req-role","req-email"].forEach(id =>
+        document.getElementById(id).value = ""
+      );
+      showPStep("confirm");
+    }
   });
 }
 
