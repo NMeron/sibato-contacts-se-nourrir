@@ -516,7 +516,7 @@
 
       <!-- Champs contact standard (visible si autre personne OU citoyen OU partenaire) -->
       <div id="contact-other-fields">
-        <div class="hint" style="font-size:13px;color:#C0392B;margin-bottom:8px;margin-top:4px;font-style:italic;font-weight:600;">Remplissez au moins l'un des trois champs : prénom, nom ou structure.</div>
+        <div class="hint" style="margin-bottom:10px;">Remplissez au moins l'un des trois champs : prénom, nom ou structure.</div>
         <div class="grid2">
           <div class="field" id="field-prenom">
             <label>Son prénom <span class="opt">(optionnel)</span></label>
@@ -1354,6 +1354,29 @@ function normalizeSheetContact(c) {
   return c;
 }
 
+function fetchContactsSilent() {
+  // Charge les données depuis le Sheet sans toucher à l'UI
+  const old = g("_sibato_jsonp_silent"); if (old) old.remove();
+  let settled = false;
+  const timeout = setTimeout(() => { settled = true; }, 12000);
+  window._sibatoCbSilent = function(data) {
+    if (settled) return; settled = true; clearTimeout(timeout);
+    if (data.status === "ok" && Array.isArray(data.contacts)) {
+      contacts = data.contacts.map(normalizeSheetContact);
+      localStorage.setItem(SK, JSON.stringify(contacts));
+      updateStats();
+      // Si l'utilisateur est déjà sur base-view, rafraîchir la grille
+      if (document.querySelector("#base-view.active")) renderBase();
+    }
+    const el = g("_sibato_jsonp_silent"); if (el) el.remove(); delete window._sibatoCbSilent;
+  };
+  const script = document.createElement("script");
+  script.id = "_sibato_jsonp_silent";
+  script.src = API_URL + "?callback=_sibatoCbSilent&t=" + Date.now();
+  script.onerror = () => { settled = true; clearTimeout(timeout); };
+  document.head.appendChild(script);
+}
+
 function loadAndRenderBase() {
   const grid=g("cards-grid"), loading=g("base-loading");
   grid.innerHTML=""; if(loading) loading.style.display="block";
@@ -1524,6 +1547,8 @@ function loginAs(prenom,nom,fn,structId,structName) {
   closePartnerModal(); updateStats(); renderBase();
   // Révéler le bloc 2 automatiquement car partenaire = bloc 1 complet
   revealBloc("bloc-2");
+  // Charger silencieusement la base complète depuis le Sheet en arrière-plan
+  fetchContactsSilent();
 }
 
 function logoutPartner() {
