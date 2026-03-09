@@ -587,7 +587,7 @@
       </div>
 
       <div class="field" id="field-commune-base">
-        <label>Ville d'implantation / d'activité principale<span class="opt">(optionnel)</span></label>
+        <label>Ville d'implantation / d'activité principale <span class="opt">(optionnel)</span></label>
         <div class="hint">Si vous ne savez pas, indiquez la commune où cette personne travaille le plus souvent.</div>
         <select id="f-commune-base" onchange="checkBloc3Complete()"><option value="">— Sélectionner —</option></select>
         <div class="field-error" id="err-commune-base"></div>
@@ -871,6 +871,9 @@ function checkBloc2Complete() {
   let ok = false;
   if (contactSource === "self") {
     ok = !!v("f-self-email");
+  } else if (partnerState.loggedIn) {
+    // Partenaire : bloc 3 révélé dès que le partenaire est connecté
+    ok = true;
   } else {
     ok = !!(v("f-prenom") || v("f-nom") || v("f-contact-structure"));
   }
@@ -1169,13 +1172,20 @@ function resetForm() {
   // Masquer blocs 2-4
   ["bloc-2","bloc-3","bloc-4"].forEach(id => { const el=g(id); if(el){ el.classList.add("hidden-block"); el.classList.remove("appearing"); } });
 
+  // Si partenaire connecté : re-révéler blocs 2 et 3 immédiatement
+  if (partnerState.loggedIn) {
+    proposantType="partner"; contactSource="other";
+    revealBloc("bloc-2");
+    revealBloc("bloc-3");
+  }
+
   g("form-confirm").style.display="none";
   g("form-fields").style.display="block";
 }
 
 function clearErrors() {
-  ["prenom","nom","role","commune-base","motif","preinforme","proposant-type","contact-src","pro-prenom","pro-nom","pro-orga","asso-prenom","asso-nom","asso-orga","citizen-prenom","self-email"].forEach(id => { const el=g("err-"+id); if(el) el.textContent=""; });
-  ["field-prenom","field-nom","field-role","field-commune-base","field-motif","field-preinforme","field-self-email"].forEach(id => { const el=g(id); if(el) el.classList.remove("error"); });
+  ["prenom","nom","role","commune-base","motif","preinforme","proposant-type","contact-src","pro-prenom","pro-nom","pro-orga","asso-prenom","asso-nom","asso-orga","citizen-prenom","self-email","contact-structure"].forEach(id => { const el=g("err-"+id); if(el) el.textContent=""; });
+  ["field-prenom","field-nom","field-role","field-commune-base","field-motif","field-preinforme","field-self-email","field-contact-structure"].forEach(id => { const el=g(id); if(el) el.classList.remove("error"); });
   g("global-error").textContent="";
 }
 
@@ -1545,8 +1555,9 @@ function loginAs(prenom,nom,fn,structId,structName) {
   if(puv) puv.style.display="none";
   proposantType="partner"; contactSource="other";
   closePartnerModal(); updateStats(); renderBase();
-  // Révéler le bloc 2 automatiquement car partenaire = bloc 1 complet
+  // Partenaire = bloc 1 ET bloc 2 considérés complets → révéler les deux
   revealBloc("bloc-2");
+  revealBloc("bloc-3");
   // Charger silencieusement la base complète depuis le Sheet en arrière-plan
   fetchContactsSilent();
 }
