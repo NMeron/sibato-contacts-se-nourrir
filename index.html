@@ -395,11 +395,31 @@
 
       <!-- VUE PARTENAIRE CONNECTÉ·E -->
       <div id="proposant-partner-view" style="display:none;background:rgba(26,107,90,0.08);border:1.5px solid rgba(26,107,90,0.25);border-radius:12px;padding:14px 16px;margin-bottom:12px;">
-        <div style="display:flex;align-items:center;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
           <div style="width:36px;height:36px;border-radius:50%;background:#1A6B5A;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:900;font-size:13px;flex-shrink:0;" id="partner-avatar-form">?</div>
           <div>
             <div style="color:#1C2B28;font-weight:700;font-size:14px;" id="partner-name-form">—</div>
             <div style="color:#7FA89E;font-size:12px;" id="partner-struct-form">—</div>
+          </div>
+        </div>
+        <!-- Champs prénom/nom affichés uniquement si le partenaire n'a pas sélectionné un membre nommé -->
+        <div id="partner-identity-fields" style="display:none;">
+          <div style="font-size:12px;color:#1A6B5A;font-weight:600;margin-bottom:8px;">Merci de préciser votre identité :</div>
+          <div class="grid2">
+            <div class="field">
+              <label>Votre prénom *</label>
+              <input type="text" id="partner-prenom" placeholder="Marie" oninput="checkBloc1Complete()" />
+              <div class="field-error" id="err-partner-prenom"></div>
+            </div>
+            <div class="field">
+              <label>Votre nom *</label>
+              <input type="text" id="partner-nom" placeholder="THÉODORE" oninput="checkBloc1Complete()" />
+              <div class="field-error" id="err-partner-nom"></div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Votre email <span class="opt">(optionnel)</span></label>
+            <input type="email" id="partner-email" placeholder="votre@email.fr" />
           </div>
         </div>
       </div>
@@ -595,10 +615,9 @@
 
       <div class="field">
         <label>Autres communes d'activité <span style="font-weight:400;color:#6B7B78;font-size:14px;">(plusieurs possibles)</span></label>
-        <div class="hint">Sélectionnez une commune puis cliquez <strong>+ Ajouter</strong>.</div>
+        <div class="hint">Sélectionnez une commune — elle s'ajoute automatiquement.</div>
         <div class="commune-add">
-          <select id="commune-activite-select"><option value="">— Ajouter une commune —</option></select>
-          <button onclick="addCommuneActivite()">+ Ajouter</button>
+          <select id="commune-activite-select" onchange="addCommuneActivite()" style="flex:1"><option value="">— Ajouter une commune —</option></select>
         </div>
         <div class="communes-tags" id="communes-activite-tags"></div>
       </div>
@@ -743,7 +762,8 @@ let selectedPi="", autreRoleText="", autreFilieresTexts={};
 let proposantType = null;          // 'partner'|'pro'|'asso'|'citizen'
 let contactSource = null;          // 'self'|'other' (pour pro/asso seulement)
 let partnerState = {loggedIn:false, structId:null, structureName:null, memberName:null};
-let currentStruct=null, reqFromPwdStep=false;
+let currentStruct=null, reqFromPwdStep=false, partnerFromRequest=false;
+let savedReqData = {prenom:"", nom:"", email:""};  // sauvegarde avant effacement
 
 function g(id) { return document.getElementById(id); }
 function v(id) { const el=g(id); return el ? el.value.trim() : ""; }
@@ -754,12 +774,12 @@ function getEPCI(c) { return COMMUNE_EPCI[c]||""; }
 // ══════════════════════════════════════════════════════════════════════════════
 // Regroupements sur la même ligne
 const ROLES_PAIRS = [
-  ["vivrier","maraic"],      // Vivrier + Maraîcher
-  ["epices","plantes"],      // Épices + Plantes médicinales
-  ["eleveur","apicult"],     // Éleveur + Apiculteur
-  ["pecheur","aqua"],        // Pêcheur + Aquaculteur
-  ["distrib","restau"],      // Distribution + Restauration
-  ["cherch","asso"],         // Recherche + Associatif
+  ["vivrier","maraic"],      // 31+15 chars ✓
+  ["eleveur","apicult"],     // 14+18 chars ✓
+  ["pecheur","aqua"],        // 14+19 chars ✓
+  ["distrib","restau"],      // 33+25 chars ✓
+  // epices+plantes : 40+35 → trop long, chacun sur sa ligne
+  // cherch+asso    : 40+48 → trop long, chacun sur sa ligne
 ];
 
 function init() {
@@ -855,7 +875,12 @@ function revealBloc(id) {
 function checkBloc1Complete() {
   let ok = false;
   if (partnerState.loggedIn) {
-    ok = true;
+    // Si le partenaire n'a pas sélectionné un membre nommé, exiger prénom+nom
+    if (partnerState.namedMember === false) {
+      ok = !!(v("partner-prenom") && v("partner-nom"));
+    } else {
+      ok = true;
+    }
   } else if (proposantType === "pro") {
     ok = v("pro-prenom") && v("pro-nom") && v("pro-orga");
   } else if (proposantType === "asso") {
@@ -864,6 +889,7 @@ function checkBloc1Complete() {
     ok = !!v("citizen-prenom");
   }
   if (ok) revealBloc("bloc-2");
+  if (ok && partnerState.loggedIn) checkBloc2Complete();
 }
 
 // Bloc 2 complet ?
@@ -871,9 +897,6 @@ function checkBloc2Complete() {
   let ok = false;
   if (contactSource === "self") {
     ok = !!v("f-self-email");
-  } else if (partnerState.loggedIn) {
-    // Partenaire : bloc 3 révélé dès que le partenaire est connecté
-    ok = true;
   } else {
     ok = !!(v("f-prenom") || v("f-nom") || v("f-contact-structure"));
   }
@@ -939,11 +962,15 @@ function setContactSource(src) {
 // Récupère les données proposant pour la soumission
 function getProposantData() {
   if (partnerState.loggedIn) {
+    if (partnerState.namedMember === false) {
+      // Anonyme : utiliser les champs saisis manuellement
+      return { type:"Partenaire", structure:partnerState.structureName||"", prenom:v("partner-prenom"), nom:v("partner-nom"), email:v("partner-email"), url:"" };
+    }
     const parts = (partnerState.memberName||"").split(" ");
     return { type:"Partenaire", structure:partnerState.structureName||"", prenom:parts[0]||"", nom:parts.slice(1).join(" ")||"", email:"", url:"" };
   }
   if (proposantType==="pro")     return { type:"Professionnel·le", structure:v("pro-orga"),  prenom:v("pro-prenom"),     nom:v("pro-nom"),     email:v("pro-email"),  url:v("pro-url")  };
-  if (proposantType==="asso")    return { type:"Association",       structure:v("asso-orga"), prenom:v("asso-prenom"),    nom:v("asso-nom"),    email:v("asso-email"), url:v("asso-url") };
+  if (proposantType==="asso")    return { type: partnerFromRequest ? "Demande accès partenaire" : "Association", structure:v("asso-orga"), prenom:v("asso-prenom"), nom:v("asso-nom"), email:v("asso-email"), url:v("asso-url") };
   if (proposantType==="citizen") return { type:"Citoyen·ne",        structure:"Citoyen·ne",   prenom:v("citizen-prenom"), nom:v("citizen-nom"), email:v("citizen-email"), url:"" };
   return null;
 }
@@ -1137,18 +1164,20 @@ function renderCommunesActiviteTags() {
 // RESET
 // ══════════════════════════════════════════════════════════════════════════════
 function resetForm() {
-  proposantType=null; contactSource=null;
+  proposantType=null; contactSource=null; partnerFromRequest=false;
   // Réinitialiser boutons type
   ["partner","pro","asso","citizen"].forEach(t => { const b=g("btn-type-"+t); if(b) b.classList.remove("on"); });
   ["fields-partner","fields-pro","fields-asso","fields-citizen"].forEach(id => { const el=g(id); if(el) el.style.display="none"; });
 
   // Vider champs proposant
-  ["pro-prenom","pro-nom","pro-orga","pro-email","pro-url","asso-prenom","asso-nom","asso-orga","asso-email","asso-url","citizen-prenom","citizen-nom","citizen-email"].forEach(id => { const el=g(id); if(el) el.value=""; });
+  ["pro-prenom","pro-nom","pro-orga","pro-email","pro-url","asso-prenom","asso-nom","asso-orga","asso-email","asso-url","citizen-prenom","citizen-nom","citizen-email","partner-prenom","partner-nom","partner-email"].forEach(id => { const el=g(id); if(el) el.value=""; });
   const hint=g("asso-orga-prefill-hint"); if(hint) hint.style.display="none";
 
   // Réinitialiser vue proposant
   const ppv=g("proposant-partner-view"), puv=g("proposant-public-view");
-  if (partnerState.loggedIn) { if(ppv) ppv.style.display="block"; if(puv) puv.style.display="none"; }
+  if (partnerState.loggedIn) { if(ppv) ppv.style.display="block"; if(puv) puv.style.display="none";
+    const pif=g("partner-identity-fields"); if(pif) pif.style.display=partnerState.namedMember===false?"block":"none";
+  }
   else { if(ppv) ppv.style.display="none"; if(puv) puv.style.display="block"; }
 
   // Réinitialiser choix source contact
@@ -1172,11 +1201,10 @@ function resetForm() {
   // Masquer blocs 2-4
   ["bloc-2","bloc-3","bloc-4"].forEach(id => { const el=g(id); if(el){ el.classList.add("hidden-block"); el.classList.remove("appearing"); } });
 
-  // Si partenaire connecté : re-révéler blocs 2 et 3 immédiatement
+  // Si partenaire connecté : repositionner l'état et révéler les blocs via checkBloc1Complete
   if (partnerState.loggedIn) {
     proposantType="partner"; contactSource="other";
-    revealBloc("bloc-2");
-    revealBloc("bloc-3");
+    checkBloc1Complete();
   }
 
   g("form-confirm").style.display="none";
@@ -1184,7 +1212,7 @@ function resetForm() {
 }
 
 function clearErrors() {
-  ["prenom","nom","role","commune-base","motif","preinforme","proposant-type","contact-src","pro-prenom","pro-nom","pro-orga","asso-prenom","asso-nom","asso-orga","citizen-prenom","self-email","contact-structure"].forEach(id => { const el=g("err-"+id); if(el) el.textContent=""; });
+  ["prenom","nom","role","commune-base","motif","preinforme","proposant-type","contact-src","pro-prenom","pro-nom","pro-orga","asso-prenom","asso-nom","asso-orga","citizen-prenom","self-email","contact-structure","partner-prenom","partner-nom"].forEach(id => { const el=g("err-"+id); if(el) el.textContent=""; });
   ["field-prenom","field-nom","field-role","field-commune-base","field-motif","field-preinforme","field-self-email","field-contact-structure"].forEach(id => { const el=g(id); if(el) el.classList.remove("error"); });
   g("global-error").textContent="";
 }
@@ -1202,7 +1230,11 @@ function submitForm() {
   // ── Valider Bloc 1 ──
   let propData=null;
   if (partnerState.loggedIn) {
-    propData=getProposantData();
+    if (partnerState.namedMember === false) {
+      if(!v("partner-prenom")){showErr("partner-prenom","⚠ Obligatoire");hasErr=true;}
+      if(!v("partner-nom"))   {showErr("partner-nom","⚠ Obligatoire");hasErr=true;}
+    }
+    if (!hasErr) propData=getProposantData();
   } else if (!proposantType) {
     showErr("proposant-type","⚠ Veuillez choisir votre profil"); hasErr=true;
   } else if (proposantType==="partner") {
@@ -1275,6 +1307,12 @@ function submitForm() {
 
   if (hasErr) { g("global-error").textContent="⚠ Veuillez compléter tous les champs obligatoires."; return; }
 
+
+  // Point 1 : auto-ajout commune selectionnee non confirmee
+  const communeActivitePending = g("commune-activite-select").value;
+  if (communeActivitePending && !selectedCommunesActivite.includes(communeActivitePending)) {
+    selectedCommunesActivite.push(communeActivitePending);
+  }
   // ── Construire l'objet contact ──
   const rolesFinaux = selectedRoles.map(k => ROLES_CONFIG.find(r=>r.key===k).label);
   const filieresFinales = [...selectedFilieres];
@@ -1477,20 +1515,27 @@ function closePartnerModal() {
 // Permet de continuer comme "Association impliquée" après demande de mdp en attente
 function continueAsAsso() {
   closePartnerModal();
-  // Aller sur le formulaire AVANT de manipuler les éléments du formulaire
   goTo("form-view");
-  resetForm();
+  resetForm();                  // remet partnerFromRequest=false, c'est voulu
+  partnerFromRequest = true;    // on le remet APRÈS resetForm
   setProposantType("asso");
-  // Pré-remplir le nom de l'organisation depuis la structure choisie avant la demande mdp
+  // Pré-remplir prénom, nom, email depuis les champs de la demande d'accès
+  const rPrenom = savedReqData.prenom || g("req-prenom")?.value.trim() || "";
+  const rNom    = savedReqData.nom    || g("req-nom")?.value.trim()    || "";
+  const rEmail  = savedReqData.email  || g("req-email")?.value.trim()  || "";
+  if (rPrenom) { const el=g("asso-prenom"); if(el) el.value=rPrenom; }
+  if (rNom)    { const el=g("asso-nom");    if(el) el.value=rNom;    }
+  if (rEmail)  { const el=g("asso-email");  if(el) el.value=rEmail;  }
+  // Pré-remplir l'organisation depuis la structure choisie avant la demande mdp
   if (currentStruct && currentStruct.name) {
     const orgaEl = g("asso-orga");
     if (orgaEl) {
       orgaEl.value = currentStruct.name;
       const hint = g("asso-orga-prefill-hint");
       if (hint) hint.style.display = "block";
-      checkBloc1Complete();
     }
   }
+  checkBloc1Complete();
 }
 function onModalOverlayClick(e) { if(e.target===g("partner-modal")) closePartnerModal(); }
 
@@ -1515,7 +1560,7 @@ function loadMembersForStruct(struct) {
   const old=g("_mjsonp"); if(old) old.remove(); if(window._membersCb) delete window._membersCb;
   let settled=false;
   const timeoutId=setTimeout(()=>{if(settled)return;settled=true;const el=g("_mjsonp");if(el)el.remove();delete window._membersCb;renderMembersEmpty(struct);},15000);
-  window._membersCb=function(data){ if(settled)return;settled=true;clearTimeout(timeoutId);const el=g("_mjsonp");if(el)el.remove();delete window._membersCb; if(data.status==="ok"&&data.members&&data.members.length>0)renderMembersList(data.members,struct);else renderMembersEmpty(struct); };
+  window._membersCb=function(data){ if(settled)return;settled=true;clearTimeout(timeoutId);const el=g("_mjsonp");if(el)el.remove();delete window._membersCb; try { if(data&&data.status==="ok"&&Array.isArray(data.members)&&data.members.length>0)renderMembersList(data.members,struct);else renderMembersEmpty(struct); } catch(e){ renderMembersEmpty(struct); } };
   const s=document.createElement("script");s.id="_mjsonp";s.src=API_URL+"?callback=_membersCb&action=members&structure="+encodeURIComponent(struct.id);
   s.onerror=()=>{if(settled)return;settled=true;clearTimeout(timeoutId);renderMembersEmpty(struct);};
   document.head.appendChild(s);
@@ -1542,22 +1587,25 @@ function renderMembersEmpty(struct) {
 function esc(str) { return (str||"").replace(/'/g,"\\'").replace(/"/g,"&quot;"); }
 
 function loginAs(prenom,nom,fn,structId,structName) {
-  partnerState={loggedIn:true,structId,structureName:structName,memberName:(prenom&&nom)?prenom+" "+nom:structName,memberFn:fn||null};
+  const namedMember = !!(prenom && nom);
+  partnerState={loggedIn:true,structId,structureName:structName,memberName:namedMember?prenom+" "+nom:structName,memberFn:fn||null,namedMember};
   g("partner-float-btn").style.display="none";
   const b=g("partner-badge-btn"); b.style.display="flex";
   g("partner-badge-label").textContent=partnerState.memberName;
   const ppv=g("proposant-partner-view"), puv=g("proposant-public-view");
   if(ppv){ ppv.style.display="block";
-    const ne=g("partner-name-form");   if(ne) ne.textContent=partnerState.memberName;
+    const ne=g("partner-name-form");   if(ne) ne.textContent=namedMember ? prenom+" "+nom : structName;
     const se=g("partner-struct-form"); if(se) se.textContent=structName;
     const ae=g("partner-avatar-form"); if(ae) ae.textContent=((prenom||structName)[0]||"?").toUpperCase()+((nom||"")[0]||"").toUpperCase();
+    // Si pas de membre nommé : afficher les champs prénom/nom
+    const pif=g("partner-identity-fields");
+    if(pif) pif.style.display=namedMember?"none":"block";
   }
   if(puv) puv.style.display="none";
   proposantType="partner"; contactSource="other";
   closePartnerModal(); updateStats(); renderBase();
-  // Partenaire = bloc 1 ET bloc 2 considérés complets → révéler les deux
-  revealBloc("bloc-2");
-  revealBloc("bloc-3");
+  // Partenaire = bloc 1 complet → révéler bloc 2 (et bloc 3 via checkBloc1Complete)
+  checkBloc1Complete();
   // Charger silencieusement la base complète depuis le Sheet en arrière-plan
   fetchContactsSilent();
 }
@@ -1582,7 +1630,7 @@ function submitAccessRequest() {
   .finally(()=>{
     btn.disabled=false; btn.textContent="Envoyer la demande →";
     if(!reqFromPwdStep){const sN=(currentStruct&&currentStruct.name)||structure;const sI=(currentStruct&&currentStruct.id)||structure.toLowerCase().replace(/\s+/g,"_");loginAs(prenom,nom,role,sI,sN);}
-    else{["req-prenom","req-nom","req-role","req-email"].forEach(id=>g(id).value="");showPStep("confirm");}
+    else{savedReqData={prenom,nom,email};["req-prenom","req-nom","req-role","req-email"].forEach(id=>g(id).value="");showPStep("confirm");}
   });
 }
 
