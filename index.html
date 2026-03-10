@@ -83,7 +83,7 @@
     }
     .field input:focus, .field select:focus, .field textarea:focus { border-color:#1A6B5A; }
     .field.error input, .field.error select, .field.error textarea { border-color:#C0392B; }
-    .field-error { color:#C0392B;font-size:12px;margin-top:4px;min-height:16px; }
+    .field-error { color:#C0392B;font-size:12px;margin-top:2px;min-height:0;display:none; }
     .grid2 { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
 
     /* ── BOUTONS TYPE PROPOSANT ── */
@@ -201,12 +201,26 @@
 
     @media(max-width:500px){
       .hero h1 { font-size:32px; }
-      .grid2 { grid-template-columns:1fr; }
+      .grid2 { grid-template-columns:1fr; gap:0; }
       .proposant-btns { grid-template-columns:1fr; }
       .hero { padding: 48px 18px 18px; }
       #partner-float-btn { display:none !important; }
       #partner-badge-btn { display:none !important; }
       .hero-tag { font-size:11px;letter-spacing:1.5px;margin-bottom:10px; }
+      /* Paires de rôles : une par ligne sur mobile */
+      .role-pair-row { flex-direction:column !important; }
+      /* Espacement réduit sur mobile */
+      .form-body { padding:16px 14px 40px; }
+      .field { margin-bottom:8px; }
+      .field label { font-size:15px; margin-bottom:2px; }
+      .field .hint { margin-bottom:4px; }
+      .bloc { padding:16px 14px 14px; margin-bottom:12px; }
+      .filieres-section { margin-bottom:6px; }
+      .filieres-section-title { font-size:15px; padding:6px 12px; margin-bottom:6px; }
+      .filieres-wrap { gap:6px; padding:6px 0 2px; }
+      .roles-wrap { gap:5px; }
+      .role-btn { padding:9px 12px; font-size:13px; }
+      .fil-btn-star { padding:8px 12px; font-size:12px; margin-bottom:4px; }
     }
 
     .hero-cycle-desc { color:#A8C5BC;font-size:15px;line-height:1.2;max-width:720px;margin:0 auto 10px; }
@@ -271,6 +285,31 @@
 
     /* Optionnel label */
     .opt { color:#7FA89E;font-weight:400;font-size:14px; }
+    /* Réseaux sociaux */
+    .social-widget { margin-top:4px; margin-bottom:0; }
+    .social-widget-label { font-size:13px;font-weight:600;color:#7FA89E;margin-bottom:6px; }
+    .social-btns { display:flex;gap:6px;flex-wrap:wrap;margin-bottom:0; }
+    .social-btn {
+      display:inline-flex;align-items:center;gap:6px;
+      border:1.5px solid #D0DDD9;border-radius:20px;
+      padding:5px 12px;font-size:12px;font-weight:600;
+      background:#fff;cursor:pointer;font-family:inherit;
+      color:#455A64;transition:all 0.14s;white-space:nowrap;
+      line-height:1;
+    }
+    .social-btn svg { flex-shrink:0;vertical-align:middle; }
+    .social-btn.on { color:#fff;border-color:transparent; }
+    .social-btn.on svg { fill:#fff; }
+    .social-field-row { display:flex;align-items:center;gap:6px;margin-top:6px; }
+    .social-field-prefix { font-size:13px;color:#7FA89E;font-weight:600;white-space:nowrap;display:inline-flex;align-items:center;gap:5px; }
+    .social-field-prefix svg { flex-shrink:0; }
+    .social-field-input {
+      flex:1;border:1.5px solid #D0DDD9;border-radius:8px;
+      padding:7px 10px;font-size:13px;font-family:inherit;
+      background:#fff;color:#1C2B28;
+    }
+    .social-field-input:focus { outline:none;border-color:#1A6B5A; }
+    .social-field-input::placeholder { color:#B0C4BF; }
   </style>
 </head>
 <body>
@@ -351,7 +390,7 @@
       <p class="hero-conf-desc">Agriculteurs·trices, pêcheurs·euses, transformateurs·trices, acteurs·trices des circuits courts : qui nourrit vraiment la Guadeloupe quand les bateaux s'éloignent ?<br><strong style="color:white;">Cette conférence prévue en Avril 2026 leur donnera la parole.</strong></p>
       <div class="hero-conf-invite">
         <strong>Vous connaissez quelqu'un qui devrait être là ?</strong><br>
-        Proposez les contacts de celles et ceux qui permettent, en Guadeloupe, d'avoir une alimentation locale, saine et respectueuse de l'environnement — agriculteurs·trices, pêcheurs·euses, transformateurs·trices, distributeurs·trices, chercheurs·euses, acteurs·trices associatifs·ves…<br><strong>Chaque voix et contact compte 🌱</strong>
+        Proposez les contacts de celles et ceux qui contribuent, en Guadeloupe, à une alimentation locale, saine et respectueuse de l'environnement (producteurs, pêcheurs, transformateurs, vendeurs, chercheurs, acteurs associatifs, etc.)<br><strong>Chaque voix et contact compte 🌱</strong>
       </div>
     </div>
     <div class="hero-btns">
@@ -386,7 +425,7 @@
       <div class="emoji">🌿</div><h2>Contact enregistré !</h2>
       <p>Merci pour votre contribution au cycle <em>Si bato pa rivé</em>.</p>
       <div id="confirm-recap" style="background:rgba(26,107,90,0.12);border:1px solid rgba(26,107,90,0.3);border-radius:12px;padding:16px;margin:16px 0;text-align:left;"></div>
-      <div class="confirm-btns"><button class="btn-primary" onclick="resetForm()">+ Proposer un autre contact</button></div>
+      <div class="confirm-btns"><button class="btn-primary" onclick="resetFormKeepProposant()">+ Proposer un autre contact</button></div>
     </div>
   </div>
 
@@ -422,7 +461,7 @@
           </div>
           <div class="field">
             <label>Votre email <span class="opt">(optionnel)</span></label>
-            <input type="email" id="partner-email" placeholder="votre@email.fr" />
+            <input type="email" id="partner-email" placeholder="votre@email.fr" onblur="checkEmailField('partner-email','err-partner-email')" />
           </div>
         </div>
       </div>
@@ -462,12 +501,55 @@
           <div class="email-hint-box">💌 Si vous souhaitez être tenu·e au courant de la suite, partagez votre email.</div>
           <div class="field">
             <label>Votre email <span class="opt">(optionnel)</span></label>
-            <input type="email" id="pro-email" placeholder="votre@email.fr" />
+            <input type="email" id="pro-email" placeholder="votre@email.fr" onblur="checkEmailField('pro-email','err-pro-email')" />
+          <div class="field-error" id="err-pro-email"></div>
           </div>
           <div class="field">
             <label>Site web / Page de votre structure <span class="opt">(optionnel)</span></label>
-            <input type="url" id="pro-url" placeholder="https://www.votre-structure.fr" />
+            <input type="url" id="pro-url" placeholder="https://www.votre-structure.fr" onblur="checkUrlField('pro-url','err-pro-url')" />
+          <div class="field-error" id="err-pro-url"></div>
           </div>
+        <div class="social-widget">
+          <div class="social-widget-label">Présence en ligne <span style="font-weight:400;color:#B0C4BF;">(optionnel)</span></div>
+          <div class="social-btns">
+          <button type="button" class="social-btn" id="pro-social-btn-instagram" style="" onclick="toggleSocialBtn('pro-social','instagram',this,'#E1306C')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> Instagram</button>
+          <button type="button" class="social-btn" id="pro-social-btn-facebook" style="" onclick="toggleSocialBtn('pro-social','facebook',this,'#1877F2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Facebook</button>
+          <button type="button" class="social-btn" id="pro-social-btn-linkedin" style="" onclick="toggleSocialBtn('pro-social','linkedin',this,'#0A66C2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</button>
+          <button type="button" class="social-btn" id="pro-social-btn-tiktok" style="" onclick="toggleSocialBtn('pro-social','tiktok',this,'#010101')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> TikTok</button>
+          </div>
+        <div id="pro-social-instagram-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> instagram.com/</span>
+            <input class="social-field-input" type="text" id="pro-social-instagram"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+        <div id="pro-social-facebook-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> facebook.com/</span>
+            <input class="social-field-input" type="text" id="pro-social-facebook"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+        <div id="pro-social-linkedin-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> linkedin.com/in/</span>
+            <input class="social-field-input" type="text" id="pro-social-linkedin"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+        <div id="pro-social-tiktok-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> tiktok.com/@</span>
+            <input class="social-field-input" type="text" id="pro-social-tiktok"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+        </div>
         </div>
 
         <div id="fields-asso" style="display:none;">
@@ -495,12 +577,55 @@
           <div class="email-hint-box">💌 Si vous souhaitez être tenu·e au courant de la suite, partagez votre email.</div>
           <div class="field">
             <label>Votre email <span class="opt">(optionnel)</span></label>
-            <input type="email" id="asso-email" placeholder="votre@email.fr" />
+            <input type="email" id="asso-email" placeholder="votre@email.fr" onblur="checkEmailField('asso-email','err-asso-email')" />
+          <div class="field-error" id="err-asso-email"></div>
           </div>
           <div class="field">
             <label>Site web / Page de votre Association <span class="opt">(optionnel)</span></label>
-            <input type="url" id="asso-url" placeholder="https://www.votre-asso.fr" />
+            <input type="url" id="asso-url" placeholder="https://www.votre-asso.fr" onblur="checkUrlField('asso-url','err-asso-url')" />
+          <div class="field-error" id="err-asso-url"></div>
           </div>
+        <div class="social-widget">
+          <div class="social-widget-label">Présence en ligne <span style="font-weight:400;color:#B0C4BF;">(optionnel)</span></div>
+          <div class="social-btns">
+          <button type="button" class="social-btn" id="asso-social-btn-instagram" style="" onclick="toggleSocialBtn('asso-social','instagram',this,'#E1306C')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> Instagram</button>
+          <button type="button" class="social-btn" id="asso-social-btn-facebook" style="" onclick="toggleSocialBtn('asso-social','facebook',this,'#1877F2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Facebook</button>
+          <button type="button" class="social-btn" id="asso-social-btn-linkedin" style="" onclick="toggleSocialBtn('asso-social','linkedin',this,'#0A66C2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</button>
+          <button type="button" class="social-btn" id="asso-social-btn-tiktok" style="" onclick="toggleSocialBtn('asso-social','tiktok',this,'#010101')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> TikTok</button>
+          </div>
+        <div id="asso-social-instagram-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> instagram.com/</span>
+            <input class="social-field-input" type="text" id="asso-social-instagram"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+        <div id="asso-social-facebook-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> facebook.com/</span>
+            <input class="social-field-input" type="text" id="asso-social-facebook"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+        <div id="asso-social-linkedin-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> linkedin.com/in/</span>
+            <input class="social-field-input" type="text" id="asso-social-linkedin"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+        <div id="asso-social-tiktok-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> tiktok.com/@</span>
+            <input class="social-field-input" type="text" id="asso-social-tiktok"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+        </div>
         </div>
 
         <div id="fields-citizen" style="display:none;">
@@ -518,7 +643,8 @@
           <div class="email-hint-box">💌 Si vous souhaitez être tenu·e au courant de la suite, partagez votre email.</div>
           <div class="field">
             <label>Votre email <span class="opt">(optionnel)</span></label>
-            <input type="email" id="citizen-email" placeholder="votre@email.fr" />
+            <input type="email" id="citizen-email" placeholder="votre@email.fr" onblur="checkEmailField('citizen-email','err-citizen-email')" />
+          <div class="field-error" id="err-citizen-email"></div>
           </div>
         </div>
       </div>
@@ -542,18 +668,18 @@
         <div class="hint" style="margin-bottom:10px;">Remplissez au moins l'un des trois champs : prénom, nom ou structure.</div>
         <div class="grid2">
           <div class="field" id="field-prenom">
-            <label>Son prénom <span class="opt">(optionnel)</span></label>
+            <label>Son prénom</label>
             <input type="text" id="f-prenom" placeholder="Marie" oninput="checkBloc2Complete()" />
             <div class="field-error" id="err-prenom"></div>
           </div>
           <div class="field" id="field-nom">
-            <label>Son nom <span class="opt">(optionnel)</span></label>
+            <label>Son nom</label>
             <input type="text" id="f-nom" placeholder="THÉODORE" oninput="checkBloc2Complete()" />
             <div class="field-error" id="err-nom"></div>
           </div>
         </div>
         <div class="field" id="field-contact-structure">
-          <label>Nom de la structure ou du projet <span class="opt">(optionnel)</span></label>
+          <label>Nom de la structure ou du projet</label>
           <input type="text" id="f-contact-structure" placeholder="Entreprise, association, coopérative…" oninput="checkBloc2Complete()" />
           <div class="field-error" id="err-contact-structure"></div>
         </div>
@@ -564,12 +690,55 @@
           </div>
           <div class="field">
             <label>Email <span class="opt">(optionnel)</span></label>
-            <input type="email" id="f-email" placeholder="contact@exemple.com" oninput="checkBloc2Complete()" />
+            <input type="email" id="f-email" placeholder="contact@exemple.com" onblur="checkEmailField('f-email','err-f-email')" oninput="checkBloc2Complete()" />
+          <div class="field-error" id="err-f-email"></div>
           </div>
         </div>
         <div class="field">
           <label>Site web / Lien du contact <span class="opt">(optionnel)</span></label>
-          <input type="url" id="f-contact-url" placeholder="https://www.site-du-contact.fr, page Facebook…" />
+          <input type="url" id="f-contact-url" placeholder="https://www.site-du-contact.fr" onblur="checkUrlField('f-contact-url','err-f-contact-url')" />
+          <div class="field-error" id="err-f-contact-url"></div>
+        </div>
+        <div class="social-widget">
+          <div class="social-widget-label">Présence en ligne <span style="font-weight:400;color:#B0C4BF;">(optionnel)</span></div>
+          <div class="social-btns">
+          <button type="button" class="social-btn" id="f-social-btn-instagram" style="" onclick="toggleSocialBtn('f-social','instagram',this,'#E1306C')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> Instagram</button>
+          <button type="button" class="social-btn" id="f-social-btn-facebook" style="" onclick="toggleSocialBtn('f-social','facebook',this,'#1877F2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Facebook</button>
+          <button type="button" class="social-btn" id="f-social-btn-linkedin" style="" onclick="toggleSocialBtn('f-social','linkedin',this,'#0A66C2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</button>
+          <button type="button" class="social-btn" id="f-social-btn-tiktok" style="" onclick="toggleSocialBtn('f-social','tiktok',this,'#010101')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> TikTok</button>
+          </div>
+        <div id="f-social-instagram-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> instagram.com/</span>
+            <input class="social-field-input" type="text" id="f-social-instagram"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+        <div id="f-social-facebook-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> facebook.com/</span>
+            <input class="social-field-input" type="text" id="f-social-facebook"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+        <div id="f-social-linkedin-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> linkedin.com/in/</span>
+            <input class="social-field-input" type="text" id="f-social-linkedin"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
+        <div id="f-social-tiktok-row" style="display:none;">
+          <div class="social-field-row">
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> tiktok.com/@</span>
+            <input class="social-field-input" type="text" id="f-social-tiktok"
+              placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
+              autocapitalize="off" spellcheck="false" />
+          </div>
+        </div>
         </div>
       </div>
 
@@ -585,7 +754,7 @@
           </div>
           <div class="field" id="field-self-email">
             <label>Email *</label>
-            <input type="email" id="f-self-email" placeholder="contact@votre-structure.fr" oninput="checkBloc2Complete()" />
+            <input type="email" id="f-self-email" placeholder="contact@votre-structure.fr" onblur="checkEmailField('f-self-email','err-self-email')" oninput="checkBloc2Complete()" />
             <div class="field-error" id="err-self-email"></div>
           </div>
         </div>
@@ -597,7 +766,7 @@
       <div class="section-title"><div class="section-num">3</div><div class="section-label">Profil & expertise</div></div>
 
       <div class="field" id="field-role">
-        <label>Rôle.s / Activités du contact que vous partagez * <span style="font-weight:400;color:#6B7B78;font-size:14px;">(choisir au moins un)</span></label>
+        <label>Rôle.s / Activités du contact que vous partagez * <span style="font-weight:600;color:#F1BD10;font-size:14px;">(choisir au moins un)</span></label>
         <div class="roles-wrap" id="roles-wrap"></div>
         <div class="field-error" id="err-role"></div>
       </div>
@@ -707,7 +876,7 @@
 // CONFIG
 // ══════════════════════════════════════════════════════════════════════════════
 const SK = "sibato-contacts-v3";
-const API_URL = "https://script.google.com/macros/s/AKfycbzP6TQjxLuScsW1kHc1mTv7UA55sz3nHLJFzXEew7PFFrBKOsoNgzn8dGhYegU9Vcki/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzAn70A-l080WyW0E5_wwuEpnF6KtFPPTveldaYFXPSxpu2F6XAhS8jRFAuLZaVvFXl/exec";
 const PARTNER_PASSWORD = "SiBato971#";
 
 const ROLES_CONFIG = [
@@ -767,6 +936,7 @@ let contactSource = null;          // 'self'|'other' (pour pro/asso seulement)
 let partnerState = {loggedIn:false, structId:null, structureName:null, memberName:null};
 let currentStruct=null, reqFromPwdStep=false, partnerFromRequest=false;
 let savedReqData = {prenom:"", nom:"", email:""};  // sauvegarde avant effacement
+let savedProposant = null;  // mémorise les infos proposant pour pré-remplissage contact suivant
 
 function g(id) { return document.getElementById(id); }
 function v(id) { const el=g(id); return el ? el.value.trim() : ""; }
@@ -798,6 +968,7 @@ function init() {
     if (pair) {
       // Créer une ligne flex pour les 2 boutons côte à côte
       const row = document.createElement("div");
+      row.className = "role-pair-row";
       row.style.cssText = "display:flex;gap:8px;";
       pair.forEach(k => {
         const cfg = ROLES_CONFIG.find(r => r.key === k); if (!cfg) return;
@@ -867,13 +1038,7 @@ function revealBloc(id) {
   if (!el || !el.classList.contains("hidden-block")) return;
   el.classList.remove("hidden-block");
   el.classList.add("appearing");
-  // Sur mobile : pas de scroll auto (l'écran saute trop)
-  // Sur desktop : scroll léger uniquement pour bloc-2 (premier révélé)
-  const isMobile = window.innerWidth <= 500;
-  if (!isMobile && id === "bloc-2") {
-    // Délai court pour laisser le bloc apparaître avant de scroller
-    setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "nearest" }), 80);
-  }
+  // Aucun scroll automatique — l'utilisateur navigue librement
   setTimeout(() => el.classList.remove("appearing"), 400);
 }
 
@@ -975,8 +1140,8 @@ function getProposantData() {
     const parts = (partnerState.memberName||"").split(" ");
     return { type:"Partenaire", structure:partnerState.structureName||"", prenom:parts[0]||"", nom:parts.slice(1).join(" ")||"", email:"", url:"" };
   }
-  if (proposantType==="pro")     return { type:"Professionnel·le", structure:v("pro-orga"),  prenom:v("pro-prenom"),     nom:v("pro-nom"),     email:v("pro-email"),  url:v("pro-url")  };
-  if (proposantType==="asso")    return { type: partnerFromRequest ? "Demande accès partenaire" : "Association", structure:v("asso-orga"), prenom:v("asso-prenom"), nom:v("asso-nom"), email:v("asso-email"), url:v("asso-url") };
+  if (proposantType==="pro")     return { type:"Professionnel·le", structure:v("pro-orga"),  prenom:v("pro-prenom"),     nom:v("pro-nom"),     email:v("pro-email"),  url:v("pro-url"),  reseaux:getSocialLinks("pro-social")  };
+  if (proposantType==="asso")    return { type: partnerFromRequest ? "Demande accès partenaire" : "Association", structure:v("asso-orga"), prenom:v("asso-prenom"), nom:v("asso-nom"), email:v("asso-email"), url:v("asso-url"), reseaux:getSocialLinks("asso-social") };
   if (proposantType==="citizen") return { type:"Citoyen·ne",        structure:"Citoyen·ne",   prenom:v("citizen-prenom"), nom:v("citizen-nom"), email:v("citizen-email"), url:"" };
   return null;
 }
@@ -1035,7 +1200,7 @@ function addFiliereSection(key) {
 
   const hint = document.createElement("div");
   hint.style.cssText = "font-size:13px;color:#C0392B;margin-bottom:8px;margin-top:4px;font-style:italic;font-weight:600;";
-  hint.textContent = "Veuillez sélectionner au moins 1 filière / spécialité";
+  hint.textContent = "Veuillez sélectionner au moins 1 filière / spécialité";  hint.style.color = "#F1BD10";
   section.appendChild(hint);
 
   const wrap = document.createElement("div");
@@ -1086,11 +1251,11 @@ function addFiliereSection(key) {
   autreRow.style.display = autreFilieresTexts[key] !== undefined ? "block" : "none";
   autreBtn.onclick = () => {
     if (autreFilieresTexts[key] !== undefined) { delete autreFilieresTexts[key]; autreBtn.classList.remove("on"); autreRow.style.display = "none"; autreInput.value = ""; }
-    else { autreFilieresTexts[key] = ""; autreBtn.classList.add("on"); autreRow.style.display = "block"; autreInput.focus(); }
+    else { autreFilieresTexts[key] = ""; autreBtn.classList.add("on"); autreRow.style.display = "block"; if(window.innerWidth > 500) autreInput.focus(); }
   };
 
   const errDiv = document.createElement("div");
-  errDiv.className = "field-error"; errDiv.id = "err-filiere-"+key; errDiv.style.marginTop = "6px";
+  errDiv.className = "field-error"; errDiv.id = "err-filiere-"+key; errDiv.style.marginTop = "2px"; errDiv.style.display = "none";
 
   section.appendChild(wrap);
   section.appendChild(autreRow);
@@ -1199,6 +1364,7 @@ function resetForm() {
 
   // Reset état
   selectedRoles=[]; selectedFilieres=[]; selectedCommunesActivite=[]; selectedPi=""; autreRoleText=""; autreFilieresTexts={};
+  clearSocialLinks("pro-social"); clearSocialLinks("asso-social"); clearSocialLinks("f-social");
   document.querySelectorAll(".role-btn").forEach(b => { b.classList.remove("on"); b.style.background=""; b.style.color=""; });
   ["oui","non","encours"].forEach(id => g("pi-"+id).classList.remove("on"));
   g("pi-subchoix").style.display="none";
@@ -1217,13 +1383,174 @@ function resetForm() {
   g("form-fields").style.display="block";
 }
 
+function resetFormKeepProposant() {
+  // Sauvegarder les infos proposant AVANT le reset
+  if (proposantType === "pro") {
+    savedProposant = { type:"pro", prenom:v("pro-prenom"), nom:v("pro-nom"), orga:v("pro-orga"), email:v("pro-email"), url:v("pro-url"), reseaux:getSocialLinks("pro-social") };
+  } else if (proposantType === "asso") {
+    savedProposant = { type:"asso", prenom:v("asso-prenom"), nom:v("asso-nom"), orga:v("asso-orga"), email:v("asso-email"), url:v("asso-url"), reseaux:getSocialLinks("asso-social") };
+  } else if (proposantType === "citizen") {
+    savedProposant = { type:"citizen", prenom:v("citizen-prenom"), nom:v("citizen-nom"), email:v("citizen-email") };
+  } else if (partnerState.loggedIn) {
+    savedProposant = { type:"partner" };
+  } else {
+    savedProposant = null;
+  }
+
+  // Reset complet d'abord
+  resetForm();
+
+  // Re-appliquer le type et les infos sauvegardées
+  if (!savedProposant) return;
+  const sp = savedProposant;
+
+  if (sp.type === "partner") return; // partenaire : checkBloc1Complete() déjà fait dans resetForm
+
+  // Ré-activer le type (sans ouvrir la modale)
+  proposantType = sp.type;
+  contactSource = null;
+  ["partner","pro","asso","citizen"].forEach(t => { const b=g("btn-type-"+t); if(b) b.classList.remove("on"); });
+  g("btn-type-"+sp.type).classList.add("on");
+  ["fields-partner","fields-pro","fields-asso","fields-citizen"].forEach(id => { const el=g(id); if(el) el.style.display="none"; });
+  g("fields-"+sp.type).style.display="block";
+
+  // Afficher choix source pour pro/asso
+  const srcWrap = g("contact-src-wrap");
+  if (sp.type==="pro" || sp.type==="asso") {
+    srcWrap.style.display="block";
+  } else {
+    srcWrap.style.display="none";
+    contactSource="other";
+  }
+
+  // Re-remplir les champs du proposant
+  if (sp.type === "pro") {
+    if(sp.prenom) g("pro-prenom").value = sp.prenom;
+    if(sp.nom)    g("pro-nom").value    = sp.nom;
+    if(sp.orga)   g("pro-orga").value   = sp.orga;
+    if(sp.email)  g("pro-email").value  = sp.email;
+    if(sp.url)    g("pro-url").value    = sp.url;
+    if(sp.reseaux) restoreSocialLinks("pro-social", sp.reseaux);
+  } else if (sp.type === "asso") {
+    if(sp.prenom) g("asso-prenom").value = sp.prenom;
+    if(sp.nom)    g("asso-nom").value    = sp.nom;
+    if(sp.orga)   g("asso-orga").value   = sp.orga;
+    if(sp.email)  g("asso-email").value  = sp.email;
+    if(sp.url)    g("asso-url").value    = sp.url;
+    if(sp.reseaux) restoreSocialLinks("asso-social", sp.reseaux);
+  } else if (sp.type === "citizen") {
+    if(sp.prenom) g("citizen-prenom").value = sp.prenom;
+    if(sp.nom)    g("citizen-nom").value    = sp.nom;
+    if(sp.email)  g("citizen-email").value  = sp.email;
+  }
+
+  // Révéler le bloc 2 directement
+  checkBloc1Complete();
+  // Scroll en haut du formulaire
+  window.scrollTo(0, 0);
+}
+
 function clearErrors() {
-  ["prenom","nom","role","commune-base","motif","preinforme","proposant-type","contact-src","pro-prenom","pro-nom","pro-orga","asso-prenom","asso-nom","asso-orga","citizen-prenom","self-email","contact-structure","partner-prenom","partner-nom"].forEach(id => { const el=g("err-"+id); if(el) el.textContent=""; });
+  ["prenom","nom","role","commune-base","motif","preinforme","proposant-type","contact-src","pro-prenom","pro-nom","pro-orga","pro-email","pro-url","asso-prenom","asso-nom","asso-orga","asso-email","asso-url","citizen-prenom","citizen-email","self-email","contact-structure","partner-prenom","partner-nom","partner-email","f-email","f-contact-url"].forEach(id => { const el=g("err-"+id); if(el){ el.textContent=""; el.style.display="none"; } });
   ["field-prenom","field-nom","field-role","field-commune-base","field-motif","field-preinforme","field-self-email","field-contact-structure"].forEach(id => { const el=g(id); if(el) el.classList.remove("error"); });
   g("global-error").textContent="";
 }
 
-function showErr(id, msg) { const el=g("err-"+id); if(el) el.textContent=msg; }
+
+// ── Réseaux sociaux ───────────────────────────────────────────────────────────
+const SOCIAL_BASES = {
+  instagram: "https://instagram.com/",
+  facebook:  "https://facebook.com/",
+  linkedin:  "https://linkedin.com/in/",
+  tiktok:    "https://tiktok.com/@",
+};
+const SOCIAL_NETS = ["instagram","facebook","linkedin","tiktok"];
+
+function toggleSocialBtn(prefix, net, btn, color) {
+  const row = g(prefix+"-"+net+"-row");
+  const isOn = btn.classList.contains("on");
+  if (isOn) {
+    btn.classList.remove("on"); btn.style.background=""; btn.style.color=""; btn.style.borderColor="";
+    if(row){ row.style.display="none"; const inp=g(prefix+"-"+net); if(inp) inp.value=""; }
+  } else {
+    btn.classList.add("on"); btn.style.background=color; btn.style.borderColor=color; btn.style.color="#fff";
+    if(row){ row.style.display="block"; if(window.innerWidth>500){ const inp=g(prefix+"-"+net); if(inp) inp.focus(); } }
+  }
+}
+
+function getSocialLinks(prefix) {
+  const result = {};
+  SOCIAL_NETS.forEach(net => {
+    const val = (g(prefix+"-"+net)?.value || "").trim().replace(/^@/,"");
+    result[net] = val ? SOCIAL_BASES[net] + val : "";
+  });
+  return result;
+}
+
+function clearSocialLinks(prefix) {
+  SOCIAL_NETS.forEach(net => {
+    const btn = g(prefix+"-btn-"+net);
+    if(btn){ btn.classList.remove("on"); btn.style.background=""; btn.style.color=""; btn.style.borderColor=""; }
+    const row = g(prefix+"-"+net+"-row");
+    if(row) row.style.display="none";
+    const inp = g(prefix+"-"+net);
+    if(inp) inp.value="";
+  });
+}
+
+function restoreSocialLinks(prefix, data) {
+  if (!data) return;
+  SOCIAL_NETS.forEach(net => {
+    if (!data[net]) return;
+    // Extraire le pseudo depuis l'URL
+    const base = SOCIAL_BASES[net];
+    let pseudo = data[net].replace(base, "").replace(/^@/,"");
+    if (!pseudo) return;
+    const inp = g(prefix+"-"+net); if(inp) inp.value = pseudo;
+    const btn = g(prefix+"-btn-"+net);
+    const colors = {instagram:"#E1306C",facebook:"#1877F2",linkedin:"#0A66C2",tiktok:"#010101"};
+    if(btn){ btn.classList.add("on"); btn.style.background=colors[net]; btn.style.borderColor=colors[net]; btn.style.color="#fff"; }
+    const row = g(prefix+"-"+net+"-row"); if(row) row.style.display="block";
+  });
+}
+
+function socialLinksHtml(socials) {
+  if (!socials) return "";
+  const icons = {instagram:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,facebook:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,linkedin:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,tiktok:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>`};
+  const colors = {instagram:"#E1306C",facebook:"#1877F2",linkedin:"#0A66C2",tiktok:"#010101"};
+  const labels = {instagram:"Instagram",facebook:"Facebook",linkedin:"LinkedIn",tiktok:"TikTok"};
+  return SOCIAL_NETS
+    .filter(net => socials[net])
+    .map(net => `<a href="${socials[net]}" target="_blank" rel="noopener"
+      style="display:inline-flex;align-items:center;gap:4px;color:${colors[net]};font-weight:600;font-size:13px;margin-right:10px;">
+      ${icons[net]} ${labels[net]}</a>`)
+    .join("");
+}
+
+// ── Validation format email / URL ─────────────────────────────────────────────
+function isValidEmail(val) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val.trim());
+}
+function isValidUrl(val) {
+  const v = val.trim();
+  // Accepter aussi les URL sans protocole fréquentes (facebook.com, etc.)
+  return /^https?:\/\/.+\..+/.test(v) || /^www\..+\..+/.test(v);
+}
+function checkEmailField(inputId, errId) {
+  const val = g(inputId)?.value.trim();
+  if (!val) { const el=g(errId); if(el){ el.textContent=""; el.style.display="none"; } return; }
+  if (!isValidEmail(val)) showErr(errId.replace("err-",""), "⚠ Format email invalide (ex : nom@domaine.fr)");
+  else { const el=g(errId); if(el){ el.textContent=""; el.style.display="none"; } }
+}
+function checkUrlField(inputId, errId) {
+  const val = g(inputId)?.value.trim();
+  if (!val) { const el=g(errId); if(el){ el.textContent=""; el.style.display="none"; } return; }
+  if (!isValidUrl(val)) showErr(errId.replace("err-",""), "⚠ Lien invalide — ex : https://www.site.fr");
+  else { const el=g(errId); if(el){ el.textContent=""; el.style.display="none"; } }
+}
+
+function showErr(id, msg) { const el=g("err-"+id); if(el){ el.textContent=msg; el.style.color=""; el.style.display="block"; } }
+function showWarn(id, msg) { const el=g("err-"+id); if(el){ el.textContent=msg; el.style.color="#F1BD10"; el.style.display="block"; } }
 function markErr(id) { const el=g("field-"+id); if(el) el.classList.add("error"); }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1283,12 +1610,12 @@ function submitForm() {
     contactTel       = v("f-telephone");
     contactEmail     = v("f-email");
     if (!contactPrenom && !contactNom && !contactStructure) {
-      showErr("contact-structure","⚠ Remplissez au moins le prénom, le nom ou la structure"); markErr("contact-structure"); hasErr=true;
+      showWarn("contact-structure","⚠ Remplissez au moins le prénom, le nom ou la structure"); markErr("contact-structure"); hasErr=true;
     }
   }
 
   // ── Valider Bloc 3 ──
-  if (!selectedRoles.length) { showErr("role","⚠ Choisissez au moins un rôle"); g("field-role").classList.add("error"); hasErr=true; }
+  if (!selectedRoles.length) { showWarn("role","⚠ Choisissez au moins un rôle"); g("field-role").classList.add("error"); hasErr=true; }
   const communeBase = v("f-commune-base"); // optionnel
 
   // Vérifier au moins 1 filière par rôle sélectionné
@@ -1301,7 +1628,7 @@ function submitForm() {
     const hasAutre = autreFilieresTexts[key] !== undefined && autreFilieresTexts[key].trim() !== "";
     if (!hasSelected && !hasAutre) {
       const errEl = g("err-filiere-"+key);
-      if (errEl) errEl.textContent = "⚠ Choisissez au moins une filière / spécialité";
+      if (errEl){ errEl.textContent = "⚠ Choisissez au moins une filière / spécialité"; errEl.style.color="#F1BD10"; errEl.style.display="block"; }
       hasErr = true;
     }
   });
@@ -1310,6 +1637,24 @@ function submitForm() {
   const motif = v("f-motif");
   if (!motif) { showErr("motif","⚠ Obligatoire"); markErr("motif"); hasErr=true; }
   if (!selectedPi) { showErr("preinforme","⚠ Obligatoire"); hasErr=true; }
+
+  // ── Valider format email / URL (si remplis) ──
+  const emailFields = [
+    ["pro-email","pro-email"], ["asso-email","asso-email"], ["citizen-email","citizen-email"],
+    ["partner-email","partner-email"], ["f-email","f-email"], ["f-self-email","self-email"],
+  ];
+  emailFields.forEach(([fid, eid]) => {
+    const val = g(fid)?.value.trim();
+    if (val && !isValidEmail(val)) { showErr(eid, "⚠ Format email invalide (ex : nom@domaine.fr)"); hasErr=true; }
+  });
+  const urlFields = [
+    ["pro-url","pro-url"], ["asso-url","asso-url"],
+    ["f-contact-url","f-contact-url"],
+  ];
+  urlFields.forEach(([fid, eid]) => {
+    const val = g(fid)?.value.trim();
+    if (val && !isValidUrl(val)) { showErr(eid, "⚠ Lien invalide — ex : https://www.site.fr"); hasErr=true; }
+  });
 
   if (hasErr) { g("global-error").textContent="⚠ Veuillez compléter tous les champs obligatoires."; return; }
 
@@ -1333,12 +1678,14 @@ function submitForm() {
     emailProposant:  propData ? propData.email     : "",
     urlProposant:    propData ? propData.url       : "",
     typeProposant:   propData ? propData.type      : "",
+    reseauxProposant: propData ? (propData.reseaux || {}) : {},
     prenom:          contactPrenom,
     nom:             contactNom,
     contactStructure,
     telephone:       contactTel,
     email:           contactEmail,
     contactUrl:      contactSource==="self" ? (propData ? propData.url : "") : v("f-contact-url"),
+    reseauxContact:  contactSource==="self" ? (propData ? (propData.reseaux||{}) : {}) : getSocialLinks("f-social"),
     roles:           rolesFinaux,
     filieres:        filieresFinales,
     communeBase,
@@ -1351,7 +1698,24 @@ function submitForm() {
   const btn=g("submit-btn");
   if(btn) { btn.disabled=true; btn.textContent="Envoi en cours…"; }
 
-  fetch(API_URL, {method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(contact)})
+  // Aplatir les réseaux sociaux en colonnes séparées pour le Sheet
+  const payload = Object.assign({}, contact);
+  const rc = contact.reseauxContact   || {};
+  const rp = contact.reseauxProposant || {};
+  payload.instagram_contact   = rc.instagram  || "";
+  payload.facebook_contact    = rc.facebook   || "";
+  payload.linkedin_contact    = rc.linkedin   || "";
+  payload.tiktok_contact      = rc.tiktok     || "";
+  payload.instagram_proposant = rp.instagram  || "";
+  payload.facebook_proposant  = rp.facebook   || "";
+  payload.linkedin_proposant  = rp.linkedin   || "";
+  payload.tiktok_proposant    = rp.tiktok     || "";
+
+  fetch(API_URL, {
+    method:"POST", mode:"no-cors",
+    headers:{"Content-Type":"application/x-www-form-urlencoded"},
+    body:"data=" + encodeURIComponent(JSON.stringify(payload))
+  })
   .finally(() => {
     contacts.push(contact);
     localStorage.setItem(SK, JSON.stringify(contacts));
@@ -1370,12 +1734,14 @@ function showConfirmRecap(c) {
   const roles=Array.isArray(c.roles)?c.roles.join("<br>"):(c.roles||"—");
   const filieres=Array.isArray(c.filieres)?c.filieres.join(" · "):(c.filieres||"");
   el.innerHTML=`<div style="background:#fff;border-radius:16px;padding:20px;text-align:left;">
-    <div style="font-size:20px;font-weight:800;color:#1C2B28;margin-bottom:4px;">${c.prenom} ${c.nom}</div>
+    <div style="font-size:20px;font-weight:800;color:#1C2B28;margin-bottom:2px;">${c.prenom} ${c.nom}</div>
+    ${c.contactStructure?`<div style="font-size:14px;font-weight:600;color:#1A6B5A;margin-bottom:4px;">🏛 ${c.contactStructure}</div>`:""}
     <div style="font-size:13px;color:#7FA89E;margin-bottom:6px;">${c.telephone||""} ${c.email?"· "+c.email:""}</div>
-    ${c.contactUrl?`<div style="font-size:13px;margin-bottom:10px;"><a href="${c.contactUrl}" target="_blank" rel="noopener" style="color:#1A6B5A;font-weight:600;">🌐 ${c.contactUrl}</a></div>`:""}
+    ${c.contactUrl?`<div style="font-size:13px;margin-bottom:4px;"><a href="${c.contactUrl}" target="_blank" rel="noopener" style="color:#1A6B5A;font-weight:600;">🌐 ${c.contactUrl}</a></div>`:""}
+    ${(()=>{ const s=c.reseauxContact; if(!s) return ""; const h=socialLinksHtml(s); return h?`<div style="font-size:13px;margin-bottom:10px;">${h}</div>`:""; })()}
     <div style="display:grid;grid-template-columns:130px 1fr;gap:8px 14px;font-size:14px;">
       <div style="color:#7FA89E;font-weight:600;">📍 Commune</div><div style="font-weight:600;">${c.communeBase||"—"}</div>
-      ${c.contactStructure?`<div style="color:#7FA89E;font-weight:600;">🏛 Structure</div><div>${c.contactStructure}</div>`:""}
+      <!-- structure déjà affichée en en-tête -->
       ${roles?`<div style="color:#7FA89E;font-weight:600;">🎯 Rôles</div><div>${roles}</div>`:""}
       ${filieres?`<div style="color:#7FA89E;font-weight:600;">🌱 Filières</div><div>${filieres}</div>`:""}
       ${c.motif?`<div style="color:#7FA89E;font-weight:600;">💬 Motif</div><div style="font-style:italic;">"${c.motif}"</div>`:""}
@@ -1399,12 +1765,81 @@ function rolesBadges(roles) {
 }
 
 function normalizeSheetContact(c) {
+  // ── Remapper les noms de colonnes du Sheet vers les clés JS internes ──────
+  // Le Sheet renvoie les vrais en-têtes (ex: "Prénom", "Organisation_Proposant"…)
+  // L'appli attend les clés JS (ex: c.prenom, c.structure…)
+  const SHEET_TO_JS = {
+    "N°":                                               "id",
+    "createdAt":                                        "createdAt",
+    "Type_Proposant":                                   "typeProposant",
+    "Organisation_Proposant":                           "structure",
+    "Prénom_Proposant":                                 "autrePrenom",
+    "Nom_Proposant":                                    "autreNom",
+    "Email_Proposant":                                  "emailProposant",
+    "Page internet_Proposant":                          "urlProposant",
+    "instagram_proposant":                              "instagram_proposant",
+    "facebook_proposant":                               "facebook_proposant",
+    "linkedin_proposant":                               "linkedin_proposant",
+    "tiktok_proposant":                                 "tiktok_proposant",
+    "Prénom":                                           "prenom",
+    "Nom":                                              "nom",
+    "Structure":                                        "contactStructure",
+    "Téléphone":                                        "telephone",
+    "Email":                                            "email",
+    "Page internet":                                    "contactUrl",
+    "instagram_contact":                                "instagram_contact",
+    "facebook_contact":                                 "facebook_contact",
+    "linkedin_contact":                                 "linkedin_contact",
+    "tiktok_contact":                                   "tiktok_contact",
+    "Siège / Commune de base":                          "communeBase",
+    "Commune.s d'activité (plusieurs choix possibles)":"communesActivite",
+    "Filière / Spécialité.s":                           "filieres",
+    "Motif de l'invitation / Valeur ajoutée":          "motif",
+    "Etat (à contacter, informé, etc.)":                "preinforme",
+    "Remarques / Dispo":                                "remarques",
+  };
+  // Appliquer le remapping : créer les clés JS à partir des clés Sheet
+  Object.entries(SHEET_TO_JS).forEach(([sheetKey, jsKey]) => {
+    if (c.hasOwnProperty(sheetKey) && !c.hasOwnProperty(jsKey)) {
+      c[jsKey] = c[sheetKey];
+    }
+  });
+  // Cas spécial : la colonne "Secteur d'activité" contient un vrai retour ligne dans son en-tête
+  if (!c.hasOwnProperty("roles")) {
+    const secteurKey = Object.keys(c).find(k => k.startsWith("Secteur d"));
+    if (secteurKey) c.roles = c[secteurKey];
+  }
+
+  // ── Normalisation des valeurs ─────────────────────────────────────────────
   const PI_MAP={"a contacter":"Non","non":"Non","contacté.e - motivé.e":"Oui - Motivé·e","oui - motivé·e":"Oui - Motivé·e","contacté.e - ne sait pas":"Oui - Ne sait pas","oui - ne sait pas":"Oui - Ne sait pas","contacté.e - ne peut ou veut pas":"Oui - Ne peut pas","contacté.e - ne peut pas":"Oui - Ne peut pas","oui - ne peut pas":"Oui - Ne peut pas","injoignable":"En cours","en cours":"En cours","oui":"Oui"};
   const piRaw=(c.preinforme||"").toString().toLowerCase().trim();
   c.preinforme=PI_MAP[piRaw]||c.preinforme||"";
-  if(!Array.isArray(c.roles))           c.roles=c.roles?[c.roles]:[];
-  if(!Array.isArray(c.filieres))        c.filieres=c.filieres?[c.filieres]:[];
-  if(!Array.isArray(c.communesActivite))c.communesActivite=[];
+
+  // Roles et filières : le Sheet stocke une chaîne "role1, role2" → tableau
+  if(!Array.isArray(c.roles))    c.roles    = c.roles    ? c.roles.toString().split(", ").map(s=>s.trim()).filter(Boolean) : [];
+  if(!Array.isArray(c.filieres)) c.filieres = c.filieres ? c.filieres.toString().split(", ").map(s=>s.trim()).filter(Boolean) : [];
+  // Communes d'activité : idem
+  if(!Array.isArray(c.communesActivite)) {
+    c.communesActivite = c.communesActivite ? c.communesActivite.toString().split(", ").map(s=>s.trim()).filter(Boolean) : [];
+  }
+
+  // ── Reconstruire les objets réseaux sociaux ───────────────────────────────
+  if (!c.reseauxContact) {
+    c.reseauxContact = {
+      instagram: c.instagram_contact  || "",
+      facebook:  c.facebook_contact   || "",
+      linkedin:  c.linkedin_contact   || "",
+      tiktok:    c.tiktok_contact     || "",
+    };
+  }
+  if (!c.reseauxProposant) {
+    c.reseauxProposant = {
+      instagram: c.instagram_proposant || "",
+      facebook:  c.facebook_proposant  || "",
+      linkedin:  c.linkedin_proposant  || "",
+      tiktok:    c.tiktok_proposant    || "",
+    };
+  }
   return c;
 }
 
@@ -1483,11 +1918,33 @@ function renderBase() {
 function openFiche(id) {
   const c=contacts.find(x=>x.id===id); if(!c) return;
   g("fiche-header-name").textContent=c.prenom+" "+c.nom;
-  const dateStr=new Date(c.createdAt).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"});
+  // Date d'ajout : priorité à createdAt (ISO), fallback sur id (timestamp ms)
+  // Si plusieurs entrées pour le même contact, on affiche la 1ère saisie (la plus ancienne)
+  const allSameContact = contacts.filter(x =>
+    x.prenom === c.prenom && x.nom === c.nom &&
+    (x.communeBase === c.communeBase || x.contactStructure === c.contactStructure)
+  );
+  const oldest = allSameContact.reduce((min, x) => {
+    const t = x.createdAt ? new Date(x.createdAt).getTime() : (Number(x.id) || Infinity);
+    const tMin = min.createdAt ? new Date(min.createdAt).getTime() : (Number(min.id) || Infinity);
+    return t < tMin ? x : min;
+  }, c);
+  const rawDate = oldest.createdAt || (oldest.id ? new Date(Number(oldest.id)).toISOString() : null);
+  const parsedDate = rawDate ? new Date(rawDate) : null;
+  const dateStr = (parsedDate && !isNaN(parsedDate))
+    ? parsedDate.toLocaleDateString("fr-FR", {day:"numeric", month:"long", year:"numeric"})
+    : "";
   g("fiche-body").innerHTML=`
     <div class="fiche-card">
       <div class="fiche-top"><div>
-        <div class="fiche-name">${c.prenom} ${c.nom}</div>
+        <div class="fiche-name">${(()=>{
+			  const id = [c.prenom, c.nom].filter(Boolean).join(" ");
+			  const orga = c.contactStructure || "";
+			  if (!id && !orga) return "—";
+			  if (!id) return orga;
+			  if (!orga) return id;
+			  return id + ", " + orga;
+			})()}</div>
         <div class="fiche-meta">
           🏠 Siège : ${c.communeBase}${getEPCI(c.communeBase)?` <span style="font-size:11px;font-weight:600;color:#1A6B5A;">(${getEPCI(c.communeBase)})</span>`:""}
           ${c.communesActivite&&c.communesActivite.length?`<br>📍 Actif·e à : ${c.communesActivite.join(", ")}`:""}
@@ -1496,13 +1953,13 @@ function openFiche(id) {
           ${c.typeProposant?` <span style="font-size:11px;background:#E8F0EE;padding:2px 8px;border-radius:10px;">${c.typeProposant}</span>`:""}
         </div>
       </div><div class="fiche-badges">${piBadge(c.preinforme)}</div></div>
-      ${(c.telephone||c.email||c.contactUrl)?`<div class="fiche-contacts">${c.telephone?`<a href="tel:${c.telephone}">📞 ${c.telephone}</a>`:""}${c.email?`<a href="mailto:${c.email}">✉ ${c.email}</a>`:""}${c.contactUrl?`<a href="${c.contactUrl}" target="_blank" rel="noopener">🌐 Site web</a>`:""}</div>`:""}
+      ${(()=>{ const hasSocial=c.reseauxContact&&Object.values(c.reseauxContact).some(v=>v); const hasContact=c.telephone||c.email||c.contactUrl||hasSocial; return hasContact?`<div class="fiche-contacts">${c.telephone?`<a href="tel:${c.telephone}">📞 ${c.telephone}</a>`:""}${c.email?`<a href="mailto:${c.email}">✉ ${c.email}</a>`:""}${c.contactUrl?`<a href="${c.contactUrl}" target="_blank" rel="noopener">🌐 Site web</a>`:""}${hasSocial?socialLinksHtml(c.reseauxContact):""}</div>`:""; })()}
     </div>
     ${c.roles&&c.roles.length?`<div class="fiche-card"><div class="fiche-section-title">Rôle(s) dans la chaîne</div><div class="fiche-tags">${rolesBadges(c.roles)}</div></div>`:""}
     ${c.filieres&&c.filieres.length?`<div class="fiche-card"><div class="fiche-section-title">Filières & spécialités</div><div class="fiche-tags">${c.filieres.map(f=>`<span class="fiche-tag">${f}</span>`).join("")}</div></div>`:""}
     <div class="fiche-card"><div class="fiche-section-title">Valeur ajoutée — Si bato pa rivé…</div><div class="fiche-text">${c.motif}</div></div>
     ${c.remarques?`<div class="fiche-gold"><div class="fiche-gold-title">Remarques & disponibilités</div><div class="fiche-gold-text">${c.remarques}</div></div>`:""}
-    <div class="fiche-date">Ajouté le ${dateStr}</div>`;
+    ${dateStr ? `<div class="fiche-date">1ère saisie le ${dateStr}</div>` : ""}`;
   goTo("fiche-view");
 }
 
@@ -1555,7 +2012,7 @@ function onModalOverlayClick(e) { if(e.target===g("partner-modal")) closePartner
 function showPStep(step, fromPwd) {
   ["1","2","3","req","confirm"].forEach(s=>g("pstep-"+s).style.display="none");
   g("pstep-"+step).style.display="block";
-  if(step===2) setTimeout(()=>g("pwd-input").focus(),80);
+  if(step===2 && window.innerWidth > 500) setTimeout(()=>g("pwd-input").focus(),80);
   if(step==="confirm"){ const msg=g("confirm-msg"); if(msg) msg.innerHTML=reqFromPwdStep?"Votre demande a bien été transmise. <strong>Nous vous enverrons le mot de passe sous 48h.</strong>":"Votre demande de compte nominatif a bien été transmise. <strong>Nous vous répondrons sous 48h.</strong>"; }
   if(step==="req"){ if(fromPwd!==undefined) reqFromPwdStep=fromPwd; if(currentStruct) g("req-structure").value=currentStruct.name; g("req-back-btn").onclick=()=>showPStep(reqFromPwdStep?2:3); }
 }
@@ -1564,7 +2021,7 @@ function renderStructList() {
 }
 function selectStruct(id,name) { currentStruct={id,name}; g("step2-title").textContent=name; g("pwd-input").value=""; g("pwd-error").textContent=""; showPStep(2); }
 function checkPassword() {
-  if(g("pwd-input").value!==PARTNER_PASSWORD){ g("pwd-error").textContent="⚠ Mot de passe incorrect."; g("pwd-input").value=""; g("pwd-input").focus(); return; }
+  if(g("pwd-input").value!==PARTNER_PASSWORD){ g("pwd-error").textContent="⚠ Mot de passe incorrect."; g("pwd-input").value=""; if(window.innerWidth > 500) g("pwd-input").focus(); return; }
   g("pwd-error").textContent="";
   loadMembersForStruct(currentStruct); showPStep(3);
 }
@@ -1643,7 +2100,11 @@ function submitAccessRequest() {
   if(!prenom||!nom||!structure||!email){ g("req-error").textContent="⚠ Prénom, nom, organisation et email sont obligatoires."; return; }
   g("req-error").textContent="";
   const btn=g("req-submit-btn"); btn.disabled=true; btn.textContent="Envoi…";
-  fetch(API_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({_action:"access_request",prenom,nom,structure,role,email,type:reqFromPwdStep?"Sans mot de passe":"Compte nominatif"})})
+  fetch(API_URL,{
+    method:"POST", mode:"no-cors",
+    headers:{"Content-Type":"application/x-www-form-urlencoded"},
+    body:"data=" + encodeURIComponent(JSON.stringify({_action:"access_request",prenom,nom,structure,role,email,type:reqFromPwdStep?"Sans mot de passe":"Compte nominatif"}))
+  })
   .finally(()=>{
     btn.disabled=false; btn.textContent="Envoyer la demande →";
     if(!reqFromPwdStep){const sN=(currentStruct&&currentStruct.name)||structure;const sI=(currentStruct&&currentStruct.id)||structure.toLowerCase().replace(/\s+/g,"_");loginAs(prenom,nom,role,sI,sN);}
