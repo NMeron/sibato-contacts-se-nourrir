@@ -506,7 +506,7 @@
           </div>
           <div class="field">
             <label>Site web / Page de votre structure <span class="opt">(optionnel)</span></label>
-            <input type="url" id="pro-url" placeholder="https://www.votre-structure.fr" onblur="checkUrlField('pro-url','err-pro-url')" />
+            <input type="url" id="pro-url" placeholder="www.votre-structure.gp" onblur="checkUrlField('pro-url','err-pro-url')" />
           <div class="field-error" id="err-pro-url"></div>
           </div>
         <div class="social-widget">
@@ -582,7 +582,7 @@
           </div>
           <div class="field">
             <label>Site web / Page de votre Association <span class="opt">(optionnel)</span></label>
-            <input type="url" id="asso-url" placeholder="https://www.votre-asso.fr" onblur="checkUrlField('asso-url','err-asso-url')" />
+            <input type="url" id="asso-url" placeholder="www.votre-asso.fr" onblur="checkUrlField('asso-url','err-asso-url')" />
           <div class="field-error" id="err-asso-url"></div>
           </div>
         <div class="social-widget">
@@ -696,7 +696,7 @@
         </div>
         <div class="field">
           <label>Site web / Lien du contact <span class="opt">(optionnel)</span></label>
-          <input type="url" id="f-contact-url" placeholder="https://www.site-du-contact.fr" onblur="checkUrlField('f-contact-url','err-f-contact-url')" />
+          <input type="url" id="f-contact-url" placeholder="www.site-du-contact.fr" onblur="checkUrlField('f-contact-url','err-f-contact-url')" />
           <div class="field-error" id="err-f-contact-url"></div>
         </div>
         <div class="social-widget">
@@ -754,7 +754,7 @@
           </div>
           <div class="field" id="field-self-email">
             <label>Email *</label>
-            <input type="email" id="f-self-email" placeholder="contact@votre-structure.fr" onblur="checkEmailField('f-self-email','err-self-email')" oninput="checkBloc2Complete()" />
+            <input type="email" id="f-self-email" placeholder="contact@votre-structure.gp" onblur="checkEmailField('f-self-email','err-self-email')" oninput="checkBloc2Complete()" />
             <div class="field-error" id="err-self-email"></div>
           </div>
         </div>
@@ -1545,7 +1545,7 @@ function checkEmailField(inputId, errId) {
 function checkUrlField(inputId, errId) {
   const val = g(inputId)?.value.trim();
   if (!val) { const el=g(errId); if(el){ el.textContent=""; el.style.display="none"; } return; }
-  if (!isValidUrl(val)) showErr(errId.replace("err-",""), "⚠ Lien invalide — ex : https://www.site.fr");
+  if (!isValidUrl(val)) showErr(errId.replace("err-",""), "⚠ Lien invalide — ex : www.site.gp ou http://abc.com");
   else { const el=g(errId); if(el){ el.textContent=""; el.style.display="none"; } }
 }
 
@@ -1653,7 +1653,7 @@ function submitForm() {
   ];
   urlFields.forEach(([fid, eid]) => {
     const val = g(fid)?.value.trim();
-    if (val && !isValidUrl(val)) { showErr(eid, "⚠ Lien invalide — ex : https://www.site.fr"); hasErr=true; }
+    if (val && !isValidUrl(val)) { showErr(eid, "⚠ Lien invalide — ex : www.site.gp ou http://abc.com"); hasErr=true; }
   });
 
   if (hasErr) { g("global-error").textContent="⚠ Veuillez compléter tous les champs obligatoires."; return; }
