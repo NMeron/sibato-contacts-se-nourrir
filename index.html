@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Si bato pa rivé — Contacts Conférence #02</title>
+  <title>Si bato pa rivé — Contacts Conférence #02 — v1.6</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #1C2B28; }
@@ -161,7 +161,14 @@
     .filter-input::placeholder { color:rgba(255,255,255,0.55); }
     .filter-select { background:rgba(255,255,255,0.13);border:none;border-radius:8px;padding:8px 10px;color:#fff;font-size:12px;outline:none;flex:1 1 120px; }
     .filter-select option { color:#1C2B28; }
+    @media(max-width:500px){
+      .filter-input  { flex:1 1 100%; font-size:14px; padding:10px 12px; }
+      .filter-select { flex:1 1 calc(50% - 4px); font-size:12px; }
+    }
     .cards-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;padding:14px; }
+    @media(max-width:500px){
+      .cards-grid { grid-template-columns:1fr; gap:10px; padding:10px; }
+    }
     .contact-card { background:#fff;border-radius:12px;padding:16px;cursor:pointer;border:1px solid #E8F0EE;box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:box-shadow 0.15s; }
     .contact-card:hover { box-shadow:0 5px 20px rgba(0,0,0,0.1); }
     .card-top { display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px; }
@@ -204,8 +211,9 @@
       .grid2 { grid-template-columns:1fr; gap:0; }
       .proposant-btns { grid-template-columns:1fr; }
       .hero { padding: 48px 18px 18px; }
-      #partner-float-btn { display:none !important; }
-      #partner-badge-btn { display:none !important; }
+      /* Boutons partenaires visibles sur mobile (restriction levée v1.3) */
+      #partner-float-btn { font-size:11px; padding:7px 12px; }
+      #partner-badge-btn { font-size:11px; padding:7px 10px; max-width:200px; }
       .hero-tag { font-size:11px;letter-spacing:1.5px;margin-bottom:10px; }
       /* Paires de rôles : une par ligne sur mobile */
       .role-pair-row { flex-direction:column !important; }
@@ -329,9 +337,7 @@
     <div id="pstep-1">
       <div class="modal-eyebrow">Espace collaboratif</div>
       <div class="modal-title">Vous êtes membre de quelle organisation partenaire ?</div>
-      <div id="mobile-partner-warning" style="display:none;background:rgba(212,168,67,0.12);border:1.5px solid rgba(212,168,67,0.4);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#7A5800;line-height:1.55;">
-        📱 <strong>Sur mobile</strong>, vous pouvez proposer des contacts en tant que partenaire, mais la <strong>consultation de la base</strong> n'est disponible que sur ordinateur.
-      </div>
+      <div id="mobile-partner-warning" style="display:none;"></div>
       <div class="struct-list" id="struct-list"></div>
       <div class="mbtn-sep"></div>
       <button class="mbtn-ghost" onclick="closePartnerModal()">Retour vue publique</button>
@@ -514,7 +520,7 @@
           <div class="social-btns">
           <button type="button" class="social-btn" id="pro-social-btn-instagram" style="" onclick="toggleSocialBtn('pro-social','instagram',this,'#E1306C')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> Instagram</button>
           <button type="button" class="social-btn" id="pro-social-btn-facebook" style="" onclick="toggleSocialBtn('pro-social','facebook',this,'#1877F2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Facebook</button>
-          <button type="button" class="social-btn" id="pro-social-btn-linkedin" style="" onclick="toggleSocialBtn('pro-social','linkedin',this,'#0A66C2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</button>
+          <button type="button" class="social-btn" id="pro-social-btn-linkedin" style="" onclick="toggleSocialBtn('pro-social','linkedin',this,'#0A66C2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.661h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</button>
           <button type="button" class="social-btn" id="pro-social-btn-tiktok" style="" onclick="toggleSocialBtn('pro-social','tiktok',this,'#010101')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> TikTok</button>
           </div>
         <div id="pro-social-instagram-row" style="display:none;">
@@ -535,7 +541,7 @@
         </div>
         <div id="pro-social-linkedin-row" style="display:none;">
           <div class="social-field-row">
-            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> linkedin.com/in/</span>
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.661h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> linkedin.com/in/</span>
             <input class="social-field-input" type="text" id="pro-social-linkedin"
               placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
               autocapitalize="off" spellcheck="false" />
@@ -590,7 +596,7 @@
           <div class="social-btns">
           <button type="button" class="social-btn" id="asso-social-btn-instagram" style="" onclick="toggleSocialBtn('asso-social','instagram',this,'#E1306C')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> Instagram</button>
           <button type="button" class="social-btn" id="asso-social-btn-facebook" style="" onclick="toggleSocialBtn('asso-social','facebook',this,'#1877F2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Facebook</button>
-          <button type="button" class="social-btn" id="asso-social-btn-linkedin" style="" onclick="toggleSocialBtn('asso-social','linkedin',this,'#0A66C2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</button>
+          <button type="button" class="social-btn" id="asso-social-btn-linkedin" style="" onclick="toggleSocialBtn('asso-social','linkedin',this,'#0A66C2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.661h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</button>
           <button type="button" class="social-btn" id="asso-social-btn-tiktok" style="" onclick="toggleSocialBtn('asso-social','tiktok',this,'#010101')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> TikTok</button>
           </div>
         <div id="asso-social-instagram-row" style="display:none;">
@@ -611,7 +617,7 @@
         </div>
         <div id="asso-social-linkedin-row" style="display:none;">
           <div class="social-field-row">
-            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> linkedin.com/in/</span>
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.661h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> linkedin.com/in/</span>
             <input class="social-field-input" type="text" id="asso-social-linkedin"
               placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
               autocapitalize="off" spellcheck="false" />
@@ -704,7 +710,7 @@
           <div class="social-btns">
           <button type="button" class="social-btn" id="f-social-btn-instagram" style="" onclick="toggleSocialBtn('f-social','instagram',this,'#E1306C')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg> Instagram</button>
           <button type="button" class="social-btn" id="f-social-btn-facebook" style="" onclick="toggleSocialBtn('f-social','facebook',this,'#1877F2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg> Facebook</button>
-          <button type="button" class="social-btn" id="f-social-btn-linkedin" style="" onclick="toggleSocialBtn('f-social','linkedin',this,'#0A66C2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</button>
+          <button type="button" class="social-btn" id="f-social-btn-linkedin" style="" onclick="toggleSocialBtn('f-social','linkedin',this,'#0A66C2')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.661h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</button>
           <button type="button" class="social-btn" id="f-social-btn-tiktok" style="" onclick="toggleSocialBtn('f-social','tiktok',this,'#010101')"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> TikTok</button>
           </div>
         <div id="f-social-instagram-row" style="display:none;">
@@ -725,7 +731,7 @@
         </div>
         <div id="f-social-linkedin-row" style="display:none;">
           <div class="social-field-row">
-            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> linkedin.com/in/</span>
+            <span class="social-field-prefix"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.661h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> linkedin.com/in/</span>
             <input class="social-field-input" type="text" id="f-social-linkedin"
               placeholder="votre_identifiant" autocomplete="off" autocorrect="off"
               autocapitalize="off" spellcheck="false" />
@@ -875,8 +881,9 @@
 // ══════════════════════════════════════════════════════════════════════════════
 // CONFIG
 // ══════════════════════════════════════════════════════════════════════════════
-const SK = "sibato-contacts-v3";
+const SK = "sibato-contacts-v4"; // v4 : invalide les anciens caches (v1.3 mars 2026)
 const API_URL = "https://script.google.com/macros/s/AKfycbzAn70A-l080WyW0E5_wwuEpnF6KtFPPTveldaYFXPSxpu2F6XAhS8jRFAuLZaVvFXl/exec";
+const PROXY_URL = "https://sibato-proxy.nicolas-meron.workers.dev/"; // Proxy Cloudflare — remplacer après déploiement
 const PARTNER_PASSWORD = "SiBato971#";
 
 const ROLES_CONFIG = [
@@ -999,6 +1006,9 @@ function init() {
   const selFSiege=g("filter-siege");
   COMMUNES.forEach(c => { const o=document.createElement("option"); o.value=o.textContent=c; selFSiege.appendChild(o); });
   updateStats();
+  // Toujours rafraîchir depuis le Sheet au démarrage (en arrière-plan, sans bloquer l'UI)
+  // Cela garantit que le cache local n'affiche jamais de données périmées
+  fetchContactsSilent();
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1516,7 +1526,7 @@ function restoreSocialLinks(prefix, data) {
 
 function socialLinksHtml(socials) {
   if (!socials) return "";
-  const icons = {instagram:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,facebook:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,linkedin:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,tiktok:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>`};
+  const icons = {instagram:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>`,facebook:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,linkedin:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.661h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,tiktok:`<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>`};
   const colors = {instagram:"#E1306C",facebook:"#1877F2",linkedin:"#0A66C2",tiktok:"#010101"};
   const labels = {instagram:"Instagram",facebook:"Facebook",linkedin:"LinkedIn",tiktok:"TikTok"};
   return SOCIAL_NETS
@@ -1844,50 +1854,47 @@ function normalizeSheetContact(c) {
 }
 
 function fetchContactsSilent() {
-  // Charge les données depuis le Sheet sans toucher à l'UI
-  const old = g("_sibato_jsonp_silent"); if (old) old.remove();
-  let settled = false;
-  const timeout = setTimeout(() => { settled = true; }, 12000);
-  window._sibatoCbSilent = function(data) {
-    if (settled) return; settled = true; clearTimeout(timeout);
-    if (data.status === "ok" && Array.isArray(data.contacts)) {
-      contacts = data.contacts.map(normalizeSheetContact);
-      localStorage.setItem(SK, JSON.stringify(contacts));
-      updateStats();
-      // Si l'utilisateur est déjà sur base-view, rafraîchir la grille
-      if (document.querySelector("#base-view.active")) renderBase();
-    }
-    const el = g("_sibato_jsonp_silent"); if (el) el.remove(); delete window._sibatoCbSilent;
-  };
-  const script = document.createElement("script");
-  script.id = "_sibato_jsonp_silent";
-  script.src = API_URL + "?callback=_sibatoCbSilent&t=" + Date.now();
-  script.onerror = () => { settled = true; clearTimeout(timeout); };
-  document.head.appendChild(script);
+  // Utilise le proxy Cloudflare (fetch CORS) pour éviter le blocage JSONP/302 sur mobile
+  const url = PROXY_URL + "?t=" + Date.now();
+  fetch(url)
+    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(data => {
+      if (data.status === "ok" && Array.isArray(data.contacts)) {
+        contacts = data.contacts.map(normalizeSheetContact);
+        localStorage.setItem(SK, JSON.stringify(contacts));
+        updateStats();
+        if (document.querySelector("#base-view.active")) renderBase();
+      }
+    })
+    .catch(() => { /* échec silencieux — le cache vide reste en place */ });
 }
 
 function loadAndRenderBase() {
   const grid=g("cards-grid"), loading=g("base-loading");
-  grid.innerHTML=""; if(loading) loading.style.display="block";
-  const old=g("_sibato_jsonp"); if(old) old.remove();
-  let settled=false;
-  const timeout=setTimeout(()=>{if(settled)return;settled=true;if(loading)loading.style.display="none";renderBase();},9000);
-  window._sibatoCb=function(data){
-    if(settled)return;settled=true;clearTimeout(timeout);if(loading)loading.style.display="none";
-    if(data.status==="ok"&&Array.isArray(data.contacts)){contacts=data.contacts.map(normalizeSheetContact);localStorage.setItem(SK,JSON.stringify(contacts));updateStats();}
-    renderBase();const el=g("_sibato_jsonp");if(el)el.remove();delete window._sibatoCb;
-  };
-  const script=document.createElement("script");script.id="_sibato_jsonp";
-  script.src=API_URL+"?callback=_sibatoCb&t="+Date.now();
-  script.onerror=()=>{if(settled)return;settled=true;clearTimeout(timeout);if(loading)loading.style.display="none";renderBase();};
-  document.head.appendChild(script);
+  grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div style="font-size:32px;margin-bottom:12px;">⏳</div><p style="color:#7FA89E;">Chargement de la base…</p></div>`;
+  if(loading) loading.style.display="block";
+  const url = PROXY_URL + "?t=" + Date.now();
+  fetch(url)
+    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(data => {
+      if(loading) loading.style.display="none";
+      if(data.status==="ok"&&Array.isArray(data.contacts)){contacts=data.contacts.map(normalizeSheetContact);localStorage.setItem(SK,JSON.stringify(contacts));updateStats();}
+      renderBase();
+    })
+    .catch(() => {
+      if(loading) loading.style.display="none";
+      renderBase();
+    });
 }
 
 function renderBase() {
   const search=(g("search-input").value||"").toLowerCase();
   const fRole=g("filter-role").value, fStr=g("filter-epci").value, fPi=g("filter-pi").value;
   let src=contacts;
-  if(!partnerState.loggedIn){const myIds=JSON.parse(localStorage.getItem("sibato_my_contacts")||"[]");src=contacts.filter(c=>myIds.includes(c.id));}
+  if(!partnerState.loggedIn){
+    const myIds=JSON.parse(localStorage.getItem("sibato_my_contacts")||"[]");
+    src=contacts.filter(c=>myIds.includes(c.id)||myIds.includes(String(c.id)));
+  }
   const filtered=src.filter(c=>{
     if(fRole&&!(c.roles||[]).includes(fRole))return false;
     if(fStr&&getEPCI(c.communeBase)!==fStr)return false;
@@ -1899,7 +1906,14 @@ function renderBase() {
   g("base-count-title").textContent=n+" contact"+(n>1?"s":"");
   const grid=g("cards-grid");
   if(!filtered.length){
-    const msg=partnerState.loggedIn?`<p>Aucun contact ne correspond à vos filtres.</p>`:`<p>Vous n'avez pas encore proposé de contact.</p><p style="color:#7FA89E;font-size:12px;margin-top:8px;">Les partenaires voient l'ensemble de la base.</p>`;
+    // Si la base est vide, afficher un message adapté
+    if(contacts.length===0) {
+      grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div style="font-size:32px;margin-bottom:12px;">⏳</div><p style="color:#7FA89E;">Chargement de la base…</p></div>`;
+      return;
+    }
+    const msg=partnerState.loggedIn
+      ?`<p>Aucun contact ne correspond à vos filtres.</p>`
+      :`<p>Vous n'avez pas encore proposé de contact depuis cet appareil.</p><p style="color:#7FA89E;font-size:12px;margin-top:8px;">Les partenaires voient l'ensemble de la base.</p>`;
     grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1"><div class="empty-emoji">🌿</div>${msg}<button class="btn-primary" style="margin-top:20px" onclick="goTo('form-view');resetForm()">+ Proposer un contact</button></div>`;
     return;
   }
@@ -2025,15 +2039,25 @@ function checkPassword() {
   g("pwd-error").textContent="";
   loadMembersForStruct(currentStruct); showPStep(3);
 }
-function loadMembersForStruct(struct) {
-  const c=g("members-container"); c.innerHTML='<div class="members-loading">⏳ Chargement des membres…</div>';
-  const old=g("_mjsonp"); if(old) old.remove(); if(window._membersCb) delete window._membersCb;
-  let settled=false;
-  const timeoutId=setTimeout(()=>{if(settled)return;settled=true;const el=g("_mjsonp");if(el)el.remove();delete window._membersCb;renderMembersEmpty(struct);},15000);
-  window._membersCb=function(data){ if(settled)return;settled=true;clearTimeout(timeoutId);const el=g("_mjsonp");if(el)el.remove();delete window._membersCb; try { if(data&&data.status==="ok"&&Array.isArray(data.members)&&data.members.length>0)renderMembersList(data.members,struct);else renderMembersEmpty(struct); } catch(e){ renderMembersEmpty(struct); } };
-  const s=document.createElement("script");s.id="_mjsonp";s.src=API_URL+"?callback=_membersCb&action=members&structure="+encodeURIComponent(struct.id);
-  s.onerror=()=>{if(settled)return;settled=true;clearTimeout(timeoutId);renderMembersEmpty(struct);};
-  document.head.appendChild(s);
+function loadMembersForStruct(struct, retryCount) {
+  retryCount = retryCount || 0;
+  const c=g("members-container");
+  c.innerHTML = retryCount === 0
+    ? '<div class="members-loading">⏳ Chargement des membres…</div>'
+    : '<div class="members-loading">🔄 Nouvelle tentative…</div>';
+  const url = PROXY_URL + "?action=members&structure=" + encodeURIComponent(struct.id) + "&t=" + Date.now();
+  fetch(url)
+    .then(r => { if (!r.ok) throw new Error("HTTP " + r.status); return r.json(); })
+    .then(data => {
+      if (data && data.status === "ok" && Array.isArray(data.members) && data.members.length > 0)
+        renderMembersList(data.members, struct);
+      else
+        renderMembersEmpty(struct);
+    })
+    .catch(() => {
+      if (retryCount < 1) loadMembersForStruct(struct, retryCount + 1);
+      else renderMembersEmpty(struct);
+    });
 }
 function renderMembersList(members,struct) {
   g("members-container").innerHTML=`<div class="members-scroll">
@@ -2047,12 +2071,9 @@ function renderMembersList(members,struct) {
     </div></div>`;
 }
 function renderMembersEmpty(struct) {
-  const isMobile = window.innerWidth <= 500;
-  const emptyMsg = isMobile
-    ? `<p style="color:#7FA89E;font-size:13px;margin-bottom:12px;line-height:1.6;">Aucun membre configuré pour cette structure.<br><span style="color:#D4A843;font-size:12px;">📱 Sur mobile, la consultation de la base de contacts n'est pas disponible.</span></p>`
-    : `<p style="color:#7FA89E;font-size:13px;margin-bottom:12px;line-height:1.6;">Aucun membre configuré pour cette structure.</p>`;
   g("members-container").innerHTML=`<div style="text-align:center;padding:16px 0;">
-    ${emptyMsg}
+    <p style="color:#7FA89E;font-size:13px;margin-bottom:12px;line-height:1.6;">Aucun membre configuré pour cette structure, ou la liste n'a pas pu être chargée.</p>
+    <button class="mbtn-ghost" style="margin-bottom:10px;font-size:12px;" onclick="loadMembersForStruct(currentStruct,0)">🔄 Réessayer</button>
     <div class="member-item" onclick="loginAs('','','','${struct.id}','${esc(struct.name)}')" style="justify-content:center;">
       <div class="member-avatar" style="background:#455A64;">👤</div>
       <div><div class="member-name">Continuer →</div><div class="member-fn">Accès partenaire sans sélectionner un nom</div></div>
