@@ -10,6 +10,41 @@
     button { font-family: inherit; cursor: pointer; }
     input, select, textarea { font-family: inherit; }
     textarea { resize: vertical; }
+    /* ── COPYRIGHT ── */
+    .cap-footer {
+      text-align:center;
+      padding:18px 20px 24px;
+      font-size:12px;
+      color:rgba(168,197,188,0.55);
+      letter-spacing:0.5px;
+      border-top:1px solid rgba(255,255,255,0.06);
+      margin-top:auto;
+    }
+    .cap-footer a {
+      color:rgba(212,168,67,0.7);
+      text-decoration:none;
+    }
+    .cap-footer a:hover { color:#D4A843; }
+
+    .cap-footer-light {
+      text-align:center;
+      padding:14px 20px 20px;
+      font-size:11px;
+      color:rgba(107,123,120,0.7);
+      letter-spacing:0.4px;
+      border-top:1px solid rgba(168,197,188,0.15);
+      margin-top:24px;
+    }
+
+    .fiche-cap-credit {
+      text-align:center;
+      font-size:11px;
+      color:rgba(107,123,120,0.6);
+      letter-spacing:0.3px;
+      margin-top:10px;
+      padding-bottom:8px;
+    }
+
     a { text-decoration: none; }
 
     .view { display: none; min-height: 100vh; }
@@ -416,6 +451,10 @@
       <div class="manifeste-text">Ansanm, nou ka bâti an Gwadloup ki doubout.</div>
       <div class="manifeste-sub">Ensemble, nous bâtissons une Guadeloupe qui se tient debout.</div>
     </div>
+  </div>
+  <div class="cap-footer">
+    Outil développé par <a href="https://cap2030.com" target="_blank" rel="noopener">CAP2030</a>
+    &nbsp;·&nbsp; © 2026 &nbsp;·&nbsp; Cycle <em>Si bato pa rivé</em>
   </div>
 </div>
 
@@ -1973,7 +2012,8 @@ function openFiche(id) {
     ${c.filieres&&c.filieres.length?`<div class="fiche-card"><div class="fiche-section-title">Filières & spécialités</div><div class="fiche-tags">${c.filieres.map(f=>`<span class="fiche-tag">${f}</span>`).join("")}</div></div>`:""}
     <div class="fiche-card"><div class="fiche-section-title">Valeur ajoutée — Si bato pa rivé…</div><div class="fiche-text">${c.motif}</div></div>
     ${c.remarques?`<div class="fiche-gold"><div class="fiche-gold-title">Remarques & disponibilités</div><div class="fiche-gold-text">${c.remarques}</div></div>`:""}
-    ${dateStr ? `<div class="fiche-date">1ère saisie le ${dateStr}</div>` : ""}`;
+    ${dateStr ? `<div class="fiche-date">1ère saisie le ${dateStr}</div>` : ""}
+    <div class="fiche-cap-credit">©CAP2030 2026 · Application contact développée pour Si bato pa rivé · <a href="https://www.cap2030.com" target="_blank" rel="noopener" style="color:rgba(107,123,120,0.8);">www.cap2030.com</a> · </div>`;
   goTo("fiche-view");
 }
 
