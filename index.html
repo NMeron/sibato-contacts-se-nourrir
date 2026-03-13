@@ -381,7 +381,10 @@
       <div class="modal-eyebrow">Accès partenaire</div>
       <div class="modal-title" id="step2-title">Votre organisation</div>
       <p style="color:#7FA89E;font-size:13px;margin-bottom:14px;line-height:1.6;">Saisissez le mot de passe Partenaires.</p>
-      <input class="pwd-input" type="password" id="pwd-input" placeholder="Mot de passe partenaire…" onkeydown="if(event.key==='Enter')checkPassword()" />
+      <form onsubmit="checkPassword();return false;" autocomplete="on" style="margin:0">
+		<input type="text" name="username" value="partenaire-sibato" autocomplete="username" style="display:none" />
+		<input class="pwd-input" type="password" id="pwd-input" name="password" autocomplete="current-password" placeholder="Mot de passe partenaire…" onkeydown="if(event.key==='Enter')checkPassword()" />
+	</form>
       <div class="pwd-error" id="pwd-error"></div>
       <button class="mbtn-primary" onclick="checkPassword()">Accéder →</button>
       <div style="text-align:center;margin-bottom:8px;"><button class="modal-link-small" onclick="showPStep('req', true)">Je n'ai pas le mot de passe</button></div>
@@ -401,8 +404,9 @@
       <div class="modal-title">Rejoindre l'espace partenaires</div>
       <div class="req-field"><label>Prénom *</label><input class="req-input" type="text" id="req-prenom" placeholder="Marie" /></div>
       <div class="req-field"><label>Nom *</label><input class="req-input" type="text" id="req-nom" placeholder="THÉODORE" /></div>
-      <div class="req-field"><label>Organisation *</label><input class="req-input" type="text" id="req-structure" placeholder="CANGT, CAP Excellence…" /></div>
-      <div class="req-field"><label>Rôle / Fonction</label><input class="req-input" type="text" id="req-role" placeholder="Chargé·e de mission PAT…" /></div>
+      <div class="req-field"><label>Organisation *</label><input class="req-input" type="text" id="req-structure" placeholder="Nom de votre structure…" /></div>
+      <div class="req-field"><label>Rôle / Fonction *</label><input class="req-input" type="text" id="req-role" placeholder="Chargé·e de mission PAT…" /></div>
+      <div class="req-field"><label>Téléphone <span style="font-weight:400;opacity:.7">(optionnel)</span></label><input class="req-input" type="tel" id="req-tel" placeholder="0690 00 00 00" /></div>
       <div class="req-field"><label>Email *</label><input class="req-input" type="email" id="req-email" placeholder="contact@organisation.fr" /></div>
       <div class="pwd-error" id="req-error"></div>
       <button class="mbtn-primary" id="req-submit-btn" onclick="submitAccessRequest()">Envoyer la demande →</button>
@@ -542,7 +546,11 @@
             <input type="text" id="pro-orga" placeholder="Nom de votre entreprise, exploitation…" oninput="checkBloc1Complete()" />
             <div class="field-error" id="err-pro-orga"></div>
           </div>
-          <div class="email-hint-box">💌 Si vous souhaitez être tenu·e au courant de la suite, partagez votre email.</div>
+          <div class="email-hint-box">💌 Si vous souhaitez être tenu·e au courant de la suite, partagez votre email et/ou téléphone.</div>
+          <div class="field">
+            <label>Votre téléphone <span class="opt">(optionnel)</span></label>
+            <input type="tel" id="pro-tel" placeholder="0690 00 00 00" />
+          </div>
           <div class="field">
             <label>Votre email <span class="opt">(optionnel)</span></label>
             <input type="email" id="pro-email" placeholder="votre@email.fr" onblur="checkEmailField('pro-email','err-pro-email')" />
@@ -618,7 +626,11 @@
           <div id="asso-orga-prefill-hint" style="display:none;background:rgba(26,107,90,0.08);border:1px solid rgba(26,107,90,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:#1A6B5A;margin-bottom:10px;">
             🏛 Organisation pré-remplie depuis votre sélection. Vous pouvez la modifier ci-dessus.
           </div>
-          <div class="email-hint-box">💌 Si vous souhaitez être tenu·e au courant de la suite, partagez votre email.</div>
+          <div class="email-hint-box">💌 Si vous souhaitez être tenu·e au courant de la suite, partagez votre email et/ou téléphone.</div>
+          <div class="field">
+            <label>Votre téléphone <span class="opt">(optionnel)</span></label>
+            <input type="tel" id="asso-tel" placeholder="0690 00 00 00" />
+          </div>
           <div class="field">
             <label>Votre email <span class="opt">(optionnel)</span></label>
             <input type="email" id="asso-email" placeholder="votre@email.fr" onblur="checkEmailField('asso-email','err-asso-email')" />
@@ -823,7 +835,7 @@
       </div>
 
       <div class="field" id="field-commune-base">
-        <label>Ville d'implantation / d'activité principale <span class="opt">(optionnel)</span></label>
+        <label>Ville d'implantation / d'activité principale *</label>
         <div class="hint">Si vous ne savez pas, indiquez la commune où cette personne travaille le plus souvent.</div>
         <select id="f-commune-base" onchange="checkBloc3Complete()"><option value="">— Sélectionner —</option></select>
         <div class="field-error" id="err-commune-base"></div>
@@ -893,10 +905,37 @@
     </div>
     <div class="base-filters">
       <input class="filter-input" type="text" id="search-input" placeholder="🔍 Rechercher…" oninput="renderBase()" />
-      <select class="filter-select" id="filter-role"  onchange="renderBase()"><option value="">— Rôle —</option></select>
-      <select class="filter-select" id="filter-siege" onchange="renderBase()"><option value="">— Siège —</option></select>
-      <select class="filter-select" id="filter-epci"  onchange="renderBase()"><option value="">— EPCI —</option><option>CAP Excellence</option><option>CANGT - Nord Grande-Terre</option><option>CANBT - Nord Basse-Terre</option><option>CA Grand Sud Caraïbe</option><option>CARL - La Riviera du Levant</option><option>CC de Marie-Galante</option></select>
-      <select class="filter-select" id="filter-pi"    onchange="renderBase()"><option value="">— Pré-informé ? —</option><option>Oui</option><option>Non</option><option>En cours</option></select>
+      <select class="filter-select" id="filter-role"  onchange="renderBase()"><option value="">— Rôle / Activité du contact —</option></select>
+      <select class="filter-select" id="filter-siege" onchange="renderBase()"><option value="">— Commune du siège et/ou de l'activité principale —</option></select>
+      <select class="filter-select" id="filter-epci"  onchange="renderBase()"><option value="">— Toutes les intercommunalités —</option><option>CAP Excellence</option><option>CANGT - Nord Grande-Terre</option><option>CANBT - Nord Basse-Terre</option><option>CA Grand Sud Caraïbe</option><option>CARL - La Riviera du Levant</option><option>CC de Marie-Galante</option></select>
+      <select class="filter-select" id="filter-pi"    onchange="renderBase()">
+        <option value="">— Statut de contact —</option>
+        <option value="Oui - Motivé·e">😊 Contacté — Motivé·e</option>
+        <option value="Oui - Ne sait pas">🤔 Contacté — Ne sait pas encore</option>
+        <option value="Oui - Ne peut pas">😕 Contacté — Ne peut ou ne veut pas</option>
+        <option value="En cours">🔄 En cours</option>
+        <option value="Non">✖ Non contacté</option>
+      </select>
+      <select class="filter-select" id="filter-struct" onchange="renderBase()">
+        <option value="">— Toutes les structures proposantes —</option>
+        <option>CAP2030</option>
+        <option>Université des Antilles</option>
+        <option>CA Nord Grande-Terre</option>
+        <option>CAP Excellence</option>
+        <option>Ville de Pointe-à-Pitre</option>
+        <option>Ville de Morne-à-l'Eau</option>
+        <option>Laboratoire Phytobokaz</option>
+        <option>Yvon Joseph</option>
+        <option>DEAL Guadeloupe</option>
+        <option>Parc national de Guadeloupe</option>
+        <option>INRAE Antilles-Guyane</option>
+        <option>Région Guadeloupe</option>
+        <option>DAAF Guadeloupe</option>
+        <option>Chambre d'Agriculture Guadeloupe</option>
+        <option>CA Riviera du Levant / CNFPT</option>
+        <option>APECA / Exploitation agricole</option>
+        <option>APLAMEDAROM</option>
+      </select>
     </div>
   </div>
   <div id="base-loading" style="display:none;text-align:center;padding:48px;color:#fff;">
@@ -920,8 +959,8 @@
 // CONFIG
 // ══════════════════════════════════════════════════════════════════════════════
 const SK = "sibato-contacts-v4"; // v4 : invalide les anciens caches (v1.3 mars 2026)
-const API_URL = "https://script.google.com/macros/s/AKfycbzAn70A-l080WyW0E5_wwuEpnF6KtFPPTveldaYFXPSxpu2F6XAhS8jRFAuLZaVvFXl/exec";
-const PROXY_URL = "https://sibato-proxy.nicolas-meron.workers.dev/"; // Proxy Cloudflare — remplacer après déploiement
+const API_URL = "https://script.google.com/macros/library/d/18nqM5M8KFbVHYTI1BBemMZPO1a1IdDKqz1Ry5jHjzRgDre3l1PPejtxo/35"; // Apps Script production
+const PROXY_URL = "https://sibato-proxy.nicolas-meron.workers.dev/"; // Proxy Cloudflare
 const PARTNER_PASSWORD = "SiBato971#";
 
 const ROLES_CONFIG = [
@@ -963,13 +1002,24 @@ const COMMUNES = ["Anse-Bertrand","Baie-Mahault","Baillif","Basse-Terre","Bouill
 const COMMUNE_EPCI = {"Anse-Bertrand":"CANGT - Nord Grande-Terre","Baie-Mahault":"CAP Excellence","Baillif":"CA Grand Sud Caraïbe","Basse-Terre":"CA Grand Sud Caraïbe","Bouillante":"CA Grand Sud Caraïbe","Capesterre-Belle-Eau":"CA Grand Sud Caraïbe","Capesterre-de-Marie-Galante":"CC de Marie-Galante","Deshaies":"CANBT - Nord Basse-Terre","Gourbeyre":"CA Grand Sud Caraïbe","Goyave":"CANBT - Nord Basse-Terre","Grand-Bourg":"CC de Marie-Galante","La Désirade":"CARL - La Riviera du Levant","Lamentin":"CANBT - Nord Basse-Terre","Le Gosier":"CARL - La Riviera du Levant","Le Moule":"CANGT - Nord Grande-Terre","Les Abymes":"CAP Excellence","Les Saintes | Terre-de-Bas":"CA Grand Sud Caraïbe","Les Saintes | Terre-de-Haut":"CA Grand Sud Caraïbe","Morne-à-l'Eau":"CANGT - Nord Grande-Terre","Petit-Bourg":"CANBT - Nord Basse-Terre","Petit-Canal":"CANGT - Nord Grande-Terre","Pointe-à-Pitre":"CAP Excellence","Pointe-Noire":"CANBT - Nord Basse-Terre","Port-Louis":"CANGT - Nord Grande-Terre","Saint-Claude":"CA Grand Sud Caraïbe","Saint-François":"CARL - La Riviera du Levant","Saint-Louis":"CC de Marie-Galante","Sainte-Anne":"CARL - La Riviera du Levant","Sainte-Rose":"CANBT - Nord Basse-Terre","Terre-de-Bas":"CA Grand Sud Caraïbe","Terre-de-Haut":"CA Grand Sud Caraïbe","Trois-Rivières":"CA Grand Sud Caraïbe","Vieux-Fort":"CA Grand Sud Caraïbe","Vieux-Habitants":"CA Grand Sud Caraïbe"};
 
 const PARTNER_STRUCTURES = [
-  {id:"cap2030",name:"CAP2030"},{id:"ua",name:"Université des Antilles"},{id:"cangt",name:"CA Nord Grande-Terre"},
-  {id:"capex",name:"CAP Excellence"},{id:"pap",name:"Ville de Pointe-à-Pitre"},{id:"mornealeau",name:"Ville de Morne-à-l'Eau"},
-  {id:"phytobokaz",name:"Laboratoire Phytobokaz"},{id:"yvon",name:"Yvon Joseph"},{id:"deal",name:"DEAL Guadeloupe"},
-  {id:"parcnational",name:"Parc national de Guadeloupe"},{id:"inrae",name:"INRAE Antilles-Guyane"},
-  {id:"regionguadeloupe",name:"Région Guadeloupe"},{id:"daaf",name:"DAAF Guadeloupe"},
-  {id:"chambagri",name:"Chambre d'Agriculture Guadeloupe"},{id:"ca-riviera-levant",name:"CA Riviera du Levant / CNFPT"},
-  {id:"apeca",name:"APECA / Exploitation agricole"},{id:"aplamedarom",name:"APLAMEDAROM"},
+  {id:"nouveau",          name:"🆕 Nouveau partenaire / Non encore renseigné"},
+  {id:"ua",               name:"Université des Antilles"},
+  {id:"aplamedarom",      name:"APLAMEDAROM"},
+  {id:"apeca",            name:"APECA / Exploitation agricole"},
+  {id:"cangt",            name:"CA Nord Grande-Terre"},
+  {id:"ca-riviera-levant",name:"CA Riviera du Levant / CNFPT"},
+  {id:"capex",            name:"CAP Excellence"},
+  {id:"cap2030",          name:"CAP2030"},
+  {id:"chambagri",        name:"Chambre d'Agriculture Guadeloupe"},
+  {id:"daaf",             name:"DAAF Guadeloupe"},
+  {id:"deal",             name:"DEAL Guadeloupe"},
+  {id:"inrae",            name:"INRAE Antilles-Guyane"},
+  {id:"phytobokaz",       name:"Laboratoire Phytobokaz"},
+  {id:"parcnational",     name:"Parc national de Guadeloupe"},
+  {id:"regionguadeloupe", name:"Région Guadeloupe"},
+  {id:"yvon",             name:"Yvon Joseph"},
+  {id:"mornealeau",       name:"Ville de Morne-à-l'Eau"},
+  {id:"pap",              name:"Ville de Pointe-à-Pitre"},
 ];
 
 // ── État global ───────────────────────────────────────────────────────────────
@@ -980,7 +1030,7 @@ let proposantType = null;          // 'partner'|'pro'|'asso'|'citizen'
 let contactSource = null;          // 'self'|'other' (pour pro/asso seulement)
 let partnerState = {loggedIn:false, structId:null, structureName:null, memberName:null};
 let currentStruct=null, reqFromPwdStep=false, partnerFromRequest=false;
-let savedReqData = {prenom:"", nom:"", email:""};  // sauvegarde avant effacement
+let savedReqData = {prenom:"", nom:"", email:"", structure:""};  // sauvegarde avant effacement
 let savedProposant = null;  // mémorise les infos proposant pour pré-remplissage contact suivant
 
 function g(id) { return document.getElementById(id); }
@@ -1188,8 +1238,8 @@ function getProposantData() {
     const parts = (partnerState.memberName||"").split(" ");
     return { type:"Partenaire", structure:partnerState.structureName||"", prenom:parts[0]||"", nom:parts.slice(1).join(" ")||"", email:"", url:"" };
   }
-  if (proposantType==="pro")     return { type:"Professionnel·le", structure:v("pro-orga"),  prenom:v("pro-prenom"),     nom:v("pro-nom"),     email:v("pro-email"),  url:v("pro-url"),  reseaux:getSocialLinks("pro-social")  };
-  if (proposantType==="asso")    return { type: partnerFromRequest ? "Demande accès partenaire" : "Association", structure:v("asso-orga"), prenom:v("asso-prenom"), nom:v("asso-nom"), email:v("asso-email"), url:v("asso-url"), reseaux:getSocialLinks("asso-social") };
+  if (proposantType==="pro")     return { type:"Professionnel·le", structure:v("pro-orga"),  prenom:v("pro-prenom"),     nom:v("pro-nom"),     tel:v("pro-tel"),  email:v("pro-email"),  url:v("pro-url"),  reseaux:getSocialLinks("pro-social")  };
+  if (proposantType==="asso")    return { type: partnerFromRequest ? "Demande accès partenaire" : "Association", structure:v("asso-orga"), prenom:v("asso-prenom"), nom:v("asso-nom"), tel:v("asso-tel"), email:v("asso-email"), url:v("asso-url"), reseaux:getSocialLinks("asso-social") };
   if (proposantType==="citizen") return { type:"Citoyen·ne",        structure:"Citoyen·ne",   prenom:v("citizen-prenom"), nom:v("citizen-nom"), email:v("citizen-email"), url:"" };
   return null;
 }
@@ -1389,7 +1439,7 @@ function resetForm() {
   ["fields-partner","fields-pro","fields-asso","fields-citizen"].forEach(id => { const el=g(id); if(el) el.style.display="none"; });
 
   // Vider champs proposant
-  ["pro-prenom","pro-nom","pro-orga","pro-email","pro-url","asso-prenom","asso-nom","asso-orga","asso-email","asso-url","citizen-prenom","citizen-nom","citizen-email","partner-prenom","partner-nom","partner-email"].forEach(id => { const el=g(id); if(el) el.value=""; });
+  ["pro-prenom","pro-nom","pro-orga","pro-tel","pro-email","pro-url","asso-prenom","asso-nom","asso-orga","asso-tel","asso-email","asso-url","citizen-prenom","citizen-nom","citizen-email","partner-prenom","partner-nom","partner-email"].forEach(id => { const el=g(id); if(el) el.value=""; });
   const hint=g("asso-orga-prefill-hint"); if(hint) hint.style.display="none";
 
   // Réinitialiser vue proposant
@@ -1664,7 +1714,8 @@ function submitForm() {
 
   // ── Valider Bloc 3 ──
   if (!selectedRoles.length) { showWarn("role","⚠ Choisissez au moins un rôle"); g("field-role").classList.add("error"); hasErr=true; }
-  const communeBase = v("f-commune-base"); // optionnel
+  const communeBase = v("f-commune-base");
+  if (!communeBase) { showErr("commune-base","⚠ Obligatoire"); markErr("commune-base"); hasErr=true; }
 
   // Vérifier au moins 1 filière par rôle sélectionné
   selectedRoles.forEach(key => {
@@ -1724,6 +1775,7 @@ function submitForm() {
     autrePrenom:     propData ? propData.prenom    : "",
     autreNom:        propData ? propData.nom       : "",
     emailProposant:  propData ? propData.email     : "",
+    telProposant:    propData ? (propData.tel || "") : "",
     urlProposant:    propData ? propData.url       : "",
     typeProposant:   propData ? propData.type      : "",
     reseauxProposant: propData ? (propData.reseaux || {}) : {},
@@ -1928,20 +1980,27 @@ function loadAndRenderBase() {
 function renderBase() {
   const search=(g("search-input").value||"").toLowerCase();
   const fRole=g("filter-role").value, fStr=g("filter-epci").value, fPi=g("filter-pi").value;
+  const fSiege=g("filter-siege").value, fStruct=g("filter-struct")?g("filter-struct").value:"";
   let src=contacts;
   if(!partnerState.loggedIn){
     const myIds=JSON.parse(localStorage.getItem("sibato_my_contacts")||"[]");
     src=contacts.filter(c=>myIds.includes(c.id)||myIds.includes(String(c.id)));
   }
+  const total=src.length;
   const filtered=src.filter(c=>{
     if(fRole&&!(c.roles||[]).includes(fRole))return false;
     if(fStr&&getEPCI(c.communeBase)!==fStr)return false;
+    if(fSiege&&c.communeBase!==fSiege)return false;
+    if(fStruct&&(c.structure||"")!==fStruct)return false;
     if(fPi&&c.preinforme!==fPi)return false;
     if(search)return(c.nom+c.prenom+c.communeBase+(c.filieres||[]).join(" ")+(c.roles||[]).join(" ")).toLowerCase().includes(search);
     return true;
   });
   const n=filtered.length;
-  g("base-count-title").textContent=n+" contact"+(n>1?"s":"");
+  const hasFilter = fRole||fStr||fSiege||fStruct||fPi||search;
+  g("base-count-title").textContent = hasFilter
+    ? n+" / "+total+" contact"+(total>1?"s":"")
+    : total+" contact"+(total>1?"s":"");
   const grid=g("cards-grid");
   if(!filtered.length){
     // Si la base est vide, afficher un message adapté
@@ -1957,7 +2016,7 @@ function renderBase() {
   }
   grid.innerHTML=filtered.map(c=>`<div class="contact-card" onclick="openFiche(${c.id})">
     <div class="card-top"><div>
-      <div class="card-name">${c.prenom} ${c.nom}</div>
+      <div class="card-name">${[c.contactStructure, [c.prenom, c.nom].filter(Boolean).join(" ")].filter(Boolean).join(" — ")}</div>
       <div class="card-sub">📍 ${c.communeBase}${c.communesActivite&&c.communesActivite.length?` + ${c.communesActivite.length} commune(s)`:""}</div>
       <div class="card-sub" style="margin-top:2px;color:#1A6B5A;font-weight:600;">${getEPCI(c.communeBase)||c.structure||""}</div>
     </div>${piBadge(c.preinforme)}</div>
@@ -2043,14 +2102,16 @@ function continueAsAsso() {
   partnerFromRequest = true;    // on le remet APRÈS resetForm
   setProposantType("asso");
   // Pré-remplir prénom, nom, email depuis les champs de la demande d'accès
-  const rPrenom = savedReqData.prenom || g("req-prenom")?.value.trim() || "";
-  const rNom    = savedReqData.nom    || g("req-nom")?.value.trim()    || "";
-  const rEmail  = savedReqData.email  || g("req-email")?.value.trim()  || "";
-  if (rPrenom) { const el=g("asso-prenom"); if(el) el.value=rPrenom; }
-  if (rNom)    { const el=g("asso-nom");    if(el) el.value=rNom;    }
-  if (rEmail)  { const el=g("asso-email");  if(el) el.value=rEmail;  }
-  // Pré-remplir l'organisation depuis la structure choisie avant la demande mdp
-  if (currentStruct && currentStruct.name) {
+  const rPrenom    = savedReqData.prenom    || g("req-prenom")?.value.trim()    || "";
+  const rNom       = savedReqData.nom       || g("req-nom")?.value.trim()       || "";
+  const rEmail     = savedReqData.email     || g("req-email")?.value.trim()     || "";
+  const rStructure = savedReqData.structure || g("req-structure")?.value.trim() || "";
+  if (rPrenom)    { const el=g("asso-prenom"); if(el) el.value=rPrenom; }
+  if (rNom)       { const el=g("asso-nom");    if(el) el.value=rNom;    }
+  if (rEmail)     { const el=g("asso-email");  if(el) el.value=rEmail;  }
+  if (rStructure) { const el=g("asso-orga");   if(el) el.value=rStructure; }
+  // Pré-remplir l'organisation depuis la structure choisie — sauf si c'est "nouveau partenaire"
+  if (currentStruct && currentStruct.name && currentStruct.id !== "nouveau") {
     const orgaEl = g("asso-orga");
     if (orgaEl) {
       orgaEl.value = currentStruct.name;
@@ -2067,7 +2128,7 @@ function showPStep(step, fromPwd) {
   g("pstep-"+step).style.display="block";
   if(step===2 && window.innerWidth > 500) setTimeout(()=>g("pwd-input").focus(),80);
   if(step==="confirm"){ const msg=g("confirm-msg"); if(msg) msg.innerHTML=reqFromPwdStep?"Votre demande a bien été transmise. <strong>Nous vous enverrons le mot de passe sous 48h.</strong>":"Votre demande de compte nominatif a bien été transmise. <strong>Nous vous répondrons sous 48h.</strong>"; }
-  if(step==="req"){ if(fromPwd!==undefined) reqFromPwdStep=fromPwd; if(currentStruct) g("req-structure").value=currentStruct.name; g("req-back-btn").onclick=()=>showPStep(reqFromPwdStep?2:3); }
+  if(step==="req"){ if(fromPwd!==undefined) reqFromPwdStep=fromPwd; if(currentStruct && currentStruct.id!=="nouveau") g("req-structure").value=currentStruct.name; g("req-back-btn").onclick=()=>showPStep(reqFromPwdStep?2:3); }
 }
 function renderStructList() {
   g("struct-list").innerHTML=PARTNER_STRUCTURES.map(s=>`<div class="struct-item" onclick="selectStruct('${s.id}','${s.name.replace(/'/g,"\\'")}')"><span>${s.name}</span><span class="struct-arrow">→</span></div>`).join("");
@@ -2076,6 +2137,11 @@ function selectStruct(id,name) { currentStruct={id,name}; g("step2-title").textC
 function checkPassword() {
   if(g("pwd-input").value!==PARTNER_PASSWORD){ g("pwd-error").textContent="⚠ Mot de passe incorrect."; g("pwd-input").value=""; if(window.innerWidth > 500) g("pwd-input").focus(); return; }
   g("pwd-error").textContent="";
+  // Si "nouveau partenaire" : aller directement à la demande d'accès, pas la liste membres
+  if (currentStruct && currentStruct.id === "nouveau") {
+    showPStep("req", true);
+    return;
+  }
   loadMembersForStruct(currentStruct); showPStep(3);
 }
 function loadMembersForStruct(struct, retryCount) {
@@ -2156,19 +2222,20 @@ function logoutPartner() {
 
 function submitAccessRequest() {
   const prenom=g("req-prenom").value.trim(), nom=g("req-nom").value.trim();
-  const structure=g("req-structure").value.trim(), role=g("req-role").value.trim(), email=g("req-email").value.trim();
-  if(!prenom||!nom||!structure||!email){ g("req-error").textContent="⚠ Prénom, nom, organisation et email sont obligatoires."; return; }
+  const structure=g("req-structure").value.trim(), role=g("req-role").value.trim();
+  const tel=g("req-tel")?.value.trim()||"", email=g("req-email").value.trim();
+  if(!prenom||!nom||!structure||!role||!email){ g("req-error").textContent="⚠ Prénom, nom, organisation, rôle/fonction et email sont obligatoires."; return; }
   g("req-error").textContent="";
   const btn=g("req-submit-btn"); btn.disabled=true; btn.textContent="Envoi…";
   fetch(API_URL,{
     method:"POST", mode:"no-cors",
     headers:{"Content-Type":"application/x-www-form-urlencoded"},
-    body:"data=" + encodeURIComponent(JSON.stringify({_action:"access_request",prenom,nom,structure,role,email,type:reqFromPwdStep?"Sans mot de passe":"Compte nominatif"}))
+    body:"data=" + encodeURIComponent(JSON.stringify({_action:"access_request",prenom,nom,structure,role,tel,email,type:reqFromPwdStep?"Nouveau partenaire":"Compte nominatif"}))
   })
   .finally(()=>{
     btn.disabled=false; btn.textContent="Envoyer la demande →";
     if(!reqFromPwdStep){const sN=(currentStruct&&currentStruct.name)||structure;const sI=(currentStruct&&currentStruct.id)||structure.toLowerCase().replace(/\s+/g,"_");loginAs(prenom,nom,role,sI,sN);}
-    else{savedReqData={prenom,nom,email};["req-prenom","req-nom","req-role","req-email"].forEach(id=>g(id).value="");showPStep("confirm");}
+    else{savedReqData={prenom,nom,email,structure};["req-prenom","req-nom","req-role","req-tel","req-email"].forEach(id=>{ const el=g(id); if(el) el.value=""; });showPStep("confirm");}
   });
 }
 
