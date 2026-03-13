@@ -407,7 +407,8 @@
       <div class="req-field"><label>Organisation *</label><input class="req-input" type="text" id="req-structure" placeholder="Nom de votre structure…" /></div>
       <div class="req-field"><label>Rôle / Fonction *</label><input class="req-input" type="text" id="req-role" placeholder="Chargé·e de mission PAT…" /></div>
       <div class="req-field"><label>Téléphone <span style="font-weight:400;opacity:.7">(optionnel)</span></label><input class="req-input" type="tel" id="req-tel" placeholder="0690 00 00 00" /></div>
-      <div class="req-field"><label>Email *</label><input class="req-input" type="email" id="req-email" placeholder="contact@organisation.fr" /></div>
+      <div class="req-field"><label>Email *</label><input class="req-input" type="email" id="req-email" placeholder="contact@organisation.fr" onblur="checkEmailField('req-email','req-email-error')" /></div>
+      <div class="field-error" id="req-email-error" style="margin:-6px 0 6px 0;font-size:12px;"></div>
       <div class="pwd-error" id="req-error"></div>
       <button class="mbtn-primary" id="req-submit-btn" onclick="submitAccessRequest()">Envoyer la demande →</button>
       <button class="mbtn-ghost" id="req-back-btn" onclick="showPStep(2)">← Retour</button>
@@ -959,7 +960,7 @@
 // CONFIG
 // ══════════════════════════════════════════════════════════════════════════════
 const SK = "sibato-contacts-v4"; // v4 : invalide les anciens caches (v1.3 mars 2026)
-const API_URL = "https://script.google.com/macros/library/d/18nqM5M8KFbVHYTI1BBemMZPO1a1IdDKqz1Ry5jHjzRgDre3l1PPejtxo/35"; // Apps Script production
+const API_URL = "https://script.google.com/macros/s/AKfycbzAn70A-l080WyW0E5_wwuEpnF6KtFPPTveldaYFXPSxpu2F6XAhS8jRFAuLZaVvFXl/exec";
 const PROXY_URL = "https://sibato-proxy.nicolas-meron.workers.dev/"; // Proxy Cloudflare
 const PARTNER_PASSWORD = "SiBato971#";
 
@@ -2088,7 +2089,7 @@ function openPartnerModal() {
 }
 function closePartnerModal() {
   g("partner-modal").classList.remove("open");
-  g("pwd-input").value=""; g("pwd-error").textContent=""; g("req-error").textContent="";
+  g("pwd-input").value=""; g("pwd-error").textContent=""; g("req-error").textContent=""; const ree=g("req-email-error"); if(ree) ree.textContent="";
   if (!partnerState.loggedIn && proposantType==="partner") {
     proposantType=null; g("btn-type-partner").classList.remove("on"); g("fields-partner").style.display="none";
   }
