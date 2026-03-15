@@ -5,3 +5,4 @@ Version actuelle : v2.0
 Conférence : #02 | Se nourrir (Avril 2026)
 Accès : https://nmeron.github.io/sibato-contacts-se-nourrir/
 Accès par lien court : https://urlr.me/!sibatoparive-contact-se-nourrir
+©CAP2030 · Application Contacts développée pour Si bato pa rivé · www.cap2030.com
