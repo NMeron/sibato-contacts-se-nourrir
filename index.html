@@ -355,7 +355,7 @@
     .social-field-input::placeholder { color:#B0C4BF; }
 
     /* ── RGPD ── */
-    .rgpd-block {
+    .consent-block {
       background: rgba(26,107,90,0.05);
       border: 1px solid rgba(26,107,90,0.2);
       border-radius: 10px;
@@ -363,15 +363,15 @@
       margin-bottom: 16px;
       margin-top: 6px;
     }
-    .rgpd-text {
+    .consent-text {
       font-size: 13px;
       color: #455A64;
       line-height: 1.6;
       margin-bottom: 8px;
     }
-    .rgpd-text a { color: #1A6B5A; font-weight: 600; text-decoration: underline; }
-    .rgpd-text a:hover { color: #0F3D2E; }
-    .rgpd-text-public {
+    .consent-text a { color: #1A6B5A; font-weight: 600; text-decoration: underline; }
+    .consent-text a:hover { color: #0F3D2E; }
+    .consent-text-public {
       font-size: 12px;
       color: #7FA89E;
       line-height: 1.55;
@@ -379,13 +379,13 @@
       padding-top: 8px;
       border-top: 1px solid rgba(26,107,90,0.12);
     }
-    .rgpd-check-row {
+    .consent-check-row {
       display: flex;
       align-items: flex-start;
       gap: 10px;
       margin-top: 10px;
     }
-    .rgpd-check-row input[type="checkbox"] {
+    .consent-check-row input[type="checkbox"] {
       width: 18px;
       height: 18px;
       min-width: 18px;
@@ -393,14 +393,14 @@
       accent-color: #1A6B5A;
       cursor: pointer;
     }
-    .rgpd-check-label {
+    .consent-check-label {
       font-size: 13px;
       font-weight: 600;
       color: #1C2B28;
       line-height: 1.5;
       cursor: pointer;
     }
-    .rgpd-error {
+    .consent-error {
       color: #C0392B;
       font-size: 12px;
       margin-top: 6px;
@@ -940,18 +940,18 @@
       </div>
 
       <!-- ══ RGPD ══ -->
-      <div class="rgpd-block">
-        <div class="rgpd-text">
+      <div class="consent-block">
+        <div class="consent-text">
           🔒 <strong>Vos données personnelles</strong> sont conservées et protégées par CAP2030 conformément à sa <a href="https://www.cap2030.com/politique-de-confidentialit%C3%A9" target="_blank" rel="noopener">politique de confidentialité</a>.
         </div>
-        <div class="rgpd-text-public">
+        <div class="consent-text-public">
           👁 Les données du <strong>contact proposé</strong> (nom, structure, commune, réseaux…) serviront à enrichir la base de données des acteurs·trices de l'alimentation en Guadeloupe.
         </div>
-        <div class="rgpd-check-row">
-          <input type="checkbox" id="rgpd-checkbox" onchange="clearRgpdError()" />
-          <label class="rgpd-check-label" for="rgpd-checkbox">J'ai lu et j'accepte la politique de confidentialité de CAP2030</label>
+        <div class="consent-check-row">
+          <input type="checkbox" id="consent-checkbox" onchange="clearConsentError()" />
+          <label class="consent-check-label" for="consent-checkbox">J'ai lu et j'accepte la politique de confidentialité de CAP2030</label>
         </div>
-        <div class="rgpd-error" id="rgpd-error">⚠ Vous devez accepter la politique de confidentialité pour soumettre le formulaire.</div>
+        <div class="consent-error" id="consent-error">⚠ Vous devez accepter la politique de confidentialité pour soumettre le formulaire.</div>
       </div>
 
       <div class="form-actions">
@@ -1560,8 +1560,8 @@ function resetForm() {
   g("form-confirm").style.display="none";
   g("form-fields").style.display="block";
   // Reset case RGPD
-  const rgpdCb = g("rgpd-checkbox"); if(rgpdCb) rgpdCb.checked = false;
-  clearRgpdError();
+  const consentCb = g("consent-checkbox"); if(consentCb) consentCb.checked = false;
+  clearConsentError();
 }
 
 function resetFormKeepProposant() {
@@ -1733,7 +1733,7 @@ function checkUrlField(inputId, errId) {
 function showErr(id, msg) { const el=g("err-"+id); if(el){ el.textContent=msg; el.style.color=""; el.style.display="block"; } }
 function showWarn(id, msg) { const el=g("err-"+id); if(el){ el.textContent=msg; el.style.color="#F1BD10"; el.style.display="block"; } }
 function markErr(id) { const el=g("field-"+id); if(el) el.classList.add("error"); }
-function clearRgpdError() { const el=g("rgpd-error"); if(el) el.style.display="none"; }
+function clearConsentError() { const el=g("consent-error"); if(el) el.style.display="none"; }
 
 // ══════════════════════════════════════════════════════════════════════════════
 // SOUMISSION
@@ -1743,10 +1743,10 @@ function submitForm() {
   let hasErr=false;
 
   // ── Valider RGPD ──
-  const rgpdCheckbox = g("rgpd-checkbox");
-  if (!rgpdCheckbox || !rgpdCheckbox.checked) {
-    const rgpdErr = g("rgpd-error");
-    if (rgpdErr) { rgpdErr.style.display = "block"; }
+  const consentCheckbox = g("consent-checkbox");
+  if (!consentCheckbox || !consentCheckbox.checked) {
+    const consentErr = g("consent-error");
+    if (consentErr) { consentErr.style.display = "block"; }
     hasErr = true;
   }
 
