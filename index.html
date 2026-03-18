@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SiBato — Application de cartographie territoriale · Guadeloupe · #02 Se nourrir · v2.0</title>
+  <title>SiBato — Application de cartographie territoriale · #02 Se nourrir · v2.1</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #1C2B28; }
@@ -943,7 +943,11 @@
       <div class="rgpd-block">
         <div class="rgpd-text">
           🔒 <strong>Vos données personnelles</strong> sont conservées et protégées par CAP2030 conformément à sa <a href="https://www.cap2030.com/politique-de-confidentialit%C3%A9" target="_blank" rel="noopener">politique de confidentialité</a>.
-      <div class="rgpd-check-row">
+        </div>
+        <div class="rgpd-text-public">
+          👁 Les données du <strong>contact proposé</strong> (nom, structure, commune, réseaux…) serviront à enrichir la base de données des acteurs·trices de l'alimentation en Guadeloupe.
+        </div>
+        <div class="rgpd-check-row">
           <input type="checkbox" id="rgpd-checkbox" onchange="clearRgpdError()" />
           <label class="rgpd-check-label" for="rgpd-checkbox">J'ai lu et j'accepte la politique de confidentialité de CAP2030</label>
         </div>
@@ -992,6 +996,7 @@
         <option>Laboratoire Phytobokaz</option>
         <option>Yvon Joseph</option>
         <option>DEAL Guadeloupe</option>
+        <option>Éveil Créole</option>
         <option>Parc national de Guadeloupe</option>
         <option>INRAE Antilles-Guyane</option>
         <option>Région Guadeloupe</option>
@@ -1000,6 +1005,8 @@
         <option>CA Riviera du Levant / CNFPT</option>
         <option>APECA / Exploitation agricole</option>
         <option>APLAMEDAROM</option>
+		<option>Dot Soley</option>
+		<option>Le Temps du Vent</option>		
       </select>
     </div>
   </div>
@@ -1027,7 +1034,7 @@
 // ══════════════════════════════════════════════════════════════════════════════
 // CONFIG
 // ══════════════════════════════════════════════════════════════════════════════
-const APP_VERSION = "v2.0-conf02"; // Envoyée dans chaque soumission → colonne version_appli
+const APP_VERSION = "v2.1-conf02"; // Envoyée dans chaque soumission → colonne version_appli
 const SK = "sibato-contacts-v4"; // v4 : invalide les anciens caches (v1.3 mars 2026)
 const API_URL = "https://script.google.com/macros/s/AKfycbzAn70A-l080WyW0E5_wwuEpnF6KtFPPTveldaYFXPSxpu2F6XAhS8jRFAuLZaVvFXl/exec";
 const PROXY_URL = "https://sibato-proxy.nicolas-meron.workers.dev/"; // Proxy Cloudflare
@@ -1083,7 +1090,10 @@ const PARTNER_STRUCTURES = [
   {id:"chambagri",        name:"Chambre d'Agriculture Guadeloupe"},
   {id:"daaf",             name:"DAAF Guadeloupe"},
   {id:"deal",             name:"DEAL Guadeloupe"},
+  {id:"dotsoley",         name:"Dot Soley"},
+  {id:"eveilcreole",      name:"Éveil Créole"},
   {id:"inrae",            name:"INRAE Antilles-Guyane"},
+  {id:"letempsduvent",    name:"Le Temps du Vent"},
   {id:"phytobokaz",       name:"Laboratoire Phytobokaz"},
   {id:"parcnational",     name:"Parc national de Guadeloupe"},
   {id:"regionguadeloupe", name:"Région Guadeloupe"},
