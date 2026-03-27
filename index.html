@@ -762,7 +762,7 @@
 
     <!-- ══ BLOC 2 : Qui mettre en avant ══ -->
     <div class="form-section-block hidden-block" id="bloc-2">
-      <div class="section-title"><div class="section-num">2</div><div class="section-label">Qui souhaitez-vous mettre en avant ?</div></div>
+      <div class="section-title"><div class="section-num">2</div><div class="section-label">Acteur ou actrice de l'Alimentation que vous souhaitez faire connaître ?</div></div>
 
       <!-- Choix Ma structure / Une autre personne — visible seulement pour Pro et Asso -->
       <div id="contact-src-wrap" style="display:none;">
@@ -1045,12 +1045,12 @@ const ROLES_CONFIG = [
   { label:"🌱 Agriculteur·trice vivrier·ère",                  color:"#2E7D32", key:"vivrier" },
   { label:"🍅 Maraîcher·ère",                                  color:"#558B2F", key:"maraic"  },
   { label:"🌳 Arboriculteur·trice / Producteur·trice de fruits",color:"#388E3C", key:"arbo"    },
-  { label:"🌶️ Producteur·trice d'épices et aromates",         color:"#E65100", key:"epices"  },
-  { label:"🌿 Plantes médicinales / Rimèd razié",              color:"#33691E", key:"plantes" },
   { label:"🐄 Éleveur·euse",                                   color:"#795548", key:"eleveur" },
-  { label:"🐝 Apiculteur·trice",                               color:"#F9A825", key:"apicult" },
   { label:"🐟 Pêcheur·euse",                                   color:"#1565C0", key:"pecheur" },
   { label:"🌊 Aquaculteur·trice",                              color:"#0277BD", key:"aqua"    },
+  { label:"🌶️ Producteur·trice d'épices et aromates",         color:"#E65100", key:"epices"  },
+  { label:"🐝 Apiculteur·trice",                               color:"#F9A825", key:"apicult" },
+  { label:"🌿 Plantes médicinales / Rimèd razié",              color:"#33691E", key:"plantes" },
   { label:"🏭 Transformation / Distillation",                  color:"#6A1B9A", key:"transfo" },
   { label:"🛒 Distribution / Vente / Épicerie",                color:"#D4A843", key:"distrib" },
   { label:"🍽️ Restauration / Cuisine",                        color:"#BF360C", key:"restau"  },
@@ -1062,12 +1062,12 @@ const FILIERES_PAR_ROLE = {
   vivrier:{ titre:"🌱 Agriculteur·trice vivrier·ère (Racines, tubercules, bananes)", star:"⭐ Polyculture vivrière / Jardin créole", items:["🍠 Igname / Madère / Dachine / Malanga","🥔 Patate douce / Manioc","🍌 Banane plantain / Poyo / Figues","🍞 Arbre à pain / Châtaigne pays","🫘 Pois de bois / Haricots rouges / Pois savon","🏷️ Produit(s) sous label (préciser dans Motif)"]},
   maraic: { titre:"🍅 Maraîcher·ère (Légumes frais)", star:"⭐ Maraîchage diversifié (plein champ)", items:["🥬 Salades / Brèdes / Légumes feuilles","🍆 Gombo / Bringelle / Aubergine","🥒 Giraumon / Christophine / Concombre","🍅 Tomate / Poivron doux","⛺ Cultures sous serre / Hydroponie","🏷️ Maraîchage bio certifié ou agroécologique"]},
   arbo:   { titre:"🌳 Arboriculteur·trice / Producteur·trice de fruits", star:"⭐ Verger créole / Production fruitière diversifiée", items:["🍋 Citron pays / Autres agrumes (résilients)","🍍 Ananas","🍈 Melon (IGP Guadeloupe) / Papaye","🍒 Cerise pays / Prune de Cythère / Maracudja","🥭 Mangue / Goyave / Autres fruits tropicaux","🥑 Avocat","🥥 Cocotier / Palmiste","☕ Cacaoyer / Caféier","🌳 Système agroforestier multi-strates"]},
-  epices: { titre:"🌶️ Producteur·trice d'épices et aromates", star:"⭐ Aromates et épices diversifiés", items:["🌿 Bouquet garni frais (Cive, Persil, Thym, Gros thym...)","🌶️ Piment (Végétarien, Bonda Man Jak...)","🫚 Curcuma / Gingembre / Safran pays","🌸 Vanille / Cannelle / Muscade","🌰 Graines et autres (Roucou, Bois d'Inde...)"]},
-  plantes:{ titre:"🌿 Plantes médicinales / Rimèd razié", star:"⭐ Production diversifiée de Rimèd razié", items:["🤧 Voies respiratoires (Atoumo, Herbe à pic, Gros thym...)","☕ Digestion et maux de ventre (Brisée, Goyavier...)","😴 Sommeil, stress et détente (Corossol, Verveine...)","🩹 Peau, douleurs et cicatrisation (Aloès, Bois d'Inde...)","🏷️ Produit(s) sous label (préciser dans Motif)"]},
   eleveur:{ titre:"🐄 Éleveur·euse", star:"⭐ Polyélevage", items:["🐐 Caprin / Ovin","🐖 Porcin","🐂 Bovin","🐓 Volaille / Œufs","🐇 Lapin / Petit élevage"]},
-  apicult:{ titre:"🐝 Apiculteur·trice", star:null, items:["🍯 Miel toutes fleurs","🌼 Miels mono-floraux (Campêche, Ti-baume...)","🐝 Propolis / Cire / Gelée royale","🌸 Pollinisation / Services écosystémiques"]},
   pecheur:{ titre:"🐟 Pêcheur·euse", star:"⭐ Pêche plurielle", items:["🛶 Pêche côtière traditionnelle (Senne, Filet...)","🌊 Pêche au large (DCP, Pélagique...)","🦞 Pêche aux casiers (Crustacés, Langoustes...)","🐚 Pêche spécialisée (Lambis, Chatrous, Oursins...)","🤿 Pêche en apnée / Chasse sous-marine","🎣 Pêche en rivière / Littoral"]},
   aqua:   { titre:"🌊 Aquaculteur·trice", star:"⭐ Aquaculture complète", items:["🦐 Ouassous (Chevrettes)","🐟 Loup des Caraïbes / Ombrine","🍤 Crevettes marines","🐟 Tilapia","🦪 Coquillages / Huîtres"]},
+  epices: { titre:"🌶️ Producteur·trice d'épices et aromates", star:"⭐ Aromates et épices diversifiés", items:["🌿 Bouquet garni frais (Cive, Persil, Thym, Gros thym...)","🌶️ Piment (Végétarien, Bonda Man Jak...)","🫚 Curcuma / Gingembre / Safran pays","🌸 Vanille / Cannelle / Muscade","🌰 Graines et autres (Roucou, Bois d'Inde...)"]},
+  apicult:{ titre:"🐝 Apiculteur·trice", star:null, items:["🍯 Miel toutes fleurs","🌼 Miels mono-floraux (Campêche, Ti-baume...)","🐝 Propolis / Cire / Gelée royale","🌸 Pollinisation / Services écosystémiques"]},
+  plantes:{ titre:"🌿 Plantes médicinales / Rimèd razié", star:"⭐ Production diversifiée de Rimèd razié", items:["🤧 Voies respiratoires (Atoumo, Herbe à pic, Gros thym...)","☕ Digestion et maux de ventre (Brisée, Goyavier...)","😴 Sommeil, stress et détente (Corossol, Verveine...)","🩹 Peau, douleurs et cicatrisation (Aloès, Bois d'Inde...)","🏷️ Produit(s) sous label (préciser dans Motif)"]},
   transfo:{ titre:"🏭 Transformation / Distillation", star:"⭐ Agro-transformation diversifiée", items:["🥫 Confitures / Jus / Sirops / Conserves","🥖 Kassaverie / Farines locales / Boulangerie","🥓 Transformation animale (Charcuterie, Salaisons)","🥥 Huiles végétales (Coco, Carapate...)","🧼 Extraits / Cosmétiques naturels","🌶️ Épices transformées / Pâtes de piment","🍺 Brasserie artisanale / Boissons locales fermentées","🥃 Rhum / Alcools / Canne à sucre"]},
   distrib:{ titre:"🛒 Distribution / Vente / Épicerie", star:"⭐ Distribution générale et mixte", items:["🧺 Vente directe / Paniers / À la ferme","🏪 Marché de proximité / Marché couvert","🤝 Coopérative agricole / maritime (SICA)","🛒 Épicerie locale / Primeur","⚖️ Épicerie solidaire / Prix équitable","📦 Groupement d'achat citoyen"]},
   restau: { titre:"🍽️ Restauration / Cuisine", star:"⭐ Cuisine créole traditionnelle", items:["🥘 Table d'hôte / Cuisine du terroir","🏫 Restaurant scolaire / Restauration collective","🍱 Traiteur événementiel / Chef à domicile","🥪 Restauration rapide locale (Agoulous, Bokits...)"]},
@@ -1075,9 +1075,9 @@ const FILIERES_PAR_ROLE = {
   asso:   { titre:"🤝 Acteur·trice associatif·ve / institutionnel·le", star:null, items:["🚜 Organisation paysanne / Syndicat agricole","👥 Coopérative / Collectif citoyen","🏛️ Institution publique (Région, Département, EPCI...)","🌍 ONG / Association de développement durable","🎯 Projet Alimentaire Territorial (PAT)"]},
 };
 
-const COMMUNES = ["Anse-Bertrand","Baie-Mahault","Baillif","Basse-Terre","Bouillante","Capesterre-Belle-Eau","Capesterre-de-Marie-Galante","Deshaies","Gourbeyre","Goyave","Grand-Bourg","La Désirade","Lamentin","Le Gosier","Le Moule","Les Abymes","Les Saintes | Terre-de-Bas","Les Saintes | Terre-de-Haut","Morne-à-l'Eau","Petit-Bourg","Petit-Canal","Pointe-à-Pitre","Pointe-Noire","Port-Louis","Saint-Claude","Saint-François","Saint-Louis","Sainte-Anne","Sainte-Rose","Terre-de-Bas","Terre-de-Haut","Trois-Rivières","Vieux-Fort","Vieux-Habitants"];
+const COMMUNES = ["Anse-Bertrand","Baie-Mahault","Baillif","Basse-Terre","Bouillante","Capesterre-Belle-Eau","Deshaies","Gourbeyre","Goyave","La Désirade","Lamentin","Le Gosier","Le Moule","Les Abymes","Les Saintes | Terre-de-Bas","Les Saintes | Terre-de-Haut","Marie-Galante | Capesterre","Marie-Galante | Grand-Bourg","Marie-Galante | Saint-Louis","Morne-à-l'Eau","Petit-Bourg","Petit-Canal","Pointe-à-Pitre","Pointe-Noire","Port-Louis","Saint-Claude","Saint-François","Sainte-Anne","Sainte-Rose","Trois-Rivières","Vieux-Fort","Vieux-Habitants"];
 
-const COMMUNE_EPCI = {"Anse-Bertrand":"CANGT - Nord Grande-Terre","Baie-Mahault":"CAP Excellence","Baillif":"CA Grand Sud Caraïbe","Basse-Terre":"CA Grand Sud Caraïbe","Bouillante":"CA Grand Sud Caraïbe","Capesterre-Belle-Eau":"CA Grand Sud Caraïbe","Capesterre-de-Marie-Galante":"CC de Marie-Galante","Deshaies":"CANBT - Nord Basse-Terre","Gourbeyre":"CA Grand Sud Caraïbe","Goyave":"CANBT - Nord Basse-Terre","Grand-Bourg":"CC de Marie-Galante","La Désirade":"CARL - La Riviera du Levant","Lamentin":"CANBT - Nord Basse-Terre","Le Gosier":"CARL - La Riviera du Levant","Le Moule":"CANGT - Nord Grande-Terre","Les Abymes":"CAP Excellence","Les Saintes | Terre-de-Bas":"CA Grand Sud Caraïbe","Les Saintes | Terre-de-Haut":"CA Grand Sud Caraïbe","Morne-à-l'Eau":"CANGT - Nord Grande-Terre","Petit-Bourg":"CANBT - Nord Basse-Terre","Petit-Canal":"CANGT - Nord Grande-Terre","Pointe-à-Pitre":"CAP Excellence","Pointe-Noire":"CANBT - Nord Basse-Terre","Port-Louis":"CANGT - Nord Grande-Terre","Saint-Claude":"CA Grand Sud Caraïbe","Saint-François":"CARL - La Riviera du Levant","Saint-Louis":"CC de Marie-Galante","Sainte-Anne":"CARL - La Riviera du Levant","Sainte-Rose":"CANBT - Nord Basse-Terre","Terre-de-Bas":"CA Grand Sud Caraïbe","Terre-de-Haut":"CA Grand Sud Caraïbe","Trois-Rivières":"CA Grand Sud Caraïbe","Vieux-Fort":"CA Grand Sud Caraïbe","Vieux-Habitants":"CA Grand Sud Caraïbe"};
+const COMMUNE_EPCI = {"Anse-Bertrand":"CANGT - Nord Grande-Terre","Baie-Mahault":"CAP Excellence","Baillif":"CA Grand Sud Caraïbe","Basse-Terre":"CA Grand Sud Caraïbe","Bouillante":"CA Grand Sud Caraïbe","Capesterre-Belle-Eau":"CA Grand Sud Caraïbe","Marie-Galante | Capesterre":"CC de Marie-Galante","Deshaies":"CANBT - Nord Basse-Terre","Gourbeyre":"CA Grand Sud Caraïbe","Goyave":"CANBT - Nord Basse-Terre","Marie-Galante | Grand-Bourg":"CC de Marie-Galante","La Désirade":"CARL - La Riviera du Levant","Lamentin":"CANBT - Nord Basse-Terre","Le Gosier":"CARL - La Riviera du Levant","Le Moule":"CANGT - Nord Grande-Terre","Les Abymes":"CAP Excellence","Les Saintes | Terre-de-Bas":"CA Grand Sud Caraïbe","Les Saintes | Terre-de-Haut":"CA Grand Sud Caraïbe","Morne-à-l'Eau":"CANGT - Nord Grande-Terre","Petit-Bourg":"CANBT - Nord Basse-Terre","Petit-Canal":"CANGT - Nord Grande-Terre","Pointe-à-Pitre":"CAP Excellence","Pointe-Noire":"CANBT - Nord Basse-Terre","Port-Louis":"CANGT - Nord Grande-Terre","Saint-Claude":"CA Grand Sud Caraïbe","Saint-François":"CARL - La Riviera du Levant","Marie-Galante | Saint-Louis":"CC de Marie-Galante","Sainte-Anne":"CARL - La Riviera du Levant","Sainte-Rose":"CANBT - Nord Basse-Terre","Trois-Rivières":"CA Grand Sud Caraïbe","Vieux-Fort":"CA Grand Sud Caraïbe","Vieux-Habitants":"CA Grand Sud Caraïbe"};
 
 const PARTNER_STRUCTURES = [
   {id:"nouveau",          name:"🆕 Nouveau partenaire / Non encore renseigné"},
@@ -1125,16 +1125,12 @@ function getEPCI(c) { return COMMUNE_EPCI[c]||""; }
 // Regroupements sur la même ligne
 const ROLES_PAIRS = [
   ["vivrier","maraic"],      // 31+15 chars ✓
-  ["eleveur","apicult"],     // 14+18 chars ✓
   ["pecheur","aqua"],        // 14+19 chars ✓
-  ["distrib","restau"],      // 33+25 chars ✓
-  // epices+plantes : 40+35 → trop long, chacun sur sa ligne
-  // cherch+asso    : 40+48 → trop long, chacun sur sa ligne
 ];
 
 function init() {
   const wrap = g("roles-wrap");
-  const ORDER = ["vivrier","maraic","arbo","epices","plantes","eleveur","apicult","pecheur","aqua","transfo","distrib","restau","cherch","asso"];
+  const ORDER = ["vivrier","maraic","arbo","eleveur","pecheur","aqua","epices","apicult","plantes","transfo","distrib","restau","cherch","asso"];
   const paired = new Set(ROLES_PAIRS.flat());
   const rendered = new Set();
 
