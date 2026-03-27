@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SiBato — Application de cartographie territoriale · #02 Se nourrir · v2.1</title>
+  <title>SiBato — Application de cartographie territoriale · #02 Se nourrir · v2.2</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #1C2B28; }
@@ -455,12 +455,12 @@
     <div id="pstep-req" style="display:none">
       <div class="modal-eyebrow">Demande d'accès</div>
       <div class="modal-title">Rejoindre l'espace partenaires</div>
-      <div class="req-field"><label>Prénom *</label><input class="req-input" type="text" id="req-prenom" placeholder="Marie" /></div>
-      <div class="req-field"><label>Nom *</label><input class="req-input" type="text" id="req-nom" placeholder="THÉODORE" /></div>
-      <div class="req-field"><label>Organisation *</label><input class="req-input" type="text" id="req-structure" placeholder="Nom de votre structure…" /></div>
-      <div class="req-field"><label>Rôle / Fonction *</label><input class="req-input" type="text" id="req-role" placeholder="Chargé·e de mission PAT…" /></div>
+      <div class="req-field"><label>Prénom <span style="color:#E05C3A;font-weight:700;">*</span></label><input class="req-input" type="text" id="req-prenom" placeholder="Marie" /></div>
+      <div class="req-field"><label>Nom <span style="color:#E05C3A;font-weight:700;">*</span></label><input class="req-input" type="text" id="req-nom" placeholder="THÉODORE" /></div>
+      <div class="req-field"><label>Organisation <span style="color:#E05C3A;font-weight:700;">*</span></label><input class="req-input" type="text" id="req-structure" placeholder="Nom de votre structure…" /></div>
+      <div class="req-field"><label>Rôle / Fonction <span style="color:#E05C3A;font-weight:700;">*</span></label><input class="req-input" type="text" id="req-role" placeholder="Chargé·e de mission PAT…" /></div>
       <div class="req-field"><label>Téléphone <span style="font-weight:400;opacity:.7">(optionnel)</span></label><input class="req-input" type="tel" id="req-tel" placeholder="0690 00 00 00" /></div>
-      <div class="req-field"><label>Email *</label><input class="req-input" type="email" id="req-email" placeholder="contact@organisation.fr" onblur="checkEmailField('req-email','req-email-error')" /></div>
+      <div class="req-field"><label>Email <span style="color:#E05C3A;font-weight:700;">*</span></label><input class="req-input" type="email" id="req-email" placeholder="contact@organisation.fr" onblur="checkEmailField('req-email','req-email-error')" /></div>
       <div class="field-error" id="req-email-error" style="margin:-6px 0 6px 0;font-size:12px;"></div>
       <div class="pwd-error" id="req-error"></div>
       <button class="mbtn-primary" id="req-submit-btn" onclick="submitAccessRequest()">Envoyer la demande →</button>
@@ -551,19 +551,25 @@
           <div style="font-size:12px;color:#1A6B5A;font-weight:600;margin-bottom:8px;">Merci de préciser votre identité :</div>
           <div class="grid2">
             <div class="field">
-              <label>Votre prénom *</label>
+              <label>Votre prénom <span style="color:#E05C3A;font-weight:700;">*</span></label>
               <input type="text" id="partner-prenom" placeholder="Marie" oninput="checkBloc1Complete()" />
               <div class="field-error" id="err-partner-prenom"></div>
             </div>
             <div class="field">
-              <label>Votre nom *</label>
+              <label>Votre nom <span style="color:#E05C3A;font-weight:700;">*</span></label>
               <input type="text" id="partner-nom" placeholder="THÉODORE" oninput="checkBloc1Complete()" />
               <div class="field-error" id="err-partner-nom"></div>
             </div>
           </div>
           <div class="field">
-            <label>Votre email <span class="opt">(optionnel)</span></label>
-            <input type="email" id="partner-email" placeholder="votre@email.fr" onblur="checkEmailField('partner-email','err-partner-email')" />
+            <label>Votre poste / rôle dans la structure <span style="color:#E05C3A;font-weight:700;">*</span></label>
+            <input type="text" id="partner-poste" placeholder="Ex : Chargé·e de mission, Directeur·trice…" oninput="checkBloc1Complete()" />
+            <div class="field-error" id="err-partner-poste"></div>
+          </div>
+          <div class="field">
+            <label>Votre email <span style="color:#E05C3A;font-weight:700;">*</span></label>
+            <input type="email" id="partner-email" placeholder="votre@email.fr" onblur="checkEmailField('partner-email','err-partner-email')" oninput="checkBloc1Complete()" />
+            <div class="field-error" id="err-partner-email"></div>
           </div>
         </div>
       </div>
@@ -585,18 +591,22 @@
         <div id="fields-pro" style="display:none;">
           <div class="grid2">
             <div class="field">
-              <label>Votre prénom *</label>
+              <label>Votre prénom <span style="color:#E05C3A;font-weight:700;">*</span></label>
               <input type="text" id="pro-prenom" placeholder="Marie" oninput="checkBloc1Complete()" />
               <div class="field-error" id="err-pro-prenom"></div>
             </div>
             <div class="field">
-              <label>Votre nom *</label>
+              <label>Votre nom <span style="color:#E05C3A;font-weight:700;">*</span></label>
               <input type="text" id="pro-nom" placeholder="THÉODORE" oninput="checkBloc1Complete()" />
               <div class="field-error" id="err-pro-nom"></div>
             </div>
           </div>
           <div class="field">
-            <label>Organisation ou entreprise *</label>
+            <label>Votre poste / fonction <span style="font-size:12px;color:#9abaaa;font-weight:400;">(optionnel)</span></label>
+            <input type="text" id="pro-poste" placeholder="Ex : Gérant·e, Technicien·ne agricole, Président·e…" />
+          </div>
+          <div class="field">
+            <label>Organisation ou entreprise <span style="color:#E05C3A;font-weight:700;">*</span></label>
             <input type="text" id="pro-orga" placeholder="Nom de votre entreprise, exploitation…" oninput="checkBloc1Complete()" />
             <div class="field-error" id="err-pro-orga"></div>
           </div>
@@ -661,18 +671,22 @@
         <div id="fields-asso" style="display:none;">
           <div class="grid2">
             <div class="field">
-              <label>Votre prénom *</label>
+              <label>Votre prénom <span style="color:#E05C3A;font-weight:700;">*</span></label>
               <input type="text" id="asso-prenom" placeholder="Marie" oninput="checkBloc1Complete()" />
               <div class="field-error" id="err-asso-prenom"></div>
             </div>
             <div class="field">
-              <label>Votre nom *</label>
+              <label>Votre nom <span style="color:#E05C3A;font-weight:700;">*</span></label>
               <input type="text" id="asso-nom" placeholder="THÉODORE" oninput="checkBloc1Complete()" />
               <div class="field-error" id="err-asso-nom"></div>
             </div>
           </div>
           <div class="field">
-            <label>Nom de votre Association / Organisation *</label>
+            <label>Votre poste / fonction <span style="font-size:12px;color:#9abaaa;font-weight:400;">(optionnel)</span></label>
+            <input type="text" id="asso-poste" placeholder="Ex : Bénévole, Coordinateur·trice, Secrétaire…" />
+          </div>
+          <div class="field">
+            <label>Nom de votre Association / Organisation <span style="color:#E05C3A;font-weight:700;">*</span></label>
             <input type="text" id="asso-orga" placeholder="Nom de votre association…" oninput="checkBloc1Complete()" />
             <div class="field-error" id="err-asso-orga"></div>
           </div>
@@ -741,7 +755,7 @@
         <div id="fields-citizen" style="display:none;">
           <div class="grid2">
             <div class="field">
-              <label>Votre prénom *</label>
+              <label>Votre prénom <span style="color:#E05C3A;font-weight:700;">*</span></label>
               <input type="text" id="citizen-prenom" placeholder="Marie" oninput="checkBloc1Complete()" />
               <div class="field-error" id="err-citizen-prenom"></div>
             </div>
@@ -775,7 +789,7 @@
 
       <!-- Champs contact standard (visible si autre personne OU citoyen OU partenaire) -->
       <div id="contact-other-fields">
-        <div class="hint" style="margin-bottom:10px;">Remplissez au moins l'un des trois champs : prénom, nom ou structure.</div>
+        <div style="margin-bottom:10px;font-size:13px;color:#ccc;font-weight:500;">Identité <span style="color:#E05C3A;font-weight:700;">*</span> — au moins 2 infos parmi : Prénom · Nom · Nom de la structure</div>
         <div class="grid2">
           <div class="field" id="field-prenom">
             <label>Son prénom</label>
@@ -793,20 +807,23 @@
           <input type="text" id="f-contact-structure" placeholder="Entreprise, association, coopérative…" oninput="checkBloc2Complete()" />
           <div class="field-error" id="err-contact-structure"></div>
         </div>
+        <div id="alerte-identite-bloc2" style="display:block;margin:2px 0 10px 0;padding:8px 12px;background:rgba(224,92,58,0.1);border-left:3px solid #E05C3A;border-radius:5px;font-size:12px;color:#E05C3A;line-height:1.5;">Renseignez au moins 2 informations parmi Prénom, Nom et Nom de la structure.</div>
+        <div id="err-coordonnees-contact" class="field-error" style="margin-bottom:8px;"></div>
+        <div style="margin:4px 0 10px 0;font-size:13px;color:#D4A843;font-weight:500;">⚠ Coordonnées : non obligatoires, mais sans elles il nous sera difficile de joindre cette personne.</div>
         <div class="grid2">
           <div class="field">
-            <label>Téléphone <span class="opt">(optionnel)</span></label>
-            <input type="tel" id="f-telephone" placeholder="0690 00 00 00" />
+            <label>Téléphone <span style="font-size:12px;color:#9abaaa;font-weight:400;">(optionnel)</span></label>
+            <input type="tel" id="f-telephone" placeholder="0690 00 00 00" oninput="checkBloc2Complete()" />
           </div>
           <div class="field">
-            <label>Email <span class="opt">(optionnel)</span></label>
+            <label>Email <span style="font-size:12px;color:#9abaaa;font-weight:400;">(optionnel)</span></label>
             <input type="email" id="f-email" placeholder="contact@exemple.com" onblur="checkEmailField('f-email','err-f-email')" oninput="checkBloc2Complete()" />
           <div class="field-error" id="err-f-email"></div>
           </div>
         </div>
         <div class="field">
-          <label>Site web / Lien du contact <span class="opt">(optionnel)</span></label>
-          <input type="url" id="f-contact-url" placeholder="www.site-du-contact.fr" onblur="checkUrlField('f-contact-url','err-f-contact-url')" />
+          <label>Site web / Lien du contact <span style="font-size:12px;color:#9abaaa;font-weight:400;">(optionnel)</span></label>
+          <input type="url" id="f-contact-url" placeholder="www.site-du-contact.fr" onblur="checkUrlField('f-contact-url','err-f-contact-url')" oninput="checkBloc2Complete()" />
           <div class="field-error" id="err-f-contact-url"></div>
         </div>
         <div class="social-widget">
@@ -863,7 +880,7 @@
             <input type="tel" id="f-self-telephone" placeholder="0690 00 00 00" />
           </div>
           <div class="field" id="field-self-email">
-            <label>Email *</label>
+            <label>Email <span style="color:#E05C3A;font-weight:700;">*</span></label>
             <input type="email" id="f-self-email" placeholder="contact@votre-structure.gp" onblur="checkEmailField('f-self-email','err-self-email')" oninput="checkBloc2Complete()" />
             <div class="field-error" id="err-self-email"></div>
           </div>
@@ -882,14 +899,15 @@
       </div>
 
       <div class="field">
-        <label>Filières / Spécialités <span style="font-weight:400;color:#6B7B78;font-size:14px;">(selon les rôles sélectionnés)</span></label>
+        <label>Ses spécialités <span style="font-weight:400;color:#6B7B78;font-size:14px;">(parmi ses activités, dans sa filière)</span></label>
         <div id="filieres-outer" class="hidden-block" style="margin-top:4px;">
           <div id="filieres-container"></div>
         </div>
       </div>
 
+      <div id="alerte-bloc3-manquant" style="display:none;margin-bottom:10px;padding:8px 12px;background:rgba(224,92,58,0.1);border-left:3px solid #E05C3A;border-radius:5px;font-size:12px;color:#E05C3A;line-height:1.5;"></div>
       <div class="field" id="field-commune-base">
-        <label>Ville d'implantation / d'activité principale *</label>
+        <label>Ville d'implantation / d'activité principale <span style="color:#E05C3A;font-weight:700;">*</span></label>
         <div class="hint">Si vous ne savez pas, indiquez la commune où cette personne travaille le plus souvent.</div>
         <select id="f-commune-base" onchange="checkBloc3Complete()"><option value="">— Sélectionner —</option></select>
         <div class="field-error" id="err-commune-base"></div>
@@ -907,17 +925,17 @@
 
     <!-- ══ BLOC 4 : Valeur ajoutée ══ -->
     <div class="form-section-block hidden-block" id="bloc-4">
-      <div class="section-title"><div class="section-num">4</div><div class="section-label">Valeur ajoutée & suivi</div></div>
+      <div class="section-title"><div class="section-num">4</div><div class="section-label">Sa / Ses valeurs ajoutée.s & sa connaissance du cycle "Si bato pa rivé" ?</div></div>
 
       <div class="field" id="field-motif">
-        <label>Motif de l'invitation / Valeur ajoutée *</label>
+        <label>Pourquoi faites-vous la démarche de le mettre en avant ? <span style="color:#E05C3A;font-weight:700;">*</span></label>
         <div class="hint">En quoi ce profil contribue-t-il positivement à l'alimentation en Guadeloupe ? » ?</div>
-        <textarea id="f-motif" rows="4" placeholder="Ex : Pratique l'agroforesterie résiliente sur 3 hectares…"></textarea>
+        <textarea id="f-motif" rows="4" oninput="updateChecklistManquant()" placeholder="Ex : Pratique l'agroforesterie résiliente sur 3 hectares…"></textarea>
         <div class="field-error" id="err-motif"></div>
       </div>
 
       <div class="field" id="field-preinforme">
-        <label>Contact déjà pré-informé de la démarche ? *</label>
+        <label>Est-il déjà au courant du projet "Si bato pa rivé" ? <span style="color:#E05C3A;font-weight:700;">*</span></label>
         <div class="pi-btns">
           <button class="pi-btn oui"     id="pi-oui"     onclick="setPi('oui_expand')">✓ Informé·e</button>
           <button class="pi-btn non"     id="pi-non"     onclick="setPi('Non')">✗ Non</button>
@@ -948,13 +966,17 @@
           👁 Les données du <strong>contact proposé</strong> (nom, structure, commune, réseaux…) serviront à enrichir la base de données des acteurs·trices de l'alimentation en Guadeloupe.
         </div>
         <div class="consent-check-row">
-          <input type="checkbox" id="consent-checkbox" onchange="clearConsentError()" />
+          <input type="checkbox" id="consent-checkbox" onchange="clearConsentError();updateChecklistManquant()" />
           <label class="consent-check-label" for="consent-checkbox">J'ai lu et j'accepte la politique de confidentialité de CAP2030</label>
         </div>
         <div class="consent-error" id="consent-error">⚠ Vous devez accepter la politique de confidentialité pour soumettre le formulaire.</div>
       </div>
 
-      <div class="form-actions">
+      <div id="checklist-manquant" style="display:none;margin-bottom:14px;padding:12px 16px;background:#1e1e1e;border:1px solid #F1BD10;border-radius:8px;">
+          <div style="font-size:11px;font-weight:700;color:#F1BD10;margin-bottom:8px;letter-spacing:0.05em;">📋 POUR VALIDER, COMPLÉTER ENCORE :</div>
+          <ul id="checklist-manquant-items" style="margin:0;padding-left:16px;font-size:12px;color:#ccc;line-height:1.8;"></ul>
+        </div>
+        <div class="form-actions">
         <button class="btn-primary" style="flex:1" id="submit-btn" onclick="submitForm()">Enregistrer ce contact →</button>
         <button class="btn-secondary" onclick="goTo('home');updateStats()">Annuler</button>
       </div>
@@ -1224,7 +1246,7 @@ function checkBloc1Complete() {
   if (partnerState.loggedIn) {
     // Si le partenaire n'a pas sélectionné un membre nommé, exiger prénom+nom
     if (partnerState.namedMember === false) {
-      ok = !!(v("partner-prenom") && v("partner-nom"));
+      ok = !!(v("partner-prenom") && v("partner-nom") && v("partner-poste") && v("partner-email"));
     } else {
       ok = true;
     }
@@ -1245,9 +1267,22 @@ function checkBloc2Complete() {
   if (contactSource === "self") {
     ok = !!v("f-self-email");
   } else {
-    ok = !!(v("f-prenom") || v("f-nom") || v("f-contact-structure"));
+    const prenom = !!v("f-prenom");
+    const nom = !!v("f-nom");
+    const structure = !!v("f-contact-structure");
+    const filled = [prenom, nom, structure].filter(Boolean).length;
+    // Règle : au moins 2 parmi 3
+    const identiteOk = filled >= 2;
+
+    // Alerte identité dynamique sous les 3 champs
+    const alerteId = g("alerte-identite-bloc2");
+    if (alerteId) alerteId.style.display = identiteOk ? "none" : "block";
+
+    // Coordonnées : on débloque même sans (alerte non-bloquante à la soumission)
+    ok = identiteOk;
   }
   if (ok) revealBloc("bloc-3");
+  updateChecklistManquant();
 }
 
 // Bloc 3 complet ? — révèle bloc-4 seulement quand au moins 1 filière choisie
@@ -1255,6 +1290,78 @@ function checkBloc3Complete() {
   const hasFilieres = selectedFilieres.length > 0
     || Object.values(autreFilieresTexts).some(v => v && v.trim());
   if (selectedRoles.length > 0 && hasFilieres) revealBloc("bloc-4");
+
+  // Alerte contextuelle au-dessus de Ville d'implantation
+  const alerteBloc3 = g("alerte-bloc3-manquant");
+  if (alerteBloc3) {
+    const noRole = selectedRoles.length === 0;
+    const rolesManquants = selectedRoles.filter(function(key) {
+      if (!FILIERES_PAR_ROLE[key]) return false;
+      const cfg = FILIERES_PAR_ROLE[key];
+      const allItems = cfg.star ? [cfg.star].concat(cfg.items) : cfg.items.slice();
+      const hasSelected = selectedFilieres.some(function(f){ return allItems.includes(f); });
+      const hasAutre = autreFilieresTexts[key] !== undefined && autreFilieresTexts[key].trim() !== "";
+      return !hasSelected && !hasAutre;
+    });
+    if (noRole) {
+      alerteBloc3.innerHTML = "Choisissez au moins un rôle / activité avant de renseigner la ville.";
+      alerteBloc3.style.display = "block";
+    } else if (rolesManquants.length > 0) {
+      const labels = rolesManquants.map(function(k){ return FILIERES_PAR_ROLE[k].titre.replace(/^[^a-zA-ZÀ-ÿ]+/, "").trim(); });
+      alerteBloc3.innerHTML = "Filière(s) manquante(s) pour : <strong>" + labels.join(", ") + "</strong> — sélectionnez au moins 1 spécialité par rôle.";
+      alerteBloc3.style.display = "block";
+    } else {
+      alerteBloc3.style.display = "none";
+    }
+  }
+
+  updateChecklistManquant();
+}
+
+// ── Checklist temps réel — guide vers le bouton Valider ──
+function updateChecklistManquant() {
+  const el = g("checklist-manquant");
+  const ul = g("checklist-manquant-items");
+  if (!el || !ul) return;
+
+  const bloc4 = g("bloc-4");
+  if (!bloc4 || bloc4.classList.contains("hidden-block")) { el.style.display="none"; return; }
+
+  const items = [];
+
+  // Filières manquantes par rôle
+  selectedRoles.forEach(function(key) {
+    if (!FILIERES_PAR_ROLE[key]) return;
+    const cfg = FILIERES_PAR_ROLE[key];
+    const allItems = cfg.star ? [cfg.star].concat(cfg.items) : cfg.items.slice();
+    const hasSelected = selectedFilieres.some(function(f){ return allItems.includes(f); });
+    const hasAutre = autreFilieresTexts[key] !== undefined && autreFilieresTexts[key].trim() !== "";
+    if (!hasSelected && !hasAutre) {
+      // Libellé lisible : supprimer emoji + espace en tête
+      const label = cfg.titre.replace(/^[^a-zA-ZÀ-ÿ]+/, "").trim();
+      items.push("Une sp\u00e9cialit\u00e9 pour le r\u00f4le <strong>" + label + "</strong> \u2014 cochez au moins 1 fili\u00e8re ou saisissez \u00abAutre\u00bb");
+    }
+  });
+
+  // Ville d'implantation (Bloc 3)
+  if (!v("f-commune-base")) items.push("La ville d'implantation principale (Bloc 3 — liste déroulante)");
+
+  // Motif
+  if (!v("f-motif")) items.push("Le motif de l'invitation / valeur ajout\u00e9e (champ texte obligatoire)");
+
+  // Pré-informé
+  if (!selectedPi) items.push("La r\u00e9ponse \u00e0 \"Contact d\u00e9j\u00e0 pr\u00e9-inform\u00e9 ?\" — cliquez sur Inform\u00e9\u00b7e, Non ou En cours");
+
+  // RGPD
+  const cb = g("consent-checkbox");
+  if (!cb || !cb.checked) items.push("La case \u00e0 cocher — politique de confidentialit\u00e9 (en bas du formulaire)");
+
+  if (items.length === 0) {
+    el.style.display = "none";
+  } else {
+    ul.innerHTML = items.map(function(i){ return "<li style=\"margin-bottom:4px;\">" + i + "</li>"; }).join("");
+    el.style.display = "block";
+  }
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1311,13 +1418,13 @@ function getProposantData() {
   if (partnerState.loggedIn) {
     if (partnerState.namedMember === false) {
       // Anonyme : utiliser les champs saisis manuellement
-      return { type:"Partenaire", structure:partnerState.structureName||"", prenom:v("partner-prenom"), nom:v("partner-nom"), email:v("partner-email"), url:"" };
+      return { type:"Partenaire", structure:partnerState.structureName||"", prenom:v("partner-prenom"), nom:v("partner-nom"), poste:v("partner-poste"), email:v("partner-email"), url:"" };
     }
     const parts = (partnerState.memberName||"").split(" ");
     return { type:"Partenaire", structure:partnerState.structureName||"", prenom:parts[0]||"", nom:parts.slice(1).join(" ")||"", email:"", url:"" };
   }
-  if (proposantType==="pro")     return { type:"Professionnel·le", structure:v("pro-orga"),  prenom:v("pro-prenom"),     nom:v("pro-nom"),     tel:v("pro-tel"),  email:v("pro-email"),  url:v("pro-url"),  reseaux:getSocialLinks("pro-social")  };
-  if (proposantType==="asso")    return { type: partnerFromRequest ? "Demande accès partenaire" : "Association", structure:v("asso-orga"), prenom:v("asso-prenom"), nom:v("asso-nom"), tel:v("asso-tel"), email:v("asso-email"), url:v("asso-url"), reseaux:getSocialLinks("asso-social") };
+  if (proposantType==="pro")     return { type:"Professionnel·le", structure:v("pro-orga"),  prenom:v("pro-prenom"),     nom:v("pro-nom"),     poste:v("pro-poste"),  tel:v("pro-tel"),  email:v("pro-email"),  url:v("pro-url"),  reseaux:getSocialLinks("pro-social")  };
+  if (proposantType==="asso")    return { type: partnerFromRequest ? "Demande accès partenaire" : "Association", structure:v("asso-orga"), prenom:v("asso-prenom"), nom:v("asso-nom"), poste:v("asso-poste"), tel:v("asso-tel"), email:v("asso-email"), url:v("asso-url"), reseaux:getSocialLinks("asso-social") };
   if (proposantType==="citizen") return { type:"Citoyen·ne",        structure:"Citoyen·ne",   prenom:v("citizen-prenom"), nom:v("citizen-nom"), email:v("citizen-email"), url:"" };
   return null;
 }
@@ -1485,13 +1592,13 @@ function setPi(val) {
   const sub=g("pi-subchoix");
   if (val==="oui_expand") { g("pi-oui").classList.add("on"); sub.style.display="block"; selectedPi=""; }
   else { sub.style.display="none"; selectedPi=val; const map={"Non":"non","En cours":"encours"}; if(map[val]) g("pi-"+map[val]).classList.add("on"); }
-  g("err-preinforme").textContent="";
+  g("err-preinforme").textContent=""; updateChecklistManquant();
 }
 function setPiSub(val) {
   selectedPi=val; document.querySelectorAll(".pi-sub-btn").forEach(b=>b.classList.remove("on"));
   const ids={"Oui - Motivé·e":"pisub-motive","Oui - Ne sait pas":"pisub-nesait","Oui - Ne peut pas":"pisub-nepeut"};
   if(ids[val]) g(ids[val]).classList.add("on");
-  g("err-preinforme").textContent="";
+  g("err-preinforme").textContent=""; updateChecklistManquant();
 }
 
 // ══════════════════════════════════════════════════════════════════════════════
@@ -1517,7 +1624,7 @@ function resetForm() {
   ["fields-partner","fields-pro","fields-asso","fields-citizen"].forEach(id => { const el=g(id); if(el) el.style.display="none"; });
 
   // Vider champs proposant
-  ["pro-prenom","pro-nom","pro-orga","pro-tel","pro-email","pro-url","asso-prenom","asso-nom","asso-orga","asso-tel","asso-email","asso-url","citizen-prenom","citizen-nom","citizen-email","partner-prenom","partner-nom","partner-email"].forEach(id => { const el=g(id); if(el) el.value=""; });
+  ["pro-prenom","pro-nom","pro-poste","pro-orga","pro-tel","pro-email","pro-url","asso-prenom","asso-nom","asso-poste","asso-orga","asso-tel","asso-email","asso-url","citizen-prenom","citizen-nom","citizen-email","partner-prenom","partner-nom","partner-poste","partner-email"].forEach(id => { const el=g(id); if(el) el.value=""; });
   const hint=g("asso-orga-prefill-hint"); if(hint) hint.style.display="none";
 
   // Réinitialiser vue proposant
@@ -1565,13 +1672,17 @@ function resetForm() {
 function resetFormKeepProposant() {
   // Sauvegarder les infos proposant AVANT le reset
   if (proposantType === "pro") {
-    savedProposant = { type:"pro", prenom:v("pro-prenom"), nom:v("pro-nom"), orga:v("pro-orga"), email:v("pro-email"), url:v("pro-url"), reseaux:getSocialLinks("pro-social") };
+    savedProposant = { type:"pro", prenom:v("pro-prenom"), nom:v("pro-nom"), poste:v("pro-poste"), orga:v("pro-orga"), email:v("pro-email"), url:v("pro-url"), reseaux:getSocialLinks("pro-social") };
   } else if (proposantType === "asso") {
-    savedProposant = { type:"asso", prenom:v("asso-prenom"), nom:v("asso-nom"), orga:v("asso-orga"), email:v("asso-email"), url:v("asso-url"), reseaux:getSocialLinks("asso-social") };
+    savedProposant = { type:"asso", prenom:v("asso-prenom"), nom:v("asso-nom"), poste:v("asso-poste"), orga:v("asso-orga"), email:v("asso-email"), url:v("asso-url"), reseaux:getSocialLinks("asso-social") };
   } else if (proposantType === "citizen") {
     savedProposant = { type:"citizen", prenom:v("citizen-prenom"), nom:v("citizen-nom"), email:v("citizen-email") };
   } else if (partnerState.loggedIn) {
-    savedProposant = { type:"partner" };
+    if (partnerState.namedMember === false) {
+      savedProposant = { type:"partner", anon:true, prenom:v("partner-prenom"), nom:v("partner-nom"), poste:v("partner-poste"), email:v("partner-email") };
+    } else {
+      savedProposant = { type:"partner", anon:false };
+    }
   } else {
     savedProposant = null;
   }
@@ -1583,7 +1694,19 @@ function resetFormKeepProposant() {
   if (!savedProposant) return;
   const sp = savedProposant;
 
-  if (sp.type === "partner") return; // partenaire : checkBloc1Complete() déjà fait dans resetForm
+  if (sp.type === "partner") {
+    if (sp.anon) {
+      // Partenaire anonyme : re-remplir les 4 champs saisis
+      const pif = g("partner-identity-fields");
+      if (pif) pif.style.display = "block";
+      if(sp.prenom) g("partner-prenom").value = sp.prenom;
+      if(sp.nom)    g("partner-nom").value    = sp.nom;
+      if(sp.poste)  g("partner-poste").value  = sp.poste;
+      if(sp.email)  g("partner-email").value  = sp.email;
+      checkBloc1Complete();
+    }
+    return;
+  }
 
   // Ré-activer le type (sans ouvrir la modale)
   proposantType = sp.type;
@@ -1606,6 +1729,7 @@ function resetFormKeepProposant() {
   if (sp.type === "pro") {
     if(sp.prenom) g("pro-prenom").value = sp.prenom;
     if(sp.nom)    g("pro-nom").value    = sp.nom;
+    if(sp.poste)  g("pro-poste").value  = sp.poste;
     if(sp.orga)   g("pro-orga").value   = sp.orga;
     if(sp.email)  g("pro-email").value  = sp.email;
     if(sp.url)    g("pro-url").value    = sp.url;
@@ -1613,6 +1737,7 @@ function resetFormKeepProposant() {
   } else if (sp.type === "asso") {
     if(sp.prenom) g("asso-prenom").value = sp.prenom;
     if(sp.nom)    g("asso-nom").value    = sp.nom;
+    if(sp.poste)  g("asso-poste").value  = sp.poste;
     if(sp.orga)   g("asso-orga").value   = sp.orga;
     if(sp.email)  g("asso-email").value  = sp.email;
     if(sp.url)    g("asso-url").value    = sp.url;
@@ -1630,8 +1755,11 @@ function resetFormKeepProposant() {
 }
 
 function clearErrors() {
-  ["prenom","nom","role","commune-base","motif","preinforme","proposant-type","contact-src","pro-prenom","pro-nom","pro-orga","pro-email","pro-url","asso-prenom","asso-nom","asso-orga","asso-email","asso-url","citizen-prenom","citizen-email","self-email","contact-structure","partner-prenom","partner-nom","partner-email","f-email","f-contact-url"].forEach(id => { const el=g("err-"+id); if(el){ el.textContent=""; el.style.display="none"; } });
+  ["prenom","nom","role","commune-base","motif","preinforme","proposant-type","contact-src","pro-prenom","pro-nom","pro-orga","pro-email","pro-url","asso-prenom","asso-nom","asso-orga","asso-email","asso-url","citizen-prenom","citizen-email","self-email","contact-structure","partner-prenom","partner-nom","partner-email","f-email","f-contact-url","coordonnees-contact"].forEach(id => { const el=g("err-"+id); if(el){ el.textContent=""; el.style.display="none"; } });
   ["field-prenom","field-nom","field-role","field-commune-base","field-motif","field-preinforme","field-self-email","field-contact-structure"].forEach(id => { const el=g(id); if(el) el.classList.remove("error"); });
+  // Réinitialiser alertes dynamiques
+  const ab2=g("alerte-identite-bloc2"); if(ab2) ab2.style.display="block";
+  const ab3=g("alerte-bloc3-manquant"); if(ab3) ab3.style.display="none";
   g("global-error").textContent="";
 }
 
@@ -1754,6 +1882,8 @@ function submitForm() {
     if (partnerState.namedMember === false) {
       if(!v("partner-prenom")){showErr("partner-prenom","⚠ Obligatoire");hasErr=true;}
       if(!v("partner-nom"))   {showErr("partner-nom","⚠ Obligatoire");hasErr=true;}
+      if(!v("partner-poste")) {showErr("partner-poste","⚠ Obligatoire");hasErr=true;}
+      if(!v("partner-email")) {showErr("partner-email","⚠ Obligatoire");hasErr=true;}
     }
     if (!hasErr) propData=getProposantData();
   } else if (!proposantType) {
@@ -1797,8 +1927,32 @@ function submitForm() {
     contactStructure = v("f-contact-structure");
     contactTel       = v("f-telephone");
     contactEmail     = v("f-email");
-    if (!contactPrenom && !contactNom && !contactStructure) {
-      showWarn("contact-structure","⚠ Remplissez au moins le prénom, le nom ou la structure"); markErr("contact-structure"); hasErr=true;
+    const contactUrl = g("f-contact-url") ? g("f-contact-url").value.trim() : "";
+    // Règle identité : au moins 2 parmi 3 (Prénom, Nom, Structure)
+    const hasPre = !!contactPrenom;
+    const hasNom = !!contactNom;
+    const hasStr = !!contactStructure;
+    const filledCount = [hasPre, hasNom, hasStr].filter(Boolean).length;
+    if (filledCount < 2) {
+      if (hasPre && !hasNom && !hasStr) {
+        showErr("nom","⚠ Ajoutez le Nom ou le Nom de la structure (au moins 2 champs parmi 3)"); markErr("nom"); hasErr=true;
+      } else if (!hasPre && hasNom && !hasStr) {
+        showErr("prenom","⚠ Ajoutez le Prénom ou le Nom de la structure (au moins 2 champs parmi 3)"); markErr("prenom"); hasErr=true;
+      } else if (!hasPre && !hasNom && hasStr) {
+        showErr("prenom","⚠ Ajoutez le Prénom ou le Nom pour identifier la personne"); markErr("prenom"); hasErr=true;
+      } else {
+        showErr("prenom","⚠ Renseignez au moins 2 champs parmi : Prénom · Nom · Nom de la structure"); markErr("contact-structure"); hasErr=true;
+      }
+    }
+    // Coordonnées : alerte non-bloquante si aucune coordonnée
+    if (!contactTel && !contactEmail && !contactUrl) {
+      const coordEl = g("err-coordonnees-contact");
+      if (coordEl) {
+        coordEl.innerHTML = "⚠ Sans coordonnée, il sera difficile de joindre cette personne — vous pouvez quand même soumettre.";
+        coordEl.style.color = "#F1BD10";
+        coordEl.style.display = "block";
+      }
+      // Non-bloquant : hasErr non modifié
     }
   }
 
@@ -1865,6 +2019,7 @@ function submitForm() {
     autrePrenom:     propData ? propData.prenom    : "",
     autreNom:        propData ? propData.nom       : "",
     emailProposant:  propData ? propData.email     : "",
+    posteProposant:  propData ? (propData.poste || "") : "",
     telProposant:    propData ? (propData.tel || "") : "",
     urlProposant:    propData ? propData.url       : "",
     typeProposant:   propData ? propData.type      : "",
