@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SiBato — Application de cartographie territoriale · #02 Se nourrir · v2.2</title>
+  <title>SiBato — Application de cartographie territoriale · #02 Se nourrir · v2.1</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Segoe UI', Arial, sans-serif; background: #1C2B28; }
@@ -548,7 +548,8 @@
         </div>
         <!-- Champs prénom/nom affichés uniquement si le partenaire n'a pas sélectionné un membre nommé -->
         <div id="partner-identity-fields" style="display:none;">
-          <div style="font-size:12px;color:#1A6B5A;font-weight:600;margin-bottom:8px;">Merci de préciser votre identité :</div>
+          <div style="font-size:12px;color:#1A6B5A;font-weight:600;margin-bottom:6px;">Merci de préciser votre identité :</div>
+          <div style="margin-bottom:10px;font-size:13px;color:#ccc;font-weight:500;">Champs obligatoires <span style="color:#E05C3A;font-weight:700;">*</span> — Prénom · Nom · Poste · Email</div>
           <div class="grid2">
             <div class="field">
               <label>Votre prénom <span style="color:#E05C3A;font-weight:700;">*</span></label>
@@ -570,6 +571,7 @@
             <label>Votre email <span style="color:#E05C3A;font-weight:700;">*</span></label>
             <input type="email" id="partner-email" placeholder="votre@email.fr" onblur="checkEmailField('partner-email','err-partner-email')" oninput="checkBloc1Complete()" />
             <div class="field-error" id="err-partner-email"></div>
+          <div id="alerte-bloc1-partner" style="display:block;margin:2px 0 10px 0;padding:8px 12px;background:rgba(224,92,58,0.1);border-left:3px solid #E05C3A;border-radius:5px;font-size:12px;color:#E05C3A;line-height:1.5;">Pour continuer, renseignez les 4 champs obligatoires : Prénom, Nom, Poste et Email.</div>
           </div>
         </div>
       </div>
@@ -589,6 +591,7 @@
         </div>
 
         <div id="fields-pro" style="display:none;">
+          <div style="margin-bottom:10px;font-size:13px;color:#ccc;font-weight:500;">Champs obligatoires <span style="color:#E05C3A;font-weight:700;">*</span> — Prénom · Nom · Organisation</div>
           <div class="grid2">
             <div class="field">
               <label>Votre prénom <span style="color:#E05C3A;font-weight:700;">*</span></label>
@@ -610,6 +613,7 @@
             <input type="text" id="pro-orga" placeholder="Nom de votre entreprise, exploitation…" oninput="checkBloc1Complete()" />
             <div class="field-error" id="err-pro-orga"></div>
           </div>
+          <div id="alerte-bloc1-pro" style="display:block;margin:2px 0 10px 0;padding:8px 12px;background:rgba(224,92,58,0.1);border-left:3px solid #E05C3A;border-radius:5px;font-size:12px;color:#E05C3A;line-height:1.5;">Pour continuer, renseignez les champs obligatoires : Prénom, Nom et Organisation.</div>
           <div class="email-hint-box">💌 Si vous souhaitez être tenu·e au courant de la suite, partagez votre email et/ou téléphone.</div>
           <div class="field">
             <label>Votre téléphone <span class="opt">(optionnel)</span></label>
@@ -669,6 +673,7 @@
         </div>
 
         <div id="fields-asso" style="display:none;">
+          <div style="margin-bottom:10px;font-size:13px;color:#ccc;font-weight:500;">Champs obligatoires <span style="color:#E05C3A;font-weight:700;">*</span> — Prénom · Nom · Association / Organisation</div>
           <div class="grid2">
             <div class="field">
               <label>Votre prénom <span style="color:#E05C3A;font-weight:700;">*</span></label>
@@ -690,6 +695,7 @@
             <input type="text" id="asso-orga" placeholder="Nom de votre association…" oninput="checkBloc1Complete()" />
             <div class="field-error" id="err-asso-orga"></div>
           </div>
+          <div id="alerte-bloc1-asso" style="display:block;margin:2px 0 10px 0;padding:8px 12px;background:rgba(224,92,58,0.1);border-left:3px solid #E05C3A;border-radius:5px;font-size:12px;color:#E05C3A;line-height:1.5;">Pour continuer, renseignez les champs obligatoires : Prénom, Nom et Association / Organisation.</div>
           <!-- Info quand pré-rempli via demande mdp -->
           <div id="asso-orga-prefill-hint" style="display:none;background:rgba(26,107,90,0.08);border:1px solid rgba(26,107,90,0.2);border-radius:8px;padding:10px 14px;font-size:13px;color:#1A6B5A;margin-bottom:10px;">
             🏛 Organisation pré-remplie depuis votre sélection. Vous pouvez la modifier ci-dessus.
@@ -899,7 +905,7 @@
       </div>
 
       <div class="field">
-        <label>Ses spécialités <span style="font-weight:400;color:#6B7B78;font-size:14px;">(parmi ses activités, dans sa filière)</span></label>
+        <label>Ses spécialités <span style="font-weight:400;color:#6B7B78;font-size:14px;">(selon les rôles et activités sélectionnés)</span></label>
         <div id="filieres-outer" class="hidden-block" style="margin-top:4px;">
           <div id="filieres-container"></div>
         </div>
@@ -925,17 +931,17 @@
 
     <!-- ══ BLOC 4 : Valeur ajoutée ══ -->
     <div class="form-section-block hidden-block" id="bloc-4">
-      <div class="section-title"><div class="section-num">4</div><div class="section-label">Sa / Ses valeurs ajoutée.s & sa connaissance du cycle "Si bato pa rivé" ?</div></div>
+      <div class="section-title"><div class="section-num">4</div><div class="section-label">Sa / Ses valeurs ajoutée.s et sa connaissance du cycle "Si bato pa rivé" ?</div></div>
 
       <div class="field" id="field-motif">
-        <label>Pourquoi faites-vous la démarche de le mettre en avant ? <span style="color:#E05C3A;font-weight:700;">*</span></label>
-        <div class="hint">En quoi ce profil contribue-t-il positivement à l'alimentation en Guadeloupe ? » ?</div>
+        <label>Pourquoi faites-vous la démarche de le mettre en avant ?<span style="color:#E05C3A;font-weight:700;">*</span></label>
+        <div class="hint">En quoi ce profil contribue-t-il, ou pourrait contribuer, positivement à l'alimentation en Guadeloupe ?</div>
         <textarea id="f-motif" rows="4" oninput="updateChecklistManquant()" placeholder="Ex : Pratique l'agroforesterie résiliente sur 3 hectares…"></textarea>
         <div class="field-error" id="err-motif"></div>
       </div>
 
       <div class="field" id="field-preinforme">
-        <label>Est-il déjà au courant du projet "Si bato pa rivé" ? <span style="color:#E05C3A;font-weight:700;">*</span></label>
+        <label>Est-il déjà au courant de la conférence #02 à venir ? <span style="color:#E05C3A;font-weight:700;">*</span></label>
         <div class="pi-btns">
           <button class="pi-btn oui"     id="pi-oui"     onclick="setPi('oui_expand')">✓ Informé·e</button>
           <button class="pi-btn non"     id="pi-non"     onclick="setPi('Non')">✗ Non</button>
@@ -1244,16 +1250,55 @@ function revealBloc(id) {
 function checkBloc1Complete() {
   let ok = false;
   if (partnerState.loggedIn) {
-    // Si le partenaire n'a pas sélectionné un membre nommé, exiger prénom+nom
     if (partnerState.namedMember === false) {
       ok = !!(v("partner-prenom") && v("partner-nom") && v("partner-poste") && v("partner-email"));
+      // Alerte partenaire anonyme
+      const a = g("alerte-bloc1-partner");
+      if (a) {
+        if (ok) { a.style.display = "none"; }
+        else {
+          const manque = [];
+          if (!v("partner-prenom")) manque.push("Prénom");
+          if (!v("partner-nom"))    manque.push("Nom");
+          if (!v("partner-poste"))  manque.push("Poste");
+          if (!v("partner-email"))  manque.push("Email");
+          a.innerHTML = "Pour continuer, renseignez : <strong>" + manque.join(", ") + "</strong>.";
+          a.style.display = "block";
+        }
+      }
     } else {
       ok = true;
     }
   } else if (proposantType === "pro") {
-    ok = v("pro-prenom") && v("pro-nom") && v("pro-orga");
+    ok = !!(v("pro-prenom") && v("pro-nom") && v("pro-orga"));
+    // Alerte pro
+    const a = g("alerte-bloc1-pro");
+    if (a) {
+      if (ok) { a.style.display = "none"; }
+      else {
+        const manque = [];
+        if (!v("pro-prenom")) manque.push("Prénom");
+        if (!v("pro-nom"))    manque.push("Nom");
+        if (!v("pro-orga"))   manque.push("Organisation");
+        a.innerHTML = "Pour continuer, renseignez : <strong>" + manque.join(", ") + "</strong>.";
+        a.style.display = "block";
+      }
+    }
   } else if (proposantType === "asso") {
-    ok = v("asso-prenom") && v("asso-nom") && v("asso-orga");
+    ok = !!(v("asso-prenom") && v("asso-nom") && v("asso-orga"));
+    // Alerte asso
+    const a = g("alerte-bloc1-asso");
+    if (a) {
+      if (ok) { a.style.display = "none"; }
+      else {
+        const manque = [];
+        if (!v("asso-prenom")) manque.push("Prénom");
+        if (!v("asso-nom"))    manque.push("Nom");
+        if (!v("asso-orga"))   manque.push("Association / Organisation");
+        a.innerHTML = "Pour continuer, renseignez : <strong>" + manque.join(", ") + "</strong>.";
+        a.style.display = "block";
+      }
+    }
   } else if (proposantType === "citizen") {
     ok = !!v("citizen-prenom");
   }
@@ -1760,6 +1805,10 @@ function clearErrors() {
   // Réinitialiser alertes dynamiques
   const ab2=g("alerte-identite-bloc2"); if(ab2) ab2.style.display="block";
   const ab3=g("alerte-bloc3-manquant"); if(ab3) ab3.style.display="none";
+  // Alertes Bloc 1
+  const ab1pro=g("alerte-bloc1-pro"); if(ab1pro) ab1pro.style.display="block";
+  const ab1asso=g("alerte-bloc1-asso"); if(ab1asso) ab1asso.style.display="block";
+  const ab1partner=g("alerte-bloc1-partner"); if(ab1partner) ab1partner.style.display="block";
   g("global-error").textContent="";
 }
 
@@ -2420,7 +2469,7 @@ function renderMembersList(members,struct) {
     </div>`).join("")}
     <div class="member-item" onclick="loginAs('','','','${struct.id}','${esc(struct.name)}')">
       <div class="member-avatar" style="background:#455A64;">👤</div>
-      <div><div class="member-name">Membre de ${struct.name}</div><div class="member-fn">Continuer sans sélectionner un nom</div></div>
+      <div><div class="member-name">Membre de ${struct.name}</div><div class="member-fn">Continuer sans compte dédié</div></div>
     </div></div>`;
 }
 function renderMembersEmpty(struct) {
@@ -2429,7 +2478,7 @@ function renderMembersEmpty(struct) {
     <button class="mbtn-ghost" style="margin-bottom:10px;font-size:12px;" onclick="loadMembersForStruct(currentStruct,0)">🔄 Réessayer</button>
     <div class="member-item" onclick="loginAs('','','','${struct.id}','${esc(struct.name)}')" style="justify-content:center;">
       <div class="member-avatar" style="background:#455A64;">👤</div>
-      <div><div class="member-name">Continuer →</div><div class="member-fn">Accès partenaire sans sélectionner un nom</div></div>
+      <div><div class="member-name">Continuer →</div><div class="member-fn">Accès partenaire sans compte dédié</div></div>
     </div></div>`;
 }
 function esc(str) { return (str||"").replace(/'/g,"\\'").replace(/"/g,"&quot;"); }
